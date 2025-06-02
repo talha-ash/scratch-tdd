@@ -8,6 +8,15 @@ type StoryProps = ComponentProps<typeof Button>;
 const meta: Meta<StoryProps> = {
     component: Button,
     title: 'UI/Button',
+    argTypes: {
+        variant: {
+            options: ['default', 'destructive', 'outline', 'secondary', 'ghost', 'link'],
+            control: { type: 'select' },
+        },
+        asChild: {
+            control: false
+        }
+    }
 };
 
 export default meta;
@@ -32,8 +41,8 @@ export const FullWidth: Story = {
         children: 'Hello Button',
         variant: 'default',
         size: 'default',
-        width: "full"
-    },
+        width: 'full',
+    },    
     render: (args) => (
         <div className="border w-36">
             <Button {...args} />
