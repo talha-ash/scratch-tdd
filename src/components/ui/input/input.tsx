@@ -1,8 +1,9 @@
 import * as React from 'react';
 
 import { cn } from '~/components/lib/utils';
-import { EyeIcon, EyeOffIcon, type LucideIcon } from 'lucide-react';
-import { TextSubtle } from '../typography';
+import type { LucideIcon } from 'lucide-react';
+import { TextSubtle } from '../../typography';
+import { InputPasswordIcon } from './inputPasswordIcon';
 
 type LabelPosition = 'top' | 'left';
 
@@ -102,25 +103,4 @@ const Input = (props: InputProps) => {
     return InputComponent;
 };
 
-const InputPasswordIcon = ({
-    showPassword,
-    togglePasswordVisibility,
-}: {
-    showPassword: boolean;
-    togglePasswordVisibility: () => void;
-}) => {
-    return (
-        <div className="absolute right-0 flex items-center pr-3 -translate-y-1/2 top-1/2 gap-x-1">
-            {showPassword ? (
-                <EyeOffIcon
-                    className="cursor-pointer"
-                    onClick={togglePasswordVisibility}
-                    size={20}
-                />
-            ) : (
-                <EyeIcon className="cursor-pointer" onClick={togglePasswordVisibility} size={20} />
-            )}
-        </div>
-    );
-};
 export { Input };

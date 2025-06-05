@@ -1,7 +1,7 @@
 import { type ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { Input } from '../components/ui/input';
+import { Input } from '../components/ui/input/input';
 import { Search } from 'lucide-react';
 
 type StoryProps = ComponentProps<typeof Input>;
