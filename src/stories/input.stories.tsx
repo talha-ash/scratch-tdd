@@ -55,3 +55,19 @@ export const LabelLeft: Story = {
         labelPosition: "left"
     },   
 };
+
+export const OnError: Story = {
+    args: {
+        labelText: "Email",
+        placeholder: "john@gmail.com",        
+        error: "Invalid email address"
+    },   
+};
+export const OnErrorLableLeft: Story = {
+    args: {
+        labelText: "Email",
+        placeholder: "john@gmail.com",
+        labelPosition: "left",
+        error: "Invalid email address"
+    },   
+};

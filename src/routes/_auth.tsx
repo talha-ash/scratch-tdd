@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 import { AuthBackgroundImage, LogoIconLight1, LogoIcon2 } from '~/assets/images';
 
-export const Route = createFileRoute('/auth')({
+export const Route = createFileRoute('/_auth')({
     component: RouteComponent,
 });
 

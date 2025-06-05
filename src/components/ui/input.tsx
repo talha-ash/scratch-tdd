@@ -1,8 +1,7 @@
 import * as React from 'react';
 
 import { cn } from '~/components/lib/utils';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tooltip';
-import { ArrowBigUpDash, EyeIcon, EyeOffIcon, type LucideIcon } from 'lucide-react';
+import { EyeIcon, EyeOffIcon, type LucideIcon } from 'lucide-react';
 import { TextSubtle } from '../typography';
 
 type LabelPosition = 'top' | 'left';
@@ -13,30 +12,26 @@ export type InputProps =
           labelText?: undefined;
           labelPosition?: undefined;
           type?: undefined;
+          error?: string;
       })
     | (React.ComponentProps<'input'> & {
           Icon: undefined;
           labelText: string;
           labelPosition: LabelPosition;
           type?: React.ComponentProps<'input'>['type'];
+          error?: string;
       })
     | (React.ComponentProps<'input'> & {
           Icon?: undefined;
           labelText?: undefined;
           labelPosition?: undefined;
           type?: React.ComponentProps<'input'>['type'];
+          error?: string;
       });
 
 const Input = (props: InputProps) => {
-    const { Icon, labelText, labelPosition, className, type, ...rest } = props;
-
+    const { Icon, error, labelText, labelPosition, className, type, ...rest } = props;
     const [showPassword, setShowPassword] = React.useState(false);
-    const [capsLockActive, setCapsLockActive] = React.useState(false);
-
-    const handleKeyPress: React.KeyboardEventHandler<HTMLInputElement> = (event) => {
-        const capsLockOn = event.getModifierState('CapsLock');
-        setCapsLockActive(capsLockOn);
-    };
 
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
@@ -52,10 +47,10 @@ const Input = (props: InputProps) => {
         'border-b',
         'focus-visible:border-b-primary',
         'aria-invalid:border-b-destructive',
-
+        error && 'focus-visible:border-b-destructive border-b-destructive',
         // 'flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
         Icon && 'pl-10',
-        type === 'password' && [!capsLockActive ? 'pr-8' : 'pr-16', '!text-2xl'],
+        type === 'password' && '!text-2xl',
         className,
     );
 
@@ -70,46 +65,26 @@ const Input = (props: InputProps) => {
             <input
                 type={type === 'password' && showPassword ? 'text' : type}
                 className={inputClasses}
-                onKeyDown={handleKeyPress}
+                aria-invalid={!!error}
                 {...rest}
             />
-            {type === 'password' && (
-                <div className="absolute right-0 flex items-center pr-3 -translate-y-1/2 top-1/2 gap-x-1">
-                    {showPassword ? (
-                        <EyeOffIcon
-                            className="cursor-pointer"
-                            onClick={togglePasswordVisibility}
-                            size={20}
-                        />
-                    ) : (
-                        <EyeIcon
-                            className="cursor-pointer"
-                            onClick={togglePasswordVisibility}
-                            size={20}
-                        />
-                    )}
-                    {capsLockActive && type === 'password' && (
-                        <TooltipProvider>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <ArrowBigUpDash size={20} />
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>Caps Lock is on!</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        </TooltipProvider>
-                    )}
-                </div>
-            )}
+            {error ? <p className="mt-1 text-destructive text-sm">{error}</p> : null}
+            {type === 'password' ? (
+                <InputPasswordIcon
+                    showPassword={showPassword}
+                    togglePasswordVisibility={togglePasswordVisibility}
+                />
+            ) : null}
         </div>
     );
 
     if (labelText) {
         if (labelPosition == 'left') {
             return (
-                <div className="w-full flex flex-row items-center">
-                    <TextSubtle className="ml-1 mr-3 block">{labelText}</TextSubtle>
+                <div className="w-full flex flex-row">
+                    <TextSubtle className={cn('mt-3 ml-1 mr-3 block', error && 'text-destructive')}>
+                        {labelText}
+                    </TextSubtle>
                     {InputComponent}
                 </div>
             );
@@ -117,7 +92,9 @@ const Input = (props: InputProps) => {
 
         return (
             <div className="w-full">
-                <TextSubtle className="ml-1 block">{labelText}</TextSubtle>
+                <TextSubtle className={cn('ml-1 block', error && 'text-destructive')}>
+                    {labelText}
+                </TextSubtle>
                 {InputComponent}
             </div>
         );
@@ -125,4 +102,25 @@ const Input = (props: InputProps) => {
     return InputComponent;
 };
 
+const InputPasswordIcon = ({
+    showPassword,
+    togglePasswordVisibility,
+}: {
+    showPassword: boolean;
+    togglePasswordVisibility: () => void;
+}) => {
+    return (
+        <div className="absolute right-0 flex items-center pr-3 -translate-y-1/2 top-1/2 gap-x-1">
+            {showPassword ? (
+                <EyeOffIcon
+                    className="cursor-pointer"
+                    onClick={togglePasswordVisibility}
+                    size={20}
+                />
+            ) : (
+                <EyeIcon className="cursor-pointer" onClick={togglePasswordVisibility} size={20} />
+            )}
+        </div>
+    );
+};
 export { Input };
