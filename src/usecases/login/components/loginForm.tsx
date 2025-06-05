@@ -1,3 +1,5 @@
+import { Button } from '~/components/ui/button';
+
 export const LoginForm = () => {
     return (
         <div className="w-full max-w-sm space-y-6">
@@ -45,14 +47,9 @@ export const LoginForm = () => {
                 </a>
             </div>
 
-            <button
-                type="submit"
-                className="w-full h-14 lg:h-16 rounded-lg bg-green-500 hover:bg-green-600 shadow-lg 
-                                         flex items-center justify-center text-white text-base font-bold font-nunito
-                                         transition-all duration-200 hover:shadow-xl active:scale-98"
-            >
+            <Button width="full" size={'lg'} type={'submit'}>
                 Login
-            </button>
+            </Button>
 
             <div className="text-center space-y-2 pt-4">
                 <p className="text-sm text-gray-500 font-nunito">New to Scratch?</p>
