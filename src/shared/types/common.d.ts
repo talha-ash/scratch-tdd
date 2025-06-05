@@ -1,4 +1,4 @@
-type Email = Brand<string, 'Email'>;
-type UniqueId = Brand<string, 'UniqueId'>;
-type DateTimeString = Brand<string, 'DateTimeString'>;
-type PriceCents = Brand<number, 'PriceCents'>;
+type Email = Branded<string, 'Email'>;
+type UniqueId = Branded<string, 'UniqueId'>;
+type DateTimeString = Branded<string, 'DateTimeString'>;
+type PriceCents = Branded<number, 'PriceCents'>;

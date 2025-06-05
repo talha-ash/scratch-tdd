@@ -1,1 +1,3 @@
-export type Brand<T, TBrand extends string> = T & { readonly __brand: TBrand };
+declare const __brand: unique symbol
+type Brand<B> = { [__brand]: B }
+export type Branded<T, B> = T & Brand<B>
