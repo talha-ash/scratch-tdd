@@ -23,7 +23,18 @@ export function composeProviders<TProviders extends Array<Provider<any>>>(
     return ProviderComponent;
 }
 
-export function createProvider<TProps>(
+export const ComposeProvider = ({
+    providers,
+    children,
+}: {
+    providers: Array<Provider<any>>;
+    children: React.ReactNode;
+}) => {
+    const Provider = composeProviders(providers);
+    return <Provider>{children}</Provider>;
+};
+
+function createProvider<TProps>(
     Component: React.ComponentType<React.PropsWithChildren<TProps>>,
     props?: Omit<TProps, 'children'>,
 ): Provider<TProps> {
@@ -34,18 +45,21 @@ export function createProvider<TProps>(
 }
 
 export function buildContext<TContextValue, Tname extends `use${string}`>(
-    value: TContextValue,
     contextName: Tname,
+    initialValue?: TContextValue,
 ) {
-    const context = React.createContext<TContextValue>(value);
+    const context = React.createContext<TContextValue | undefined>(initialValue);
 
     return {
-        Component: context.Provider,
-        props: value,
+        // Component: context.Provider,
+        createProvider: (value?: TContextValue) =>
+            createProvider(context.Provider, { value: value || initialValue }),
+        props: initialValue,
         [contextName]: () => React.useContext(context),
     } as {
-        Component: React.Provider<TContextValue>;
-        props: TContextValue;
+        // Component: React.Provider<TContextValue>;
+        props: TContextValue | undefined;
+        createProvider: (value?: TContextValue) => Provider<{ value: TContextValue }>;
     } & Record<Tname, () => TContextValue>;
 }
 
