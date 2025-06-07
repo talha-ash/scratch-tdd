@@ -1,12 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios, { type AxiosInstance, type AxiosRequestConfig, AxiosError } from 'axios';
-import {
-    type IHttpClient,
-    type HttpRequestConfig,
-    type HttpResult,
-    type HttpError,
-    type HttpResponse,
+import axios, {
+    type AxiosInstance,
+    type AxiosRequestConfig,
+    AxiosError,
+    AxiosHeaders,
+    isAxiosError,
+} from 'axios';
+import type {
+    IHttpClient,
+    HttpRequestConfig,
+    HttpError,
+    HttpResponse,
+    AxiosErrorType,
+    NetworkError,
+    RequestError,
+    RequestUnknownError,
 } from './types';
+import { err, ok, Ok, ResultAsync } from 'neverthrow';
 
 export class AxiosHttpClient implements IHttpClient {
     private axiosInstance: AxiosInstance;
@@ -20,73 +30,80 @@ export class AxiosHttpClient implements IHttpClient {
     }
 
     // Main request method
-    async request<T = any>(config: HttpRequestConfig): Promise<HttpResult<T>> {
-        try {
-            const axiosConfig: AxiosRequestConfig = {
-                url: config.url,
-                method: config.method,
-                headers: config.headers,
-                params: config.params,
-                data: config.data,
-                timeout: config.timeout,
-            };
+    request<T = any>(config: HttpRequestConfig): ResultAsync<HttpResponse<T>, AxiosErrorType> {
+        const axiosConfig: AxiosRequestConfig = {
+            url: config.url,
+            method: config.method,
+            headers: config.headers,
+            params: config.params,
+            data: config.data,
+            timeout: config.timeout,
+        };
 
-            const response = await this.axiosInstance.request(axiosConfig);
+        const response = ResultAsync.fromPromise(this.axiosInstance.request(axiosConfig), (err) => {
+            if (isAxiosError(err)) {
+                if (err.response) {                    
+                    return {
+                        type: 'http',
+                        status: err.response.status,
+                        code: err.code,
+                        data: err.response.data,
+                        message: err.message,
+                    } as HttpError;
+                } else if (err.request) {
+                    return {
+                        type: 'network',
+                        message: err.message,
+                        code: err.code,
+                    } as NetworkError;
+                } else {
+                    return {
+                        type: 'request',
+                        message: err.message,
+                        code: err.code,
+                    } as RequestError;
+                }
+            } else {
+                return {
+                    type: 'unknown',
+                    message: err instanceof Error ? err.message : 'Unknown error',
+                } as RequestUnknownError;
+            }
+        });
 
-            return {
-                success: true,
-                response: this.normalizeResponse<T>(response),
-            };
-        } catch (error) {
-            return {
-                success: false,
-                error: this.normalizeError(error),
-            };
-        }
+        return response.andThen((resp) => {
+            if (resp.status >= 200 && resp.status < 300) {
+                return ok({
+                    data: resp.data,
+                    status: resp.status,
+                    statusText: resp.statusText,
+                    headers: resp.headers as AxiosHeaders,
+                });
+            }
+            return err({
+                type: 'unknown',
+                message: err instanceof Error ? err.message : 'Unknown error',
+            } as RequestUnknownError);
+        });
     }
 
     // Convenience methods
-    async get<T = any>(url: string, params?: Record<string, any>): Promise<HttpResult<T>> {
+    get<T = any>(
+        url: string,
+        params?: Record<string, any>,
+    ): ResultAsync<HttpResponse<T>, AxiosErrorType> {
         return this.request<T>({ url, method: 'GET', params });
     }
 
-    async post<T = any>(url: string, data?: any): Promise<HttpResult<T>> {
+    post<T = any>(url: string, data?: any): ResultAsync<HttpResponse<T>, AxiosErrorType> {
         return this.request<T>({ url, method: 'POST', data });
     }
 
-    async put<T = any>(url: string, data?: any): Promise<HttpResult<T>> {
+    put<T = any>(url: string, data?: any): ResultAsync<HttpResponse<T>, AxiosErrorType> {
         return this.request<T>({ url, method: 'PUT', data });
     }
 
-    async delete<T = any>(url: string): Promise<HttpResult<T>> {
+    delete<T = any>(url: string): ResultAsync<HttpResponse<T>, AxiosErrorType> {
         return this.request<T>({ url, method: 'DELETE' });
-    }
-
-    private normalizeResponse<T>(axiosResponse: any): HttpResponse<T> {
-        return {
-            data: axiosResponse.data,
-            status: axiosResponse.status,
-            statusText: axiosResponse.statusText,
-            headers: axiosResponse.headers || {},
-        };
-    }
-
-    
-    private normalizeError(error: any): HttpError {
-        if (axios.isAxiosError(error)) {
-            const axiosError = error as AxiosError;
-            return {
-                message: axiosError.message,
-                status: axiosError.response?.status,
-                statusText: axiosError.response?.statusText,
-                code: axiosError.code,
-                data: axiosError.response?.data,
-            };
-        }
-
-        return {
-            message: error.message || 'Unknown error occurred',
-            code: 'UNKNOWN_ERROR',
-        };
     }
 }

@@ -1,5 +1,9 @@
+import type { AxiosHeaders } from 'axios';
+import type { ResultAsync } from 'neverthrow';
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+export type TypeOfAxiosError = 'network' | 'http' | 'request' | 'unknown';
 
 export type HttpRequestConfig = {
     readonly url: string;
@@ -14,26 +18,40 @@ export type HttpResponse<T = any> = {
     readonly data: T;
     readonly status: number;
     readonly statusText: string;
-    readonly headers: Record<string, string>;
+    readonly headers: AxiosHeaders;
 };
 
 export type HttpError = {
-    readonly message: string;
+    readonly type: 'http';
     readonly status?: number;
-    readonly statusText?: string;
     readonly code?: string;
     readonly data?: any;
+    readonly message?: any;
 };
-
-export type HttpResult<T> =
-    | { readonly success: true; readonly response: HttpResponse<T> }
-    | { readonly success: false; readonly error: HttpError };
-
-// Abstract interface - can be implemented by any HTTP library
-export interface IHttpClient {
-    request<T = any>(config: HttpRequestConfig): Promise<HttpResult<T>>;
-    get<T = any>(url: string, params?: Record<string, any>): Promise<HttpResult<T>>;
-    post<T = any>(url: string, data?: any): Promise<HttpResult<T>>;
-    put<T = any>(url: string, data?: any): Promise<HttpResult<T>>;
-    delete<T = any>(url: string): Promise<HttpResult<T>>;
+export interface NetworkError {
+    readonly type: 'network';
+    readonly message: string;
 }
+
+export interface RequestError {
+    readonly type: 'request';
+    readonly message: string;
+}
+
+export interface RequestUnknownError {
+    readonly type: 'unknown';
+    readonly message: string;
+}
+
+export interface IHttpClient {
+    request<T = any>(config: HttpRequestConfig): ResultAsync<HttpResponse<T>, AxiosErrorType>;
+    get<T = any>(
+        url: string,
+        params?: Record<string, any>,
+    ): ResultAsync<HttpResponse<T>, AxiosErrorType>;
+    post<T = any>(url: string, data?: any): ResultAsync<HttpResponse<T>, AxiosErrorType>;
+    put<T = any>(url: string, data?: any): ResultAsync<HttpResponse<T>, AxiosErrorType>;
+    delete<T = any>(url: string): ResultAsync<HttpResponse<T>, AxiosErrorType>;
+}
+
+export type AxiosErrorType = NetworkError | HttpError | RequestError | RequestUnknownError;
