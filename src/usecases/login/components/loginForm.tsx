@@ -63,3 +63,34 @@ export const LoginForm = () => {
         </div>
     );
 };
+
+
+// function getUsers(): ResultAsync<IHttpResponse<User[]>, AxiosErrorType> {
+//     const apiClient = new AxiosHttpClient('https://jsonplaceholder.typicode.com');
+
+//     return apiClient.get<User[]>('/userss');
+// }
+
+
+//  const query = useQuery<User[], AxiosErrorType>({
+//         queryKey: ['test'],
+//         retry: false,
+//         queryFn: async () => {
+//             const users = await getUsers();
+
+//             if (users.isOk()) {
+//                 return users.value.data;
+//             } else {
+//                 return Promise.reject(users.error);
+//             }
+//         }, // either data, err
+//         // queryFn: async () => await getUsers(),all as data either ok, err
+//     });
+
+//     if (query.error) {
+//         console.log(query.error);
+//     }
+//     if (query.data) {
+//         const result = query.data;
+//         console.log(result);
+//     }

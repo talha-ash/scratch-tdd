@@ -8,13 +8,13 @@ import axios, {
 } from 'axios';
 import type {
     IHttpClient,
-    HttpRequestConfig,
-    HttpError,
-    HttpResponse,
+    IHttpRequestConfig,
+    IHttpError,
+    IHttpResponse,
     AxiosErrorType,
-    NetworkError,
-    RequestError,
-    RequestUnknownError,
+    INetworkError,
+    IRequestError,
+    IRequestUnknownError,
 } from './types';
 import { err, ok, Ok, ResultAsync } from 'neverthrow';
 
@@ -30,7 +30,7 @@ export class AxiosHttpClient implements IHttpClient {
     }
 
     // Main request method
-    request<T = any>(config: HttpRequestConfig): ResultAsync<HttpResponse<T>, AxiosErrorType> {
+    request<T = any>(config: IHttpRequestConfig): ResultAsync<IHttpResponse<T>, AxiosErrorType> {
         const axiosConfig: AxiosRequestConfig = {
             url: config.url,
             method: config.method,
@@ -42,32 +42,32 @@ export class AxiosHttpClient implements IHttpClient {
 
         const response = ResultAsync.fromPromise(this.axiosInstance.request(axiosConfig), (err) => {
             if (isAxiosError(err)) {
-                if (err.response) {                    
+                if (err.response) {
                     return {
                         type: 'http',
                         status: err.response.status,
                         code: err.code,
                         data: err.response.data,
                         message: err.message,
-                    } as HttpError;
+                    } as IHttpError;
                 } else if (err.request) {
                     return {
                         type: 'network',
                         message: err.message,
                         code: err.code,
-                    } as NetworkError;
+                    } as INetworkError;
                 } else {
                     return {
                         type: 'request',
                         message: err.message,
                         code: err.code,
-                    } as RequestError;
+                    } as IRequestError;
                 }
             } else {
                 return {
                     type: 'unknown',
                     message: err instanceof Error ? err.message : 'Unknown error',
-                } as RequestUnknownError;
+                } as IRequestUnknownError;
             }
         });
 
@@ -83,7 +83,7 @@ export class AxiosHttpClient implements IHttpClient {
             return err({
                 type: 'unknown',
                 message: err instanceof Error ? err.message : 'Unknown error',
-            } as RequestUnknownError);
+            } as IRequestUnknownError);
         });
     }
 
@@ -91,19 +91,19 @@ export class AxiosHttpClient implements IHttpClient {
     get<T = any>(
         url: string,
         params?: Record<string, any>,
-    ): ResultAsync<HttpResponse<T>, AxiosErrorType> {
+    ): ResultAsync<IHttpResponse<T>, AxiosErrorType> {
         return this.request<T>({ url, method: 'GET', params });
     }
 
-    post<T = any>(url: string, data?: any): ResultAsync<HttpResponse<T>, AxiosErrorType> {
+    post<T = any>(url: string, data?: any): ResultAsync<IHttpResponse<T>, AxiosErrorType> {
         return this.request<T>({ url, method: 'POST', data });
     }
 
-    put<T = any>(url: string, data?: any): ResultAsync<HttpResponse<T>, AxiosErrorType> {
+    put<T = any>(url: string, data?: any): ResultAsync<IHttpResponse<T>, AxiosErrorType> {
         return this.request<T>({ url, method: 'PUT', data });
     }
 
-    delete<T = any>(url: string): ResultAsync<HttpResponse<T>, AxiosErrorType> {
+    delete<T = any>(url: string): ResultAsync<IHttpResponse<T>, AxiosErrorType> {
         return this.request<T>({ url, method: 'DELETE' });
     }
 }

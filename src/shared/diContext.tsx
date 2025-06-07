@@ -33,14 +33,20 @@ export function createProvider<TProps>(
     };
 }
 
-export function buildContext<TContextValue>(value: TContextValue, contextName: `use${string}`) {
+export function buildContext<TContextValue, Tname extends `use${string}`>(
+    value: TContextValue,
+    contextName: Tname,
+) {
     const context = React.createContext<TContextValue>(value);
 
     return {
         Component: context.Provider,
         props: value,
-        ['use' + contextName]: () => React.useContext(context),
-    };
+        [contextName]: () => React.useContext(context),
+    } as {
+        Component: React.Provider<TContextValue>;
+        props: TContextValue;
+    } & Record<Tname, () => TContextValue>;
 }
 
 // function add<T extends {child: string}>(a: T, b: Omit<T, "child">){
