@@ -24,9 +24,9 @@ describe('Login ', () => {
             },
         }).as('loginRequest');
 
-        cy.get('[data-testId="email"]').clear().type('john@gmail.com');
-        cy.get('[data-testId="password"]').clear().type('password12345');
-        cy.get('[data-testId="submit-button"]').click();
+        cy.get('[data-testid="email"]').clear().type('john@gmail.com');
+        cy.get('[data-testid="password"]').clear().type('password12345');
+        cy.get('[data-testid="submit-button"]').click();
 
         cy.wait('@loginRequest').then((interception) => {
             expect(interception.request.body).to.deep.equal({

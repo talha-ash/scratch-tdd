@@ -73,7 +73,7 @@ export class AxiosHttpClient implements IHttpClient {
         return response.andThen((resp) => {
             if (resp.status >= 200 && resp.status < 300) {
                 return ok({
-                    data: resp.data,
+                    ...resp.data,
                     status: resp.status,
                     statusText: resp.statusText,
                     headers: resp.headers as AxiosHeaders,
@@ -105,4 +105,8 @@ export class AxiosHttpClient implements IHttpClient {
     delete<T = any>(url: string): ResultAsync<IHttpResponse<T>, AxiosErrorType> {
         return this.request<T>({ url, method: 'DELETE' });
     }
+}
+
+export function apiClientFactory(baseUrl: string, defaultHeaders?: Record<string, string>) {
+    return new AxiosHttpClient(baseUrl, defaultHeaders);
 }

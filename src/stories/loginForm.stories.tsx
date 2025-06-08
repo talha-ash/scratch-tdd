@@ -1,7 +1,7 @@
 import { type ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { LoginForm } from '~/usecases/login/components/loginForm';
+import { LoginForm } from '~/contexts/auth/components/loginForm';
 
 type StoryProps = ComponentProps<typeof LoginForm>;
 

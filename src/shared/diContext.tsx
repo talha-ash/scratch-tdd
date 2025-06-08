@@ -5,7 +5,8 @@ interface Provider<TProps> {
     props?: Omit<TProps, 'children'>;
 }
 
-export function composeProviders<TProviders extends Array<Provider<unknown>>>(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function composeProviders<TProviders extends Array<Provider<any>>>(
     providers: TProviders,
 ): React.ComponentType<React.PropsWithChildren> {
     const ProviderComponent: React.FunctionComponent<React.PropsWithChildren> = ({ children }) => {
@@ -26,7 +27,8 @@ export const ComposeProvider = ({
     providers,
     children,
 }: {
-    providers: Array<Provider<unknown>>;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    providers: Array<Provider<any>>;
     children: React.ReactNode;
 }) => {
     const Provider = composeProviders(providers);

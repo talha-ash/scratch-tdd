@@ -4,9 +4,10 @@ import { RouterProvider, createRouter } from '@tanstack/react-router';
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { ComposeProvider } from './shared/diContext';
 import { createToastNotificationProvider } from './shared/infrastructure/toast';
+import { queryClient } from './shared/infrastructure';
 
 // Create a new router instance
 const router = createRouter({ routeTree });
@@ -17,7 +18,6 @@ declare module '@tanstack/react-router' {
         router: typeof router;
     }
 }
-const queryClient = new QueryClient();
 
 // Render the app
 const rootElement = document.getElementById('root')!;
