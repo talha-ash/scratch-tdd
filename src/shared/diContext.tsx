@@ -5,8 +5,7 @@ interface Provider<TProps> {
     props?: Omit<TProps, 'children'>;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function composeProviders<TProviders extends Array<Provider<any>>>(
+export function composeProviders<TProviders extends Array<Provider<unknown>>>(
     providers: TProviders,
 ): React.ComponentType<React.PropsWithChildren> {
     const ProviderComponent: React.FunctionComponent<React.PropsWithChildren> = ({ children }) => {
@@ -27,7 +26,7 @@ export const ComposeProvider = ({
     providers,
     children,
 }: {
-    providers: Array<Provider<any>>;
+    providers: Array<Provider<unknown>>;
     children: React.ReactNode;
 }) => {
     const Provider = composeProviders(providers);
@@ -44,27 +43,23 @@ function createProvider<TProps>(
     };
 }
 
-export function buildContext<TContextValue, Tname extends `use${string}`>(
-    contextName: Tname,
-    initialValue?: TContextValue,
-) {
-    const context = React.createContext<TContextValue | undefined>(initialValue);
-
+export function buildContext<TContextValue, Tname extends `use${string}`>(contextName: Tname) {
+    const context = React.createContext<TContextValue | undefined>(undefined);
+    context.displayName = contextName;
     return {
-        // Component: context.Provider,
-        createProvider: (value?: TContextValue) =>
-            createProvider(context.Provider, { value: value || initialValue }),
-        props: initialValue,
-        [contextName]: () => React.useContext(context),
+        createProvider: <T extends TContextValue>(value: T) => {
+            return createProvider(context.Provider, { value: value });
+        },
+        [contextName]: () => {
+            const value = React.useContext(context);
+            if (value === undefined) {
+                throw new Error(`${contextName} must be used within a Context Provider`);
+            }
+            return value;
+        },
     } as {
         // Component: React.Provider<TContextValue>;
-        props: TContextValue | undefined;
-        createProvider: (value?: TContextValue) => Provider<{ value: TContextValue }>;
+        // props: TContextValue | undefined;
+        createProvider: <T extends TContextValue>(value: T) => Provider<T>;
     } & Record<Tname, () => TContextValue>;
 }
-
-// function add<T extends {child: string}>(a: T, b: Omit<T, "child">){
-//     return[a, b]
-// }
-
-// const result = add({child: "a", d: 1, c:1}, {d:1, c:2})

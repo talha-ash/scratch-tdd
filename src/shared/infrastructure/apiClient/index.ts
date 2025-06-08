@@ -2,7 +2,6 @@
 import axios, {
     type AxiosInstance,
     type AxiosRequestConfig,
-    AxiosError,
     AxiosHeaders,
     isAxiosError,
 } from 'axios';
@@ -16,7 +15,7 @@ import type {
     IRequestError,
     IRequestUnknownError,
 } from './types';
-import { err, ok, Ok, ResultAsync } from 'neverthrow';
+import { err, ok, ResultAsync } from 'neverthrow';
 
 export class AxiosHttpClient implements IHttpClient {
     private axiosInstance: AxiosInstance;

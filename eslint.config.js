@@ -1,26 +1,25 @@
 // For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
 import storybook from "eslint-plugin-storybook";
 import pluginQuery from '@tanstack/eslint-plugin-query'
-import eslintNeverThrow from "eslint-plugin-neverthrow"
 import js from "@eslint/js";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 import pluginReact from "eslint-plugin-react";
-import json from "@eslint/json";
-import css from "@eslint/css";
+// import css from "@eslint/css";
 import { defineConfig } from "eslint/config";
+import eslint from '@eslint/js';
 
 
 export default defineConfig([
   { files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"], plugins: { js }, extends: ["js/recommended"] },
   { files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"], languageOptions: { globals: globals.browser } },
+  eslint.configs.recommended,
   tseslint.configs.recommended,
   pluginReact.configs.flat.recommended,
   pluginReact.configs.flat['jsx-runtime'],
   ...pluginQuery.configs['flat/recommended'],
   ...storybook.configs["flat/recommended"],
-  eslintNeverThrow.configs.recommended,
-  { files: ["**/*.json"], plugins: { json }, language: "json/json", extends: ["json/recommended"] },
-  { files: ["**/*.jsonc"], plugins: { json }, language: "json/jsonc", extends: ["json/recommended"] },
-  { files: ["**/*.css"], plugins: { css }, language: "css/css", extends: ["css/recommended"] },
+  // eslintNeverThrow.configs.recommended,
+  // { files: ["**/*.css"], plugins: { css }, language: "css/css", extends: ["css/recommended"] },
+
 ]);

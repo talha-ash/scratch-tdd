@@ -1,4 +1,4 @@
-import { toast, type ToastOptions, Toaster, type ToasterProps } from 'react-hot-toast';
+import { toast, Toaster, type ToasterProps } from 'react-hot-toast';
 import { buildContext } from '../diContext';
 
 export interface IToastNotification<T> {
@@ -8,7 +8,7 @@ export interface IToastNotification<T> {
     Toaster: T;
 }
 
-export function ToastNotification<T>(Toaster: T): IToastNotification<T> {
+export function toastNotification<T>(Toaster: T): IToastNotification<T> {
     return {
         success: (message: string) => toast.success(message),
         error: (message: string) => toast.error(message),
@@ -20,21 +20,14 @@ export function ToastNotification<T>(Toaster: T): IToastNotification<T> {
     };
 }
 
-const { useToastNotification, createProvider } = buildContext(   
-    'useToastNotification',
-    ToastNotification(Toaster)
-);
+const { useToastNotification, createProvider } = buildContext<
+    IToastNotification<React.FC<ToasterProps>>,
+    'useToastNotification'
+>('useToastNotification');
 
-// const { useToastNotification, createProvider } = buildContext<IToastNotification, "useToastNotification">(   
-//     'useToastNotification',
-//     // ToastNotification(Toaster)
-// );
-
-export const createToastNotificationProvider = (
-    value?: IToastNotification<React.FC<ToasterProps>>,
-) => {
-    const ToastProvider = createProvider(value);
+const createToastNotificationProvider = (value?: IToastNotification<React.FC<ToasterProps>>) => {
+    const ToastProvider = createProvider(value || toastNotification(Toaster));
     return ToastProvider;
 };
 
-export { useToastNotification };
+export { useToastNotification, createToastNotificationProvider };
