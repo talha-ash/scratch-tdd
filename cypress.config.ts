@@ -24,7 +24,7 @@ export default defineConfig({
       framework: "react",
       bundler: "vite",
     },
-    specPattern: "app/**/*.int.test.tsx",
+    specPattern: "src/**/*.int.test.tsx",
     viewportWidth: 680,
     viewportHeight: 768,
   },

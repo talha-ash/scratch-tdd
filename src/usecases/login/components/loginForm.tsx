@@ -15,6 +15,7 @@ export const LoginForm = () => {
                     <label className="block text-sm text-gray-500 font-nunito">Email address</label>
                     <div className="relative">
                         <input
+                            data-testId="email"
                             type="email"
                             name="email"
                             defaultValue="user@email.com"
@@ -28,6 +29,7 @@ export const LoginForm = () => {
                     <label className="block text-sm text-gray-500 font-nunito">Password</label>
                     <div className="relative">
                         <input
+                            data-testId="password"
                             type="password"
                             name="password"
                             defaultValue="●●●●●●●●"
@@ -47,7 +49,7 @@ export const LoginForm = () => {
                 </a>
             </div>
 
-            <Button width="full" size={'lg'} type={'submit'}>
+            <Button width="full" size={'lg'} type={'submit'} data-testId="submit-button">
                 Login
             </Button>
 
@@ -64,13 +66,11 @@ export const LoginForm = () => {
     );
 };
 
-
 // function getUsers(): ResultAsync<IHttpResponse<User[]>, AxiosErrorType> {
 //     const apiClient = new AxiosHttpClient('https://jsonplaceholder.typicode.com');
 
 //     return apiClient.get<User[]>('/userss');
 // }
-
 
 //  const query = useQuery<User[], AxiosErrorType>({
 //         queryKey: ['test'],
