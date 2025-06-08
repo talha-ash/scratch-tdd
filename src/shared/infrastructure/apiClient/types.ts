@@ -23,7 +23,7 @@ export interface IHttpResponse<T = any> {
 
 export type IHttpError = {
     readonly type: 'http';
-    readonly status?: number;
+    readonly status: number;
     readonly code?: string;
     readonly data?: any;
     readonly message?: any;

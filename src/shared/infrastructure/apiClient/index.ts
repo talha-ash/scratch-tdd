@@ -46,7 +46,7 @@ export class AxiosHttpClient implements IHttpClient {
                         type: 'http',
                         status: err.response.status,
                         code: err.code,
-                        data: err.response.data,
+                        data: err.response.data.data,
                         message: err.message,
                     } as IHttpError;
                 } else if (err.request) {

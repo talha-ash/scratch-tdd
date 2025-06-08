@@ -49,7 +49,7 @@ export function buildContext<TContextValue, Tname extends `use${string}`>(contex
     const context = React.createContext<TContextValue | undefined>(undefined);
     context.displayName = contextName;
     return {
-        createProvider: <T extends TContextValue>(value: T) => {
+        createProvider: <T extends TContextValue>(value: T) => {            
             return createProvider(context.Provider, { value: value });
         },
         [contextName]: () => {

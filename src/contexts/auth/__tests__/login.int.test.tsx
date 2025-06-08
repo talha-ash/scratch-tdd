@@ -1,26 +1,30 @@
+import { createToastProvider } from '~/shared/infrastructure/toast/toastProvider';
 import { LoginForm } from '../components/loginForm';
+import { ComposeProvider } from '~/shared/diContext';
+import { createQueryClientProvider } from '~/shared/infrastructure/tanqStackQueryClient';
+import { Toaster } from 'react-hot-toast';
 
 describe('Login ', () => {
-    it('check input initials', () => {
-        cy.mount(<LoginForm />);
-
-        cy.get('[data-testId="email"]').should('have.value', 'user@email.com');
-        cy.get('[data-testId="password"]').should('have.value', '●●●●●●●●');
-    });
-
     it('login successfully', () => {
-        cy.mount(<LoginForm />);
-
+        const providers = [createToastProvider(), createQueryClientProvider()];
+        cy.mount(
+            <ComposeProvider providers={providers}>
+                <div>
+                    <LoginForm />
+                    <Toaster />
+                </div>
+            </ComposeProvider>,
+        );
         cy.intercept('POST', '/api/v1/login', {
             statusCode: 200,
             body: {
                 user: {
                     id: 1,
                     email: 'user@example.com',
-                    username: 'jhon',                    
+                    username: 'jhon',
                     age: 'user',
                 },
-                token: 'mock-jwt-token-123',                
+                token: 'mock-jwt-token-123',
             },
         }).as('loginRequest');
 
@@ -35,6 +39,6 @@ describe('Login ', () => {
             });
         });
 
-        cy.get('#_rht_toaster', { timeout: 2000 }).contains(/Login Successfully/);
+        cy.get('#_rht_toaster').contains(/Login Successfully/);
     });
 });

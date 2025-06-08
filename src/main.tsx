@@ -1,38 +1,24 @@
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
-import { RouterProvider, createRouter } from '@tanstack/react-router';
+import { RouterProvider } from '@tanstack/react-router';
 
-// Import the generated route tree
-import { routeTree } from './routeTree.gen';
-import { QueryClientProvider } from '@tanstack/react-query';
 import { ComposeProvider } from './shared/diContext';
-import { createToastNotificationProvider } from './shared/infrastructure/toast';
-import { queryClient } from './shared/infrastructure';
-
-// Create a new router instance
-const router = createRouter({ routeTree });
-
-// Register the router instance for type safety
-declare module '@tanstack/react-router' {
-    interface Register {
-        router: typeof router;
-    }
-}
+import { createToastProvider } from './shared/infrastructure/toast/toastProvider';
+import { router } from './shared/infrastructure';
+import { createQueryClientProvider } from './shared/infrastructure/tanqStackQueryClient';
 
 // Render the app
 const rootElement = document.getElementById('root')!;
 if (!rootElement.innerHTML) {
     const root = ReactDOM.createRoot(rootElement);
 
-    const providers = [createToastNotificationProvider()];
+    const providers = [createToastProvider(), createQueryClientProvider()];
 
     root.render(
         <StrictMode>
-            <QueryClientProvider client={queryClient}>
-                <ComposeProvider providers={providers}>
-                    <RouterProvider router={router} />
-                </ComposeProvider>
-            </QueryClientProvider>
+            <ComposeProvider providers={providers}>
+                <RouterProvider router={router} />
+            </ComposeProvider>
         </StrictMode>,
     );
 }

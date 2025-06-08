@@ -1,17 +1,17 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect } from 'react';
 import { Button } from '~/components/ui/button';
-import { useToastNotification } from '~/shared/infrastructure/toast';
+import { useToastNotification } from '~/shared/infrastructure/toast/toastProvider';
 
 export const Route = createFileRoute('/')({
     component: Index,
 });
 
 function Index() {
-    const { success } = useToastNotification();
+    const { successToast } = useToastNotification();
 
     useEffect(() => {
-        success('Welcome to the home page!');
+        successToast('Welcome to the home page!');
     }, []);
     return (
         <div className="p-2">

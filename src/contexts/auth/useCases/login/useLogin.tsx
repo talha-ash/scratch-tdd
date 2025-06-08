@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useLoginMutation } from './useLoginMutation';
+import { useToastNotification } from '~/shared/infrastructure/toast/toastProvider';
 
 export const useLogin = () => {
+    const { successToast, errorToast } = useToastNotification();
     const loginMutation = useLoginMutation();
     const [formState, setFormState] = useState({
         email: '',
@@ -15,9 +17,12 @@ export const useLogin = () => {
             {
                 onSuccess: (data) => {
                     console.log(data);
+                    successToast('Login Successfully');
                 },
                 onError: (error) => {
-                    console.log(error);
+                    if (error.type == 'http') {
+                        errorToast(error.data.message);
+                    }
                 },
             },
         );
