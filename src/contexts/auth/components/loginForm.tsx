@@ -1,5 +1,6 @@
 import { Button } from '~/components/ui/button';
 import { useLogin } from '../useCases/login/useLogin';
+import { Input } from '~/components/ui/input';
 
 export const LoginForm = () => {
     const { formState, setFormState, loginFormSubmit } = useLogin();
@@ -16,7 +17,7 @@ export const LoginForm = () => {
                 <div className="space-y-2">
                     <label className="block text-sm text-gray-500 font-nunito">Email address</label>
                     <div className="relative">
-                        <input
+                        <Input
                             data-testid="email"
                             type="email"
                             name="email"
@@ -34,7 +35,7 @@ export const LoginForm = () => {
                 <div className="space-y-2">
                     <label className="block text-sm text-gray-500 font-nunito">Password</label>
                     <div className="relative">
-                        <input
+                        <Input
                             data-testid="password"
                             type="password"
                             name="password"

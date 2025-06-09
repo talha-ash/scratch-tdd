@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useLoginMutation } from './useLoginMutation';
 import { useToastNotification } from '~/shared/infrastructure/toast/toastProvider';
+import { LOGIN_SUCCESSFULLY } from '../../constants/textConstant';
 
 export const useLogin = () => {
     const { successToast, errorToast } = useToastNotification();
@@ -17,7 +18,7 @@ export const useLogin = () => {
             {
                 onSuccess: (data) => {
                     console.log(data);
-                    successToast('Login Successfully');
+                    successToast(LOGIN_SUCCESSFULLY);
                 },
                 onError: (error) => {
                     if (error.type == 'http') {

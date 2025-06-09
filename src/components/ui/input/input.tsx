@@ -36,6 +36,7 @@ const Input = (props: InputProps) => {
 
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
+    const name = rest.name ?? labelText;
     const inputClasses = cn(
         'file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground',
         'dark:bg-input/30',
@@ -69,7 +70,11 @@ const Input = (props: InputProps) => {
                 aria-invalid={!!error}
                 {...rest}
             />
-            {error ? <p className="mt-1 text-destructive text-sm">{error}</p> : null}
+            {error ? (
+                <p id={`${name}-error`} role="alert" className="mt-1 text-destructive text-sm">
+                    {error}
+                </p>
+            ) : null}
             {type === 'password' ? (
                 <InputPasswordIcon
                     showPassword={showPassword}
