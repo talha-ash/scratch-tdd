@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { login } from './LoginAdapter';
+import { login } from './loginAdapter';
 
 export interface ILoginResponse {
     user: {
