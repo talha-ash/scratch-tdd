@@ -1,5 +1,4 @@
 import { toast } from 'react-hot-toast';
-import { buildContext } from '../../diContext';
 
 export interface IToastNotification {
     successToast: (message: string) => void;
@@ -17,15 +16,3 @@ export function toastNotification(): IToastNotification {
             }),
     };
 }
-
-export function createToastNotificationContext(value?: IToastNotification) {
-    const { useToastNotification, createProvider } = buildContext<
-        IToastNotification,
-        'useToastNotification'
-    >('useToastNotification');
-    const ToastProvider = createProvider(value || toastNotification());
-    return { ToastProvider, useToastNotification };
-}
-const { useToastNotification, ToastProvider } = createToastNotificationContext();
-
-export { useToastNotification, ToastProvider };

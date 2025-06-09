@@ -1,32 +1,27 @@
-import { useState } from 'react';
 import { useLoginMutation } from './useLoginMutation';
 import { useToastNotification } from '~/shared/infrastructure/toast/toastProvider';
 import { LOGIN_SUCCESSFULLY } from '../../constants/textConstant';
+import { useLoginFormHandler, type LoginData } from './useLoginFormHandler';
 
 export const useLogin = () => {
     const { successToast, errorToast } = useToastNotification();
     const loginMutation = useLoginMutation();
-    const [formState, setFormState] = useState({
-        email: '',
-        password: '',
-    });
+    const { loginForm } = useLoginFormHandler(loginFormSubmit);
 
-    const loginFormSubmit = () => {
-        const { email, password } = formState;
+    function loginFormSubmit({ email, password }: LoginData) {
         loginMutation.mutation.mutate(
             { email, password },
             {
-                onSuccess: (data) => {
-                    console.log(data);
+                onSuccess: () => {                   
                     successToast(LOGIN_SUCCESSFULLY);
                 },
-                onError: (error) => {
+                onError: (error) => {                   
                     if (error.type == 'http') {
                         errorToast(error.data.message);
                     }
                 },
             },
         );
-    };
-    return { formState, setFormState, loginFormSubmit };
+    }
+    return { loginForm };
 };
