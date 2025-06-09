@@ -16,11 +16,7 @@ Shared folder work as shared kernal.No framework specific code should be there.
 It should contain pure typescipt code and plateform specific Api
 It contain e.g(types, utils, common stuff among domain or bounded context, plateform specific Api Wrapper)
 
-### Domain
-Domain folder contain all entites. Entity and its related business logic(pure typescript code no dependencies).Single file per entity contain entity and its related business logic
+### Context
+Context Folder contain context(auth, feed etc).Each context contain Domain folder( contain all entites. Entity and its related business logic(pure typescript code no dependencies).Single file per entity contain entity and its related business logic), Usercase folder(Each Folder contain ui, application business logic service, adapters, interactor(glue between ui and user journey world), repos contain data and state via external store or react query), components etc
 
 
-
-### UseCases(User Journey)
-UseCases folder contain user journey folders like(registration, login, create recipe)
-Each Folder contain ui, application business logic service, adapters, interactor(glue between ui and user journey world), repos contain data and state via external store or react query
