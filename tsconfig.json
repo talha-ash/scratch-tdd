@@ -10,7 +10,8 @@
     "rootDirs": ["."],
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./src/*"]
+      "~/*": ["./src/*"],
+      "~cypress/*": ["./cypress/*"]
     },
     "esModuleInterop": true,
     "verbatimModuleSyntax": true,

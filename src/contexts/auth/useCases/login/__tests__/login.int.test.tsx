@@ -10,6 +10,8 @@ import {
     USER_NOT_FOUND,
 } from '~/contexts/auth/constants/textConstant';
 
+import * as LoginFormObject from '~cypress/support/pageObject/LoginForm';
+
 beforeEach(() => {
     const providers = [createToastProvider(), createQueryClientProvider()];
     cy.mount(
@@ -39,9 +41,7 @@ describe('Login ', () => {
         const email = 'john@gmail.com';
         const password = 'password12345';
 
-        cy.get('[data-testid="email"]').clear().type(email);
-        cy.get('[data-testid="password"]').clear().type(password);
-        cy.get('[data-testid="submit-button"]').click();
+        LoginFormObject.submitLoginForm(email, password);
 
         cy.wait('@loginRequest').then((interception) => {
             expect(interception.request.body).to.deep.equal({
@@ -66,9 +66,7 @@ describe('Login ', () => {
         const email = 'john@gmail.com';
         const password = 'password12345';
 
-        cy.get('[data-testid="email"]').clear().type(email);
-        cy.get('[data-testid="password"]').clear().type(password);
-        cy.get('[data-testid="submit-button"]').click();
+        LoginFormObject.submitLoginForm(email, password);
 
         cy.wait('@loginRequest').then((interception) => {
             expect(interception.request.body).to.deep.equal({
@@ -83,9 +81,7 @@ describe('Login ', () => {
         const email = 'john@gmail';
         const password = 'abc';
 
-        cy.get('[data-testid="email"]').clear().type(email);
-        cy.get('[data-testid="password"]').clear().type(password);
-        cy.get('[data-testid="submit-button"]').click();
+        LoginFormObject.submitLoginForm(email, password);
 
         cy.get('#email-error').contains(EMAIL_IS_INVALID);
         cy.get('#password-error').contains(PASSWORD_IS_INCORRECT);
