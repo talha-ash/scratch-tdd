@@ -9,8 +9,7 @@ import {
     PASSWORD_IS_INCORRECT,
     USER_NOT_FOUND,
 } from '~/contexts/auth/constants/textConstant';
-
-import * as LoginFormObject from '~cypress/support/pageObject/LoginForm';
+import { submitLoginForm } from '~cypress/support/actions/loginAction';
 
 beforeEach(() => {
     const providers = [createToastProvider(), createQueryClientProvider()];
@@ -41,7 +40,7 @@ describe('Login ', () => {
         const email = 'john@gmail.com';
         const password = 'password12345';
 
-        LoginFormObject.submitLoginForm(email, password);
+        submitLoginForm(email, password);
 
         cy.wait('@loginRequest').then((interception) => {
             expect(interception.request.body).to.deep.equal({
@@ -66,7 +65,7 @@ describe('Login ', () => {
         const email = 'john@gmail.com';
         const password = 'password12345';
 
-        LoginFormObject.submitLoginForm(email, password);
+        submitLoginForm(email, password);
 
         cy.wait('@loginRequest').then((interception) => {
             expect(interception.request.body).to.deep.equal({
@@ -81,7 +80,7 @@ describe('Login ', () => {
         const email = 'john@gmail';
         const password = 'abc';
 
-        LoginFormObject.submitLoginForm(email, password);
+        submitLoginForm(email, password);
 
         cy.get('#email-error').contains(EMAIL_IS_INVALID);
         cy.get('#password-error').contains(PASSWORD_IS_INCORRECT);
