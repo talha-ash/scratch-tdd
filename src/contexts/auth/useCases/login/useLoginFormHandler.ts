@@ -1,22 +1,14 @@
-import * as v from 'valibot';
-import { EMAIL_IS_INVALID, PASSWORD_IS_INCORRECT } from '../../constants/textConstant';
 import { useForm } from '@tanstack/react-form';
+import { getLoginSchema, type LoginPayload } from './loginService';
 
-const LoginSchema = v.object({
-    email: v.message(v.pipe(v.string(), v.email()), EMAIL_IS_INVALID),
-    password: v.message(v.pipe(v.string(), v.minLength(8)), PASSWORD_IS_INCORRECT),
-});
-
-export type LoginData = v.InferOutput<typeof LoginSchema>;
-
-export const useLoginFormHandler = (loginFormSubmit: (value: LoginData) => void) => {
+export const useLoginFormHandler = (loginFormSubmit: (value: LoginPayload) => void) => {
     const loginForm = useForm({
         defaultValues: {
             email: '',
             password: '',
         },
         validators: {
-            onChange: LoginSchema,
+            onChange: getLoginSchema(),
         },
         onSubmit: ({ value }) => {
             loginFormSubmit(value);

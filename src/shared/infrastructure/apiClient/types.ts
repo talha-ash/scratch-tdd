@@ -1,20 +1,29 @@
 import type { AxiosHeaders } from 'axios';
 import type { ResultAsync } from 'neverthrow';
+import type {
+    AXIOS_ERROR_HTTP,
+    AXIOS_ERROR_NETWORK,
+    AXIOS_ERROR_REQUEST,
+    AXIOS_ERROR_UNKOWN,
+} from './constants';
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
-export type TypeOfAxiosError = 'network' | 'http' | 'request' | 'unknown';
+export type TypeOfAxiosError =
+    | typeof AXIOS_ERROR_HTTP
+    | typeof AXIOS_ERROR_NETWORK
+    | typeof AXIOS_ERROR_REQUEST
+    | typeof AXIOS_ERROR_UNKOWN;
 
 export interface IHttpRequestConfig {
     readonly url: string;
     readonly method: HttpMethod;
     readonly headers?: Record<string, string>;
-    readonly params?: Record<string, any>;
-    readonly data?: any;
+    readonly params?: Record<string, unknown>;
+    readonly data?: unknown;
     readonly timeout?: number;
 }
 
-export interface IHttpResponse<T = any> {
+export interface IHttpResponse<T> {
     readonly data: T;
     readonly status: number;
     readonly statusText: string;
@@ -22,36 +31,33 @@ export interface IHttpResponse<T = any> {
 }
 
 export type IHttpError = {
-    readonly type: 'http';
+    readonly type: typeof AXIOS_ERROR_HTTP;
     readonly status: number;
     readonly code?: string;
-    readonly data?: any;
-    readonly message?: any;
+    readonly data: { error: boolean; message: string };
+    readonly message?: unknown;
 };
 export interface INetworkError {
-    readonly type: 'network';
+    readonly type: typeof AXIOS_ERROR_NETWORK;
     readonly message: string;
 }
 
 export interface IRequestError {
-    readonly type: 'request';
+    readonly type: typeof AXIOS_ERROR_REQUEST;
     readonly message: string;
 }
 
 export interface IRequestUnknownError {
-    readonly type: 'unknown';
+    readonly type: typeof AXIOS_ERROR_UNKOWN;
     readonly message: string;
 }
 
 export interface IHttpClient {
-    request<T = any>(config: IHttpRequestConfig): ResultAsync<IHttpResponse<T>, AxiosErrorType>;
-    get<T = any>(
-        url: string,
-        params?: Record<string, any>,
-    ): ResultAsync<IHttpResponse<T>, AxiosErrorType>;
-    post<T = any>(url: string, data?: any): ResultAsync<IHttpResponse<T>, AxiosErrorType>;
-    put<T = any>(url: string, data?: any): ResultAsync<IHttpResponse<T>, AxiosErrorType>;
-    delete<T = any>(url: string): ResultAsync<IHttpResponse<T>, AxiosErrorType>;
+    request<T>(config: IHttpRequestConfig): ResultAsync<IHttpResponse<T>, AxiosErrorType>;
+    get<T, P>(url: string, params?: P): ResultAsync<IHttpResponse<T>, AxiosErrorType>;
+    post<T, D>(url: string, data?: D): ResultAsync<IHttpResponse<T>, AxiosErrorType>;
+    put<T, D>(url: string, data?: D): ResultAsync<IHttpResponse<T>, AxiosErrorType>;
+    delete<T>(url: string): ResultAsync<IHttpResponse<T>, AxiosErrorType>;
 }
 
 export type AxiosErrorType = INetworkError | IHttpError | IRequestError | IRequestUnknownError;

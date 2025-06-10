@@ -1,24 +1,22 @@
 import { useLoginMutation } from './useLoginMutation';
 import { useToastNotification } from '~/shared/infrastructure/toast/toastProvider';
-import { LOGIN_SUCCESSFULLY } from '../../constants/textConstant';
-import { useLoginFormHandler, type LoginData } from './useLoginFormHandler';
+import { useLoginFormHandler } from './useLoginFormHandler';
+import { loginFailedMessage, loginSuccessMessage, type LoginPayload } from './loginService';
 
 export const useLogin = () => {
     const { successToast, errorToast } = useToastNotification();
     const loginMutation = useLoginMutation();
     const { loginForm } = useLoginFormHandler(loginFormSubmit);
 
-    function loginFormSubmit({ email, password }: LoginData) {
+    function loginFormSubmit({ email, password }: LoginPayload) {
         loginMutation.mutation.mutate(
             { email, password },
             {
-                onSuccess: () => {                   
-                    successToast(LOGIN_SUCCESSFULLY);
+                onSuccess: () => {
+                    loginSuccessMessage(successToast);
                 },
-                onError: (error) => {                   
-                    if (error.type == 'http') {
-                        errorToast(error.data.message);
-                    }
+                onError: (error) => {
+                    loginFailedMessage(error, errorToast);
                 },
             },
         );
