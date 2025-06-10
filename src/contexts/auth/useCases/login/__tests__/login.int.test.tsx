@@ -9,7 +9,7 @@ import {
     PASSWORD_IS_INCORRECT,
     USER_NOT_FOUND,
 } from '~/contexts/auth/constants/textConstant';
-import { submitLoginForm } from '~cypress/support/actions/loginAction';
+import * as loginAction from '~cypress/support/actions/loginAction';
 
 beforeEach(() => {
     const providers = [createToastProvider(), createQueryClientProvider()];
@@ -24,25 +24,15 @@ beforeEach(() => {
 });
 describe('Login ', () => {
     it('login successfully', () => {
-        cy.intercept('POST', 'http://localhost:4000/api/v1/login', {
-            statusCode: 200,
-            body: {
-                user: {
-                    id: 1,
-                    email: 'user@example.com',
-                    username: 'jhon',
-                    age: 'user',
-                },
-                token: 'mock-jwt-token-123',
-            },
-        }).as('loginRequest');
+        const requestName = 'loginRequest';
+        loginAction.interceptLoginRequestSuccess(requestName);
 
         const email = 'john@gmail.com';
         const password = 'password12345';
 
-        submitLoginForm(email, password);
+        loginAction.submitLoginForm(email, password);
 
-        cy.wait('@loginRequest').then((interception) => {
+        cy.wait(`@${requestName}`).then((interception) => {
             expect(interception.request.body).to.deep.equal({
                 email: email,
                 password: password,
@@ -52,20 +42,13 @@ describe('Login ', () => {
         cy.get('#_rht_toaster').contains(LOGIN_SUCCESSFULLY);
     });
     it('Toast user not found', () => {
-        cy.intercept('POST', 'http://localhost:4000/api/v1/login', {
-            statusCode: 404,
-            body: {
-                data: {
-                    error: true,
-                    message: 'User Not Found',
-                },
-            },
-        }).as('loginRequest');
+        const requestName = 'loginRequest';
+        loginAction.interceptLoginRequestNotFound(requestName);
 
         const email = 'john@gmail.com';
         const password = 'password12345';
 
-        submitLoginForm(email, password);
+        loginAction.submitLoginForm(email, password);
 
         cy.wait('@loginRequest').then((interception) => {
             expect(interception.request.body).to.deep.equal({
@@ -80,7 +63,7 @@ describe('Login ', () => {
         const email = 'john@gmail';
         const password = 'abc';
 
-        submitLoginForm(email, password);
+        loginAction.submitLoginForm(email, password);
 
         cy.get('#email-error').contains(EMAIL_IS_INVALID);
         cy.get('#password-error').contains(PASSWORD_IS_INCORRECT);

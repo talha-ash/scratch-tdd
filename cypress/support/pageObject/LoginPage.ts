@@ -8,4 +8,3 @@ export function getPasswordField() {
 export function getSubmitButton() {
     return cy.get('[data-testid="submit-button"]');
 }
-
