@@ -1,9 +1,15 @@
-import { createToastProvider } from '~/shared/infrastructure/toast/toastProvider';
+import { Toaster } from 'react-hot-toast';
+import { RegisterForm } from '~/contexts/auth/components/registerForm';
+import {
+    EMAIL_IS_INVALID,
+    PASSWORD_IS_NOT_PROPER,
+    PASSWORDS_DO_NOT_MATCH,
+    REGISTER_SUCCESSFULLY,
+    USERNAME_NOT_PROPER,
+} from '~/contexts/auth/constants/textConstant';
 import { ComposeProvider } from '~/shared/diContext';
 import { createQueryClientProvider } from '~/shared/infrastructure/tanqStackQueryClient';
-import { Toaster } from 'react-hot-toast';
-import { REGISTER_SUCCESSFULLY } from '~/contexts/auth/constants/textConstant';
-import { RegisterForm } from '~/contexts/auth/components/registerForm';
+import { createToastProvider } from '~/shared/infrastructure/toast/toastProvider';
 
 beforeEach(() => {
     const providers = [createToastProvider(), createQueryClientProvider()];
@@ -16,6 +22,7 @@ beforeEach(() => {
         </ComposeProvider>,
     );
 });
+
 describe('Registration ', () => {
     it.only('registration successfully', () => {
         const requestName = 'registerRequest';
@@ -54,5 +61,35 @@ describe('Registration ', () => {
         });
 
         cy.get('#_rht_toaster').contains(REGISTER_SUCCESSFULLY);
+    });
+    it.only('validate registration', () => {
+        const email = 'john@gmail';
+        const password = 'passwor';
+        const username = 'jo';
+
+        cy.get('[data-testid="email"]').clear().type(email);
+        cy.get('[data-testid="username"]').clear().type(username);
+        cy.get('[data-testid="password"]').clear().type(password);
+        cy.get('[data-testid="passwordConfirm"]').clear().type(password);
+
+        cy.get('[data-testid="submit-button"]').click();
+
+        cy.get('#email-error').contains(EMAIL_IS_INVALID);
+        cy.get('#password-error').contains(PASSWORD_IS_NOT_PROPER);
+        cy.get('#username-error').contains(USERNAME_NOT_PROPER);
+    });
+
+    it.only('validate password match', () => {
+        const email = 'john@gmail.com';
+        const password = 'password';
+        const username = 'john';
+
+        cy.get('[data-testid="email"]').clear().type(email);
+        cy.get('[data-testid="username"]').clear().type(username);
+        cy.get('[data-testid="password"]').clear().type(password);
+        cy.get('[data-testid="passwordConfirm"]').clear().type('password12345');
+
+        cy.get('[data-testid="submit-button"]').click();
+        cy.get('#passwordConfirm-error').contains(PASSWORDS_DO_NOT_MATCH);
     });
 });
