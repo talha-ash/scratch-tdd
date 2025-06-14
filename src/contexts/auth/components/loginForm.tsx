@@ -89,7 +89,8 @@ export const LoginForm = () => {
             <div className="text-center space-y-2 pt-4">
                 <p className="text-sm text-gray-500 font-nunito">New to Scratch?</p>
                 <a
-                    href="#create-account"
+                    href="/register"
+                    data-testid="create-account"
                     className="block text-base font-bold text-green-500 font-nunito hover:text-green-600 transition-colors"
                 >
                     Create Account Here

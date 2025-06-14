@@ -68,4 +68,9 @@ describe('Login ', () => {
         cy.get('#email-error').contains(EMAIL_IS_INVALID);
         cy.get('#password-error').contains(PASSWORD_IS_INCORRECT);
     });
+
+    it('Navigate To Register Page', () => {
+        cy.get('[data-testid="create-account"]').click();
+        cy.url().should('contain', 'register');
+    });
 });
