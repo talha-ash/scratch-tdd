@@ -30,11 +30,9 @@ export class AxiosHttpClient implements IHttpClient {
         this.axiosInstance = axios.create({
             baseURL,
             headers: defaultHeaders,
-            // Minimal config - let React Query handle retries, timeouts, etc.
         });
     }
 
-    // Main request method
     request<T = any>(config: IHttpRequestConfig): ResultAsync<IHttpResponse<T>, AxiosErrorType> {
         const axiosConfig: AxiosRequestConfig = {
             url: config.url,
@@ -52,7 +50,7 @@ export class AxiosHttpClient implements IHttpClient {
                         type: AXIOS_ERROR_HTTP,
                         status: err.response.status,
                         code: err.code,
-                        data: err.response.data.data,
+                        data: convertNestedErrorMessage(err.response.data.data.message),
                         message: err.message,
                     } as IHttpError;
                 } else if (err.request) {
@@ -92,7 +90,6 @@ export class AxiosHttpClient implements IHttpClient {
         });
     }
 
-    // Convenience methods
     get<T, P>(url: string, params?: P): ResultAsync<IHttpResponse<T>, AxiosErrorType> {
         return this.request<T>({ url, method: 'GET', params: params ? params : {} });
     }
@@ -112,4 +109,19 @@ export class AxiosHttpClient implements IHttpClient {
 
 export function apiClientFactory(baseUrl: string, defaultHeaders?: Record<string, string>) {
     return new AxiosHttpClient(baseUrl, defaultHeaders);
+}
+
+export function convertNestedErrorMessage(message: string | { errors: Record<string, string[]> }) {
+    if (typeof message === 'string') {
+        return { error: true, message };
+    }
+
+    const result: string[] = [];
+
+    Object.keys(message.errors).map((key) => {
+        const errorValue = message.errors[key];
+        result.push(...errorValue);
+    });
+
+    return { error: true, message: result };
 }

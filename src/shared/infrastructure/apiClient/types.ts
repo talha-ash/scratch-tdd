@@ -34,7 +34,7 @@ export type IHttpError = {
     readonly type: typeof AXIOS_ERROR_HTTP;
     readonly status: number;
     readonly code?: string;
-    readonly data: { error: boolean; message: string };
+    readonly data: { error: boolean; message: string | string []};
     readonly message?: unknown;
 };
 export interface INetworkError {
