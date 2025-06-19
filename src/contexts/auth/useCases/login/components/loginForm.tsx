@@ -1,5 +1,5 @@
 import { Input } from '~/components/ui/input';
-import { useLogin } from '../useCases/login/useLogin';
+import { useLogin } from '../useLogin';
 import { Button } from '~/components/ui/button';
 
 export const LoginForm = () => {
@@ -19,7 +19,7 @@ export const LoginForm = () => {
                     loginForm.handleSubmit();
                 }}
             >
-                <div className="space-y-6 mt-8">
+                <div className="space-y-6 mt-6 mb-4">
                     <div className="space-y-2">
                         <label className="block text-sm text-gray-500 font-nunito">
                             Email address
@@ -73,7 +73,7 @@ export const LoginForm = () => {
                     </div>
                 </div>
 
-                <div className="flex justify-end">
+                <div className="flex justify-end my-2">
                     <a
                         href="#forgot-password"
                         className="text-sm text-gray-600 font-nunito hover:text-green-600 transition-colors"

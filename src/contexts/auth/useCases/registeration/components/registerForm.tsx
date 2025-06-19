@@ -1,6 +1,6 @@
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
-import { useRegister } from '../useCases/registeration/useRegistration';
+import { useRegister } from '../useRegistration';
 
 export const RegisterForm = () => {
     const { registerForm } = useRegister();
@@ -18,7 +18,7 @@ export const RegisterForm = () => {
                     registerForm.handleSubmit();
                 }}
             >
-                <div className="space-y-6 mt-8">
+                <div className="space-y-6 mt-6 mb-4">
                     <div className="space-y-2">
                         <label className="block text-sm text-gray-500 font-nunito">Username</label>
                         <div className="relative">

@@ -1,5 +1,5 @@
 import { Toaster } from 'react-hot-toast';
-import { RegisterForm } from '~/contexts/auth/components/registerForm';
+
 import {
     EMAIL_IS_INVALID,
     PASSWORD_IS_NOT_PROPER,
@@ -10,6 +10,7 @@ import {
 import { ComposeProvider } from '~/shared/diContext';
 import { createQueryClientProvider } from '~/shared/infrastructure/tanqStackQueryClient';
 import { createToastProvider } from '~/shared/infrastructure/toast/toastProvider';
+import { RegisterForm } from '../components/registerForm';
 
 beforeEach(() => {
     const providers = [createToastProvider(), createQueryClientProvider()];

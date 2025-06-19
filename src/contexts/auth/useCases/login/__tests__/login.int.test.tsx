@@ -1,5 +1,4 @@
 import { createToastProvider } from '~/shared/infrastructure/toast/toastProvider';
-import { LoginForm } from '../../../components/loginForm';
 import { ComposeProvider } from '~/shared/diContext';
 import { createQueryClientProvider } from '~/shared/infrastructure/tanqStackQueryClient';
 import { Toaster } from 'react-hot-toast';
@@ -10,6 +9,7 @@ import {
     USER_NOT_FOUND,
 } from '~/contexts/auth/constants/textConstant';
 import * as loginAction from '~cypress/support/actions/loginAction';
+import { LoginForm } from '../components/loginForm';
 
 beforeEach(() => {
     const providers = [createToastProvider(), createQueryClientProvider()];

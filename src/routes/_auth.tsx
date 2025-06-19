@@ -23,7 +23,7 @@ function RouteComponent() {
             <div className="absolute inset-0 bg-white/30 z-10" />
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/80 z-20" />
 
-            <section className="relative w-full max-w-md lg:max-w-4xl lg:h-[35.625rem] bg-white rounded-none lg:rounded-lg shadow-none lg:shadow-lg overflow-hidden mx-4 z-30">
+            <section className="relative w-full max-w-md lg:max-w-4xl lg:h-[40rem] bg-white rounded-none lg:rounded-lg shadow-none lg:shadow-lg overflow-hidden mx-4 z-30">
                 {/* Decorative SVG - Covering the entire left panel */}
                 <div className="hidden lg:block absolute left-0 top-0 w-1/2 h-full z-40 pointer-events-none">
                     {/* Light glow effect across entire left panel */}

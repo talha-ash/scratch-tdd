@@ -7,5 +7,5 @@ import type { IRegisterResponse } from './useRegisterMutation';
 export function register(
     payload: RegisterPayload,
 ): ResultAsync<IHttpResponse<IRegisterResponse>, AxiosErrorType> {
-    return apiClient.post<IRegisterResponse, RegisterPayload>('/register', payload);
+    return apiClient.post<IRegisterResponse, {user: RegisterPayload}>('/register', {user: payload});
 }
