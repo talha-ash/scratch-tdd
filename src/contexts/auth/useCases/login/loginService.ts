@@ -17,7 +17,7 @@ export function loginFailedMessage(
     }
 }
 
-export function loginSuccessMessage(successToast: IToastNotification['successToast']) {
+export function onLoginSuccessfully(successToast: IToastNotification['successToast']) {
     successToast(LOGIN_SUCCESSFULLY);
 }
 
