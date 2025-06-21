@@ -7,7 +7,7 @@ export const router = createRouter({ routeTree });
 
 export const apiClient = apiClientFactory(
     'http://localhost:4000/api/v1/',
+    'refresh_token',
     authStore.getAccessToken,
     authStore.setAccessToken,
 );
-

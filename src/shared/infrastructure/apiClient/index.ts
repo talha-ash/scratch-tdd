@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, {
     type AxiosInstance,
     type AxiosRequestConfig,
+    type AxiosResponse,
     type InternalAxiosRequestConfig,
     AxiosHeaders,
     isAxiosError,
@@ -31,10 +31,13 @@ type setTokenType = (token: string) => void;
 export class AxiosHttpClient implements IHttpClient {
     private axiosInstance: AxiosInstance;
     private refreshingToken: boolean;
-    private requestPauser: () => Promise<RefreshPromiseResolveType>;
+    private resolverQueue: Array<(value: RefreshPromiseResolveType) => void>;
+    private calledTime: number;
+    public refreshEndpoint: string;
 
     constructor(
         baseURL: string,
+        refreshEndpoint: string,
         private getToken: getTokenType,
         private setToken: setTokenType,
         defaultHeaders?: Record<string, string>,
@@ -45,59 +48,79 @@ export class AxiosHttpClient implements IHttpClient {
             withCredentials: true,
         });
         this.refreshingToken = false;
-        this.requestPauser = this.pauser();
+        this.refreshEndpoint = refreshEndpoint;
+        this.resolverQueue = [];
+        this.calledTime = 0;
         this.setInterceptor();
     }
 
-    pauser() {
-        const resolverQueue: Array<(value: RefreshPromiseResolveType) => void> = [];
-        let calledTime = 0;
-        return async () => {
-            calledTime = calledTime + 1;
-            const promise = new Promise<RefreshPromiseResolveType>((res) => {
-                resolverQueue.push(res);
-            });
+    private async waitForRefresh() {
+        this.calledTime = this.calledTime + 1;
+        const promise = new Promise<RefreshPromiseResolveType>((res) => {
+            this.resolverQueue.push(res);
+        });
 
-            if (calledTime == 1) {
-                this.axiosInstance
-                    .get(`refresh_token`)
-                    .then(({ data }) => {
-                        this.setToken(data.data.token);
-                        this.refreshingToken = false;
-                        calledTime = 0;
-                        resolverQueue.forEach((res, index) => res(ok({ index })));
-                    })
-                    .catch(() => {
-                        this.refreshingToken = false;
-                        calledTime = 0;
-                        resolverQueue.forEach((res, index) => res(err({ index })));
-                    });
-            }
+        if (this.calledTime == 1) {
+            this.performRefresh();
+        }
 
-            return promise;
-        };
+        return promise;
     }
 
-    configRequest(config: InternalAxiosRequestConfig<any>) {
+    private async performRefresh() {
+        try {
+            const { data } = await this.axiosInstance.get(this.refreshEndpoint);
+
+            this.setToken(data.data.token);
+            this.resetTokenRefreshState();
+            this.resolveQueueWithOk();
+        } catch {
+            this.resetTokenRefreshState();
+            this.resolveQueueWithError();
+        }
+    }
+
+    private resetTokenRefreshState(): void {
+        this.refreshingToken = false;
+        this.calledTime = 0;
+    }
+
+    private resolveQueueWithOk(): void {
+        this.resolverQueue.forEach((res, index) => res(ok({ index })));
+        this.resolverQueue = [];
+    }
+
+    private resolveQueueWithError(): void {
+        this.resolverQueue.forEach((res, index) => res(err({ index })));
+        this.resolverQueue = [];
+    }
+
+    private addAuthHeader(config: InternalAxiosRequestConfig<unknown>) {
         const accessToken = this.getToken();
         if (accessToken) {
             config.headers.Authorization = `Bearer ${accessToken}`;
         }
         return config;
     }
-    setInterceptor() {
+
+    private setInterceptor() {
+        this.setRequestInterceptor();
+        this.setResponseInterceptor();
+    }
+
+    private setRequestInterceptor() {
         this.axiosInstance.interceptors.request.use(
             async (config) => {
-                const isTokenRefreshRequest = config.url?.includes('refresh_token');
+                const isTokenRefreshRequest = config.url?.includes(this.refreshEndpoint);
                 if (isTokenRefreshRequest) {
                     return config;
                 }
                 const controller = new AbortController();
                 if (this.refreshingToken) {
-                    const result = await this.requestPauser();
+                    const result = await this.waitForRefresh();
 
                     if (result.isOk()) {
-                        config = this.configRequest(config);
+                        config = this.addAuthHeader(config);
                         return config;
                     } else {
                         controller.abort();
@@ -107,7 +130,7 @@ export class AxiosHttpClient implements IHttpClient {
                         };
                     }
                 }
-                config = this.configRequest(config);
+                config = this.addAuthHeader(config);
                 return {
                     ...config,
                     signal: controller.signal,
@@ -118,8 +141,9 @@ export class AxiosHttpClient implements IHttpClient {
                 return Promise.reject(error);
             },
         );
+    }
 
-        // Add a response interceptor
+    private setResponseInterceptor() {
         this.axiosInstance.interceptors.response.use(
             function (response) {
                 return response;
@@ -132,15 +156,16 @@ export class AxiosHttpClient implements IHttpClient {
                         return Promise.reject(error);
                     }
                     this.refreshingToken = true;
-                    const result = await this.requestPauser();
+                    const result = await this.waitForRefresh();
+                    
                     if (result.isOk()) {
-                        const config = this.configRequest(error.config);
-                        const result = await this.axiosInstance.request(config);
                         this.refreshingToken = false;
+                        const config = this.addAuthHeader(error.config);
+                        const result = await this.axiosInstance.request(config);
                         return Promise.resolve(result);
                     } else {
                         //so refresh token expire too
-                        error.message = 'refresh_token';
+                        error.message = this.refreshEndpoint;
                         return Promise.reject(error);
                     }
                 }
@@ -150,7 +175,64 @@ export class AxiosHttpClient implements IHttpClient {
         );
     }
 
-    request<T = any>(config: IHttpRequestConfig): ResultAsync<IHttpResponse<T>, AxiosErrorType> {
+    private handleSuccessResponse<T = never>(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        resp: AxiosResponse<any, any>,
+    ): Result<IHttpResponse<T>, AxiosErrorType> {
+        if (resp.status >= 200 && resp.status < 300) {
+            return ok({
+                ...resp.data,
+                status: resp.status,
+                statusText: resp.statusText,
+                headers: resp.headers as AxiosHeaders,
+            });
+        }
+        return err({
+            type: 'unknown',
+            message: err instanceof Error ? err.message : 'Unknown error',
+        } as IRequestUnknownError);
+    }
+
+    private handleError(error: unknown): AxiosErrorType {
+        if (isAxiosError(error)) {
+            if (error.message == this.refreshEndpoint) {
+                return {
+                    type: AXIOS_ERROR_HTTP,
+                    status: error.response?.status,
+                    code: error.code,
+                    message: error.message,
+                } as IHttpError;
+            }
+            if (error.response) {
+                return {
+                    type: AXIOS_ERROR_HTTP,
+                    status: error.response.status,
+                    code: error.code,
+                    data: convertNestedErrorMessage(error.response.data.data.message),
+                    message: error.message,
+                } as IHttpError;
+            } else if (error.request) {
+                return {
+                    type: AXIOS_ERROR_NETWORK,
+                    message: error.message,
+                    code: error.code,
+                } as INetworkError;
+            } else {
+                return {
+                    type: AXIOS_ERROR_REQUEST,
+                    message: error.message,
+                    code: error.code,
+                } as IRequestError;
+            }
+        } else {
+            return {
+                type: AXIOS_ERROR_UNKOWN,
+                message: error instanceof Error ? error.message : 'Unknown error',
+            } as IRequestUnknownError;
+        }
+    }
+
+    request<T>(config: IHttpRequestConfig): ResultAsync<IHttpResponse<T>, AxiosErrorType> {
         const axiosConfig: AxiosRequestConfig = {
             url: config.url,
             method: config.method,
@@ -161,57 +243,11 @@ export class AxiosHttpClient implements IHttpClient {
         };
 
         const response = ResultAsync.fromPromise(this.axiosInstance.request(axiosConfig), (err) => {
-            if (isAxiosError(err)) {
-                if (err.message == 'refresh_token') {
-                    return {
-                        type: AXIOS_ERROR_HTTP,
-                        status: err.response?.status,
-                        code: err.code,
-                        message: err.message,
-                    } as IHttpError;
-                }
-                if (err.response) {
-                    return {
-                        type: AXIOS_ERROR_HTTP,
-                        status: err.response.status,
-                        code: err.code,
-                        data: convertNestedErrorMessage(err.response.data.data.message),
-                        message: err.message,
-                    } as IHttpError;
-                } else if (err.request) {
-                    return {
-                        type: AXIOS_ERROR_NETWORK,
-                        message: err.message,
-                        code: err.code,
-                    } as INetworkError;
-                } else {
-                    return {
-                        type: AXIOS_ERROR_REQUEST,
-                        message: err.message,
-                        code: err.code,
-                    } as IRequestError;
-                }
-            } else {
-                return {
-                    type: AXIOS_ERROR_UNKOWN,
-                    message: err instanceof Error ? err.message : 'Unknown error',
-                } as IRequestUnknownError;
-            }
+            return this.handleError(err);
         });
 
         return response.andThen((resp) => {
-            if (resp.status >= 200 && resp.status < 300) {
-                return ok({
-                    ...resp.data,
-                    status: resp.status,
-                    statusText: resp.statusText,
-                    headers: resp.headers as AxiosHeaders,
-                });
-            }
-            return err({
-                type: 'unknown',
-                message: err instanceof Error ? err.message : 'Unknown error',
-            } as IRequestUnknownError);
+            return this.handleSuccessResponse(resp);
         });
     }
 
@@ -234,11 +270,12 @@ export class AxiosHttpClient implements IHttpClient {
 
 export function apiClientFactory(
     baseUrl: string,
+    refreshEndpoint: string,
     getToken: getTokenType,
     setToken: setTokenType,
     defaultHeaders?: Record<string, string>,
 ) {
-    return new AxiosHttpClient(baseUrl, getToken, setToken, defaultHeaders);
+    return new AxiosHttpClient(baseUrl, refreshEndpoint, getToken, setToken, defaultHeaders);
 }
 
 export function convertNestedErrorMessage(message: string | { errors: Record<string, string[]> }) {
