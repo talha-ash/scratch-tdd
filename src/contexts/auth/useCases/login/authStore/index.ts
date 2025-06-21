@@ -1,13 +1,17 @@
-import { createAuthStore } from './createAuthStore';
+import { createAuthStore, type AuthStoreActions, type AuthStoreState } from './createAuthStore';
 
-const useAuthStore = createAuthStore();
+const useStore = createAuthStore();
 
 function getAccessToken() {
-    return useAuthStore.getState().data.accessToken;
+    return useStore.getState().data.accessToken;
+}
+
+function useAuthStore<T>(selector: (selector: AuthStoreState & AuthStoreActions) => T) {
+    return useStore(selector);
 }
 
 export const authStore = {
     useAuthStore,
     getAccessToken,
-    setAccessToken: useAuthStore.getState().setAccessToken,
+    setAccessToken: useStore.getState().setAccessToken,
 };

@@ -6,7 +6,7 @@ import { LoginForm } from '~/contexts/auth/useCases/login/components/loginForm';
 export const Route = createFileRoute('/_auth/login')({
     component: LoginPageComponent,
      beforeLoad: async () => {
-            const accessToken = authStore.useAuthStore.getState().data.accessToken;            
+            const accessToken = authStore.getAccessToken();            
             if (accessToken) {
                 throw redirect({ to: '/' });
             }

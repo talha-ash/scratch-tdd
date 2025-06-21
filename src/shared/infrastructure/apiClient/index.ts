@@ -126,15 +126,21 @@ export class AxiosHttpClient implements IHttpClient {
             },
             async (error) => {
                 if (error.status == 401) {
+                    //we required this condition to prevent pauser loop.
+                    //it return reject promise.so the pauser release all resolver with rejection
+                    if (this.refreshingToken) {
+                        return Promise.reject(error);
+                    }
                     this.refreshingToken = true;
                     const result = await this.requestPauser();
-
                     if (result.isOk()) {
                         const config = this.configRequest(error.config);
                         const result = await this.axiosInstance.request(config);
                         this.refreshingToken = false;
                         return Promise.resolve(result);
                     } else {
+                        //so refresh token expire too
+                        error.message = 'refresh_token';
                         return Promise.reject(error);
                     }
                 }
@@ -156,6 +162,14 @@ export class AxiosHttpClient implements IHttpClient {
 
         const response = ResultAsync.fromPromise(this.axiosInstance.request(axiosConfig), (err) => {
             if (isAxiosError(err)) {
+                if (err.message == 'refresh_token') {
+                    return {
+                        type: AXIOS_ERROR_HTTP,
+                        status: err.response?.status,
+                        code: err.code,
+                        message: err.message,
+                    } as IHttpError;
+                }
                 if (err.response) {
                     return {
                         type: AXIOS_ERROR_HTTP,

@@ -11,14 +11,14 @@ export const useLogin = () => {
     const { loginForm } = useLoginFormHandler(loginFormSubmit);
     const navigate = useNavigate();
 
-    const { setAccessToken } = authStore.useAuthStore();
+    const setAccessToken = authStore.useAuthStore((state) => state.setAccessToken);
 
     function loginFormSubmit({ email, password }: LoginPayload) {
         loginMutation.mutation.mutate(
             { email, password },
             {
                 onSuccess: (data) => {
-                    navigate({to: "/"})
+                    navigate({ to: '/' });
                     onLoginSuccessfully(successToast);
                     setAccessToken(data.token);
                 },

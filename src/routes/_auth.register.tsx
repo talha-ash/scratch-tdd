@@ -5,7 +5,7 @@ import { RegisterForm } from '~/contexts/auth/useCases/registeration/components/
 export const Route = createFileRoute('/_auth/register')({
     component: RegisterPageComponent,
     beforeLoad: async () => {
-        const accessToken = authStore.useAuthStore.getState().data.accessToken;        
+        const accessToken = authStore.getAccessToken();        
         if (accessToken) {
             throw redirect({ to: '/' });
         }

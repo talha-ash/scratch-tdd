@@ -13,7 +13,7 @@ export const Route = createFileRoute('/')({
 
 function Index() {
     const { successToast } = useToastNotification();
-    const state = authStore.useAuthStore();
+    const state = authStore.useAuthStore(state => state);
     useEffect(() => {
         successToast('Welcome to the home page!');
     }, []);
