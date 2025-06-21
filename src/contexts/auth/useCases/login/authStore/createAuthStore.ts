@@ -16,7 +16,7 @@ export function createAuthStore(intialValue?: State['data']) {
             setAccessToken: (token: string) =>
                 set((state) => {
                     state.data.accessToken = token;                    
-                }),
+                }),            
         })),
     );
 }
