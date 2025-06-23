@@ -152,7 +152,8 @@ export class AxiosHttpClient implements IHttpClient {
                 if (error.status == 401) {
                     //we required this condition to prevent pauser loop.
                     //it return reject promise.so the pauser release all resolver with rejection
-                    if (this.refreshingToken) {
+                    const isTokenRefreshRequest = error.config.url?.includes(this.refreshEndpoint);
+                    if (isTokenRefreshRequest) {
                         return Promise.reject(error);
                     }
                     this.refreshingToken = true;
