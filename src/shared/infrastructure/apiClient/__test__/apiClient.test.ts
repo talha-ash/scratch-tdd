@@ -1,12 +1,13 @@
-import { describe, expect, it, vi, beforeEach, afterEach, beforeAll, afterAll } from 'vitest';
-import { apiClientFactory, type AxiosHttpClient, convertNestedErrorMessage } from '..';
-import { setupServer } from 'msw/node';
-import { BASE_URL } from '~/shared/constants';
 import axios, { type AxiosInstance } from 'axios';
-import { handlers } from './mocks/handlers';
+import { setupServer } from 'msw/node';
 import { ResultAsync } from 'neverthrow';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import { BASE_URL } from '~/shared/constants';
+import { apiClientFactory, type AxiosHttpClient, convertNestedErrorMessage } from '..';
+import { apiResponseFixtures } from './mocks/apiFixtures';
+import { handlers } from './mocks/handlers';
 
-vi.mock('axios');
+vi.mock('axios', { spy: true });
 const mockedAxios = vi.mocked(axios, { deep: true });
 export type MockedAxios = typeof mockedAxios;
 describe('Axios Api Client', () => {
@@ -177,6 +178,62 @@ describe('Axios Api Client', () => {
                 expect(result.isOk()).toBe(true);
             });
         });
+
+        describe('Error Handling', () => {
+            it('should handle HTTP errors correctly', async () => {
+                const validationError = apiResponseFixtures.httpError.validationFailled;
+                mockAxiosInstance.request.mockRejectedValue(validationError);
+
+                const result = await httpClient.get('/test');
+
+                expect(result.isErr()).toBe(true);
+                if (result.isErr() && result.error.type == 'http') {
+                    expect(result.error.type).toBe('http');
+                    expect(result.error.status).toBe(validationError.response?.status);
+                    expect(result.error.data.message).toBe(
+                        validationError.response?.data.data.message,
+                    );
+                }
+            });
+        });
+        it('should handle unknown errors correctly', async () => {
+            const unknownError = new Error('Unknown error');
+
+            mockAxiosInstance.request.mockRejectedValue(unknownError);
+
+            const result = await httpClient.get('/test');
+
+            expect(result.isErr()).toBe(true);
+            if (result.isErr()) {
+                expect(result.error.type).toBe('unknown');
+            }
+        });
+
+        it('should handle network errors correctly', async () => {
+            mockAxiosInstance.request.mockRejectedValue(
+                apiResponseFixtures.httpError.networkFailed,
+            );
+
+            const result = await httpClient.get('/test');
+
+            expect(result.isErr()).toBe(true);
+            if (result.isErr()) {
+                expect(result.error.type).toBe('network');
+            }
+        });
+
+        it('should handle invalid request errors correctly', async () => {
+            mockAxiosInstance.request.mockRejectedValue(
+                apiResponseFixtures.httpError.requestFailed,
+            );
+
+            const result = await httpClient.get('/test');
+
+            expect(result.isErr()).toBe(true);
+            if (result.isErr()) {
+                expect(result.error.type).toBe('request');
+            }
+        });
     });
 
     describe('Token managment', () => {
@@ -219,49 +276,34 @@ describe('Axios Api Client', () => {
         });
 
         it('request sent with token', async () => {
-            mockGetToken.mockReturnValue('access-token');
+            mockGetToken.mockReturnValue(apiResponseFixtures.initialToken);
             const result = await httpClient.get('auth/posts/1');
 
             if (result.isOk()) {
-                expect(result.value.data).toEqual([
-                    {
-                        id: 'abc-123',
-                        title: 'Hello World',
-                    },
-                ]);
+                expect(result.value.data).toEqual(apiResponseFixtures.post.data);
             }
         });
         it('request sent with token', async () => {
-            mockGetToken.mockReturnValue('access-token');
+            mockGetToken.mockReturnValue(apiResponseFixtures.initialToken);
             const result = await httpClient.get('auth/posts/1');
 
             if (result.isOk()) {
-                expect(result.value.data).toEqual([
-                    {
-                        id: 'abc-123',
-                        title: 'Hello World',
-                    },
-                ]);
+                expect(result.value.data).toEqual(apiResponseFixtures.post.data);
             }
         });
         it('token expire and get new token by refresh flow', async () => {
-            mockGetToken.mockReturnValue('aaccess-token');
+            mockGetToken.mockReturnValue(apiResponseFixtures.expireAccessToken);
             const result = await httpClient.get('auth/posts/1');
 
             expect(result.isOk()).toBe(true);
             if (result.isOk()) {
-                expect(result.value.data).toEqual([
-                    {
-                        id: 'abc-123',
-                        title: 'Hello World',
-                    },
-                ]);
+                expect(result.value.data).toEqual(apiResponseFixtures.post.data);
             }
-            expect(mockGetToken()).toBe('new-access-token');
+            expect(mockGetToken()).toBe(apiResponseFixtures.newToken);
         });
 
         it('Request queue resolved after token expire and get new token by refresh flow', async () => {
-            mockGetToken.mockReturnValue('aaccess-token');
+            mockGetToken.mockReturnValue(apiResponseFixtures.initialToken);
             const result = await ResultAsync.fromPromise(
                 Promise.all([
                     httpClient.get('auth/posts/1'),
@@ -274,15 +316,10 @@ describe('Axios Api Client', () => {
 
             expect(result.isOk()).toBe(true);
             result.map((responses) => {
-                responses.map((response) => {                    
+                responses.map((response) => {
                     expect(response.isOk()).toBe(true);
                     if (response.isOk()) {
-                        expect(response.value.data).toEqual([
-                            {
-                                id: 'abc-123',
-                                title: 'Hello World',
-                            },
-                        ]);
+                        expect(response.value.data).toEqual(apiResponseFixtures.post.data);
                     }
                 });
             });
@@ -297,7 +334,7 @@ describe('Axios Api Client', () => {
                 mockGetToken,
                 mockSetToken,
             );
-            mockGetToken.mockReturnValue('aaccess-token');
+            mockGetToken.mockReturnValue(apiResponseFixtures.expireAccessToken);
             const result = await httpClient.get('auth/posts/1');
 
             expect(result.isErr()).toBe(true);
