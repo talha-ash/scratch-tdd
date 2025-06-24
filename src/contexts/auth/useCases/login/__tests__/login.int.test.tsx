@@ -1,7 +1,3 @@
-import { createToastProvider } from '~/shared/infrastructure/toast/toastProvider';
-import { ComposeProvider } from '~/shared/diContext';
-import { createQueryClientProvider } from '~/shared/infrastructure/tanqStackQueryClient';
-import { Toaster } from 'react-hot-toast';
 import {
     EMAIL_IS_INVALID,
     LOGIN_SUCCESSFULLY,
@@ -10,17 +6,10 @@ import {
 } from '~/contexts/auth/constants/textConstant';
 import * as loginAction from '~cypress/support/actions/loginAction';
 import { LoginForm } from '../components/loginForm';
+import { mountComponentWithRouter } from '~/shared/lib/test/mountComponentWithRouter';
 
-beforeEach(() => {
-    const providers = [createToastProvider(), createQueryClientProvider()];
-    cy.mount(
-        <ComposeProvider providers={providers}>
-            <div>
-                <LoginForm />
-                <Toaster />
-            </div>
-        </ComposeProvider>,
-    );
+beforeEach(async () => {
+    mountComponentWithRouter(LoginForm);
 });
 describe('Login ', () => {
     it('login successfully', () => {

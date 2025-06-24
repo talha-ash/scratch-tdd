@@ -9,6 +9,7 @@
     "test:unit": "vitest",
     "test:unit:coverage": "vitest run --coverage",
     "test:integration": "cypress open --component --browser electron",
+    "test:integration:headless": "cypress run --component",
     "test:e2e": "cypress open --e2e --browser electron",
     "test:e2e:focus": "cypress open --e2e --browser electron --env TAGS=@focus",
     "storybook": "storybook dev --ci  -p 6006",
