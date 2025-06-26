@@ -11,15 +11,22 @@ jobs:
               with:
                   version: 10
             - name: Checkout repo
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
 
             - name: Setup Node
-              uses: actions/setup-node@v2
+              uses: actions/setup-node@v4
               with:
                   node-version: '22'
+                  cache: pnpmm
 
             - name: Install deps
               run: pnpm i
+
+            - name: Cache node_modules
+              uses: actions/cache@v3
+              with:
+                  path: node_modules
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
 
             - name: Run Lint
               run: pnpm lint
@@ -37,15 +44,18 @@ jobs:
                   version: 10
 
             - name: Checkout repo
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
 
             - name: Setup Node
-              uses: actions/setup-node@v2
+              uses: actions/setup-node@v4
               with:
                   node-version: '22'
 
-            - name: Install deps
-              run: pnpm i
+            - name: Restore node_modules
+              uses: actions/cache@v3
+              with:
+                  path: node_modules
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
 
             - name: Run Unit Tests
               run: pnpm test:unit
@@ -60,15 +70,18 @@ jobs:
                   version: 10
 
             - name: Checkout repo
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
 
             - name: Setup Node
-              uses: actions/setup-node@v2
+              uses: actions/setup-node@v4
               with:
                   node-version: '22'
 
-            - name: Install deps
-              run: pnpm i
+            - name: Restore node_modules
+              uses: actions/cache@v3
+              with:
+                  path: node_modules
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
 
             - name: Cypress Component Testing
               run: pnpm test:integration:headless
