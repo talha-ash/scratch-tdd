@@ -25,7 +25,9 @@ jobs:
             - name: Cache node_modules
               uses: actions/cache@v3
               with:
-                  path: node_modules
+                  path: |
+                    node_modules 
+                    ~/runner/.cache/Cypress
                   key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
 
             - name: Run Lint
@@ -80,7 +82,9 @@ jobs:
             - name: Restore node_modules
               uses: actions/cache@v3
               with:
-                  path: node_modules
+                  path: |
+                    node_modules 
+                    ~/runner/.cache/Cypress
                   key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
 
             - name: Cypress Component Testing
