@@ -7,28 +7,8 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - uses: pnpm/action-setup@v4
-              with:
-                  version: 10
-            - name: Checkout repo
-              uses: actions/checkout@v4
-
-            - name: Setup Node
-              uses: actions/setup-node@v4
-              with:
-                  node-version: '22'
-                  cache: pnpm
-
-            - name: Install deps
-              run: pnpm i
-
-            - name: Cache node_modules and cypress
-              uses: actions/cache@v3
-              with:
-                  path: |
-                      ~/.cache/Cypress
-                      node_modules
-                  key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
+            - name: Setup Environment
+              uses: ./.github/actions/setup-environment
 
             - name: Run Lint
               run: pnpm lint
@@ -41,25 +21,8 @@ jobs:
         needs: build
 
         steps:
-            - uses: pnpm/action-setup@v4
-              with:
-                  version: 10
-
-            - name: Checkout repo
-              uses: actions/checkout@v4
-
-            - name: Setup Node
-              uses: actions/setup-node@v4
-              with:
-                  node-version: '22'
-
-            - name: Restore node_modules
-              uses: actions/cache@v3
-              with:
-                  path: |
-                      ~/.cache/Cypress
-                      node_modules
-                  key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
+            - name: Setup Environment
+              uses: ./.github/actions/setup-environment
 
             - name: Run Unit Tests
               run: pnpm test:unit
@@ -69,25 +32,8 @@ jobs:
         needs: unit_tests
 
         steps:
-            - uses: pnpm/action-setup@v4
-              with:
-                  version: 10
-
-            - name: Checkout repo
-              uses: actions/checkout@v4
-
-            - name: Setup Node
-              uses: actions/setup-node@v4
-              with:
-                  node-version: '22'
-
-            - name: Restore node_modules and cypress
-              uses: actions/cache@v3
-              with:
-                  path: |
-                      ~/.cache/Cypress
-                      node_modules
-                  key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
+            - name: Setup Environment
+              uses: ./.github/actions/setup-environment
 
             - name: Install Cypress 📥
               run: pnpm i cypress

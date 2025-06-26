@@ -1,0 +1,43 @@
+# .github/actions/setup-environment/action.yml
+
+name: 'Setup PNPM Environment'
+description: 'Checks out the repo, sets up Node.js, PNPM, caches dependencies, and installs them.'
+
+# Add inputs to make the action more flexible
+inputs:
+    node-version:
+        description: 'The Node.js version to use'
+        required: false
+        default: '22'
+    pnpm-version:
+        description: 'The PNPM version to use'
+        required: false
+        default: '10'
+
+runs:
+    using: 'composite'
+    steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v4
+
+        - name: Setup PNPM
+          uses: pnpm/action-setup@v4
+          with:
+              version: ${{ inputs.pnpm-version }}
+
+        - name: Setup Node.js and cache PNPM store
+          uses: actions/setup-node@v4
+          with:
+              node-version: ${{ inputs.node-version }}
+              cache: 'pnpm'
+
+        - name: Cache Cypress binary
+          uses: actions/cache@v4
+          with:
+              path: ~/.cache/Cypress
+              key: ${{ runner.os }}-cypress-${{ hashFiles('**/pnpm-lock.yaml') }}
+              restore-keys: |
+                  ${{ runner.os }}-cypress-
+
+        - name: Install Dependencies
+          run: pnpm install --frozen-lockfile
