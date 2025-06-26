@@ -86,11 +86,15 @@ jobs:
               with:
                   path: |
                       ~/.cache/Cypress
-                      node_modules 
+                      node_modules
                   key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
 
             - name: Install Cypress 📥
               run: pnpm i cypress
 
-            - name: Cypress Component Testing              
-              run: pnpm test:integration:headless
+            - name: Run Cypress Component Tests
+              uses: cypress-io/github-action@v6
+              with:
+                  component: true
+                  browser: chrome
+                  headed: false
