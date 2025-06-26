@@ -6,6 +6,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "type-check": "tsc -b",
     "test:unit": "vitest",
     "test:unit:coverage": "vitest run --coverage",
     "test:integration": "cypress open --component --browser electron",
