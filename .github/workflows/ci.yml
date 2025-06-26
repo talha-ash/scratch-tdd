@@ -26,8 +26,8 @@ jobs:
               uses: actions/cache@v3
               with:
                   path: |
-                      node_modules 
                       ~/.cache/Cypress
+                      node_modules
                   key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
 
             - name: Run Lint
@@ -57,7 +57,8 @@ jobs:
               uses: actions/cache@v3
               with:
                   path: |
-                      node_modules                      
+                      ~/.cache/Cypress
+                      node_modules
                   key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
 
             - name: Run Unit Tests
@@ -84,12 +85,12 @@ jobs:
               uses: actions/cache@v3
               with:
                   path: |
-                      node_modules 
                       ~/.cache/Cypress
+                      node_modules 
                   key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
 
             - name: Install Cypress 📥
               run: pnpm i cypress
 
-            - name: Cypress Component Testing
+            - name: Cypress Component Testing              
               run: pnpm test:integration:headless
