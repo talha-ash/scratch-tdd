@@ -16,7 +16,7 @@ inputs:
 
 runs:
     using: 'composite'
-    steps:        
+    steps:
         - name: Setup PNPM
           uses: pnpm/action-setup@v4
           with:
@@ -37,4 +37,5 @@ runs:
                   ${{ runner.os }}-cypress-
 
         - name: Install Dependencies
+          shell: bash
           run: pnpm install --frozen-lockfile
