@@ -2,7 +2,7 @@ import { useLoginMutation } from './useLoginMutation';
 import { useToastNotification } from '~/shared/infrastructure/toast/toastProvider';
 import { useLoginFormHandler } from './useLoginFormHandler';
 import { loginFailedMessage, onLoginSuccessfully, type LoginPayload } from './loginService';
-import { authStore } from './authStore';
+import { authStore } from '../../authStore';
 import { useNavigate } from '@tanstack/react-router';
 
 export const useLogin = () => {

@@ -6,8 +6,13 @@ function getAccessToken() {
     return useStore.getState().data.accessToken;
 }
 
-function useAuthStore<T>(selector: (selector: AuthStoreState & AuthStoreActions) => T) {
-    return useStore(selector);
+function useAuthStore<T = AuthStoreState & AuthStoreActions>(
+    selector?: (selector: AuthStoreState & AuthStoreActions) => T,
+) {
+    if (selector) {
+        return useStore(selector);
+    }
+    return useStore((state) => state);
 }
 
 export const authStore = {

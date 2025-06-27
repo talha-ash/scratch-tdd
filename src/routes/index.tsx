@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { useEffect } from 'react';
 import { Button } from '~/components/ui/button';
-import { authStore } from '~/contexts/auth/useCases/login/authStore';
+import { authStore } from '~/contexts/auth/authStore';
 import { BASE_URL } from '~/shared/constants';
 import { apiClient } from '~/shared/infrastructure';
 import { useToastNotification } from '~/shared/infrastructure/toast/toastProvider';

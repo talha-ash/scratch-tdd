@@ -1,7 +1,7 @@
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { router } from '.';
-import { authStore } from '~/contexts/auth/useCases/login/authStore';
+import { authStore } from '~/contexts/auth/authStore';
 
 export const queryClient = new QueryClient({
     mutationCache: new MutationCache({
