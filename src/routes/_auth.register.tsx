@@ -1,15 +1,8 @@
-import { createFileRoute, redirect } from '@tanstack/react-router';
-import { authStore } from '~/contexts/auth/authStore';
+import { createFileRoute } from '@tanstack/react-router';
 import { RegisterForm } from '~/contexts/auth/useCases/registeration/components/registerForm';
 
 export const Route = createFileRoute('/_auth/register')({
     component: RegisterPageComponent,
-    beforeLoad: async () => {
-        const accessToken = authStore.getAccessToken();        
-        if (accessToken) {
-            throw redirect({ to: '/' });
-        }
-    },
 });
 
 export function RegisterPageComponent() {

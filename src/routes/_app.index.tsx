@@ -7,7 +7,7 @@ import { BASE_URL } from '~/shared/constants';
 import { apiClient } from '~/shared/infrastructure';
 import { useToastNotification } from '~/shared/infrastructure/toast/toastProvider';
 
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute('/_app/')({
     component: Index,
 });
 
