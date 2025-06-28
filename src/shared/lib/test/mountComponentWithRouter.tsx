@@ -21,7 +21,7 @@ export async function mountComponentWithRouter(component: () => JSX.Element) {
         defaultPendingMinMs: 0,
         routeTree: RootRoute.addChildren([Route]),
         context: {
-            auth: undefined!,
+            authToken: undefined!,
         },
     });
 
@@ -30,9 +30,9 @@ export async function mountComponentWithRouter(component: () => JSX.Element) {
             <ComposeProvider providers={providers}>
                 <div>
                     <RouterContextInjector>
-                        {({ auth }) => (
+                        {({ authToken }) => (
                             <>
-                                <RouterProvider<typeof router> router={router} context={{ auth }} />
+                                <RouterProvider<typeof router> router={router} context={{ authToken }} />
                                 <Toaster />
                             </>
                         )}
