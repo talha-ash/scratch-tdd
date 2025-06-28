@@ -275,7 +275,7 @@ export function apiClientFactory({
     refreshEndpoint,
     getToken,
     setTokenAndUser,
-    defaultHeaders = {},
+    defaultHeaders = undefined,
 }: {
     baseUrl: string;
     refreshEndpoint: string;
