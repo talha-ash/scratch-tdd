@@ -1,22 +1,27 @@
+import type { User } from '../domain/user';
 import { createAuthStore, type AuthStoreActions, type AuthStoreState } from './createAuthStore';
 
 const useStore = createAuthStore();
 
-function getAccessToken() {
-    return useStore.getState().data.accessToken;
-}
+function useAuthStore(): AuthStoreState & AuthStoreActions;
+function useAuthStore<T>(selector: (selector: AuthStoreState & AuthStoreActions) => T): T;
 
-function useAuthStore<T = AuthStoreState & AuthStoreActions>(
-    selector?: (selector: AuthStoreState & AuthStoreActions) => T,
-) {
+function useAuthStore<T>(selector?: (selector: AuthStoreState & AuthStoreActions) => T) {
     if (selector) {
         return useStore(selector);
     }
     return useStore((state) => state);
 }
 
+function setUser(user: User | null) {
+    useStore.getState().setUser(user);
+}
+function userSelector(state: AuthStoreState & AuthStoreActions) {
+    return state.data.user!;
+}
+
 export const authStore = {
     useAuthStore,
-    getAccessToken,
-    setAccessToken: useStore.getState().setAccessToken,
+    userSelector,
+    setUser,
 };

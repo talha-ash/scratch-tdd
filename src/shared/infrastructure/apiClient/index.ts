@@ -23,11 +23,12 @@ import {
     AXIOS_ERROR_REQUEST,
     AXIOS_ERROR_UNKOWN,
 } from './constants';
+import type { User } from '~/contexts/auth/domain/user';
 
 type RefreshPromiseResolveType = Result<{ index: number }, { index: number }>;
 
 type getTokenType = () => string | null;
-type setTokenType = (token: string) => void;
+type setTokenAndUserType = (token: string, user: User) => void;
 export class AxiosHttpClient implements IHttpClient {
     private axiosInstance: AxiosInstance;
     private refreshingToken: boolean;
@@ -39,7 +40,7 @@ export class AxiosHttpClient implements IHttpClient {
         baseURL: string,
         refreshEndpoint: string,
         private getToken: getTokenType,
-        private setToken: setTokenType,
+        private setTokenAndUser: setTokenAndUserType,
         defaultHeaders?: Record<string, string>,
     ) {
         this.axiosInstance = axios.create({
@@ -70,8 +71,8 @@ export class AxiosHttpClient implements IHttpClient {
     private async performRefresh() {
         try {
             const { data } = await this.axiosInstance.get(this.refreshEndpoint);
-
-            this.setToken(data.data.token);
+            console.log(data);
+            this.setTokenAndUser(data.data.token, data.data.user);
             this.resetTokenRefreshState();
             this.resolveQueueWithOk();
         } catch {
@@ -158,7 +159,7 @@ export class AxiosHttpClient implements IHttpClient {
                     }
                     this.refreshingToken = true;
                     const result = await this.waitForRefresh();
-                    
+
                     if (result.isOk()) {
                         this.refreshingToken = false;
                         const config = this.addAuthHeader(error.config);
@@ -269,14 +270,20 @@ export class AxiosHttpClient implements IHttpClient {
     }
 }
 
-export function apiClientFactory(
-    baseUrl: string,
-    refreshEndpoint: string,
-    getToken: getTokenType,
-    setToken: setTokenType,
-    defaultHeaders?: Record<string, string>,
-) {
-    return new AxiosHttpClient(baseUrl, refreshEndpoint, getToken, setToken, defaultHeaders);
+export function apiClientFactory({
+    baseUrl,
+    refreshEndpoint,
+    getToken,
+    setTokenAndUser,
+    defaultHeaders = {},
+}: {
+    baseUrl: string;
+    refreshEndpoint: string;
+    getToken: getTokenType;
+    setTokenAndUser: setTokenAndUserType;
+    defaultHeaders?: Record<string, string>;
+}) {
+    return new AxiosHttpClient(baseUrl, refreshEndpoint, getToken, setTokenAndUser, defaultHeaders);
 }
 
 export function convertNestedErrorMessage(message: string | { errors: Record<string, string[]> }) {

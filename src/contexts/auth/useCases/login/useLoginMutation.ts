@@ -1,13 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 import { login } from './loginAdapter';
+import type { User } from '../../domain/user';
 
 export interface ILoginResponse {
-    user: {
-        id: string;
-        username: string;
-        age: string;
-        email: string;
-    };
+    user: User;
     token: string;
 }
 export interface ILoginMutationPayload {

@@ -6,7 +6,7 @@ export const Route = createFileRoute('/_auth')({
 
     beforeLoad: ({ context, location }) => {
         console.log(location);
-        if (context.auth?.data.accessToken) {
+        if (context?.authToken?.accessToken) {
             throw redirect({
                 to: '/',
             });

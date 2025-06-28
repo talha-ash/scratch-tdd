@@ -1,21 +1,22 @@
 import { create } from 'zustand';
 import { mutative } from 'zustand-mutative';
+import type { User } from '../domain/user';
 
 export type AuthStoreState = {
-    data: { accessToken: string | null };
+    data: { user: User | null };
 };
 
 export type AuthStoreActions = {
-    setAccessToken: (token: string | null) => void;
+    setUser: (user: User | null) => void;
 };
 
-export function createAuthStore(intialValue?: AuthStoreState['data']) {
+export function createAuthStore() {
     return create<AuthStoreState & AuthStoreActions>()(
         mutative((set) => ({
-            data: { accessToken: null, ...intialValue },
-            setAccessToken: (token) =>
+            data: { user: null },
+            setUser: (user) =>
                 set((state) => {
-                    state.data.accessToken = token;
+                    state.data.user = user;
                 }),
         })),
     );

@@ -4,7 +4,7 @@ export const Route = createFileRoute('/_app')({
     component: RouteComponent,
     beforeLoad: ({ context, location }) => {
         console.log(location);
-        if (!context.auth?.data.accessToken) {
+        if (!context.authToken?.accessToken) {
             throw redirect({
                 to: '/login',
             });
