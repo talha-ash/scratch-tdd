@@ -1,13 +1,27 @@
 import { apiClientFactory } from './apiClient';
 import { createRouter } from '@tanstack/react-router';
-import { authStore } from '~/contexts/auth/useCases/login/authStore';
+
+import type { MyRouterContext } from '~/routes/__root';
 import { routeTree } from '~/routeTree.gen';
+import { tokenStore } from './tokenStore';
+import { REFRESH_ENDPOINT } from '../constants';
 
-export const router = createRouter({ routeTree });
+export const router = createRouter({ routeTree, context: { authToken: undefined } });
 
-export const apiClient = apiClientFactory(
-    'http://localhost:4000/api/v1/',
-    'refresh_token',
-    authStore.getAccessToken,
-    authStore.setAccessToken,
-);
+export const RouterContextInjector = ({
+    context,
+    children,
+}: {
+    context?: MyRouterContext;
+    children: ({ authToken }: MyRouterContext) => React.ReactNode;
+}) => {
+    const authToken = tokenStore.useTokenStore();
+    return children(context ?? { authToken });
+};
+
+export const apiClient = apiClientFactory({
+    baseUrl: 'http://localhost:4000/api/v1/',
+    refreshEndpoint: REFRESH_ENDPOINT,
+    getToken: tokenStore.getAccessToken,
+    setTokenAndUser: tokenStore.setTokenAndUserType,
+});

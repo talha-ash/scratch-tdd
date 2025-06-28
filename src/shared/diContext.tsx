@@ -1,12 +1,12 @@
 import React from 'react';
 
-interface Provider<TProps> {
+export interface ComposeContextProvider<TProps> {
     Component: React.ComponentType<React.PropsWithChildren<TProps>>;
     props?: Omit<TProps, 'children'>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function composeProviders<TProviders extends Array<Provider<any>>>(
+export function composeProviders<TProviders extends Array<ComposeContextProvider<any>>>(
     providers: TProviders,
 ): React.ComponentType<React.PropsWithChildren> {
     const ProviderComponent: React.FunctionComponent<React.PropsWithChildren> = ({ children }) => {
@@ -28,7 +28,7 @@ export const ComposeProvider = ({
     children,
 }: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    providers: Array<Provider<any>>;
+    providers: Array<ComposeContextProvider<any>>;
     children: React.ReactNode;
 }) => {
     const Provider = composeProviders(providers);
@@ -38,7 +38,7 @@ export const ComposeProvider = ({
 function createProvider<TProps>(
     Component: React.ComponentType<React.PropsWithChildren<TProps>>,
     props?: Omit<TProps, 'children'>,
-): Provider<TProps> {
+): ComposeContextProvider<TProps> {
     return {
         Component,
         props,
@@ -62,6 +62,6 @@ export function buildContext<TContextValue, Tname extends `use${string}`>(contex
     } as {
         // Component: React.Provider<TContextValue>;
         // props: TContextValue | undefined;
-        createProvider: <T extends TContextValue>(value: T) => Provider<T>;
+        createProvider: <T extends TContextValue>(value: T) => ComposeContextProvider<T>;
     } & Record<Tname, () => TContextValue>;
 }

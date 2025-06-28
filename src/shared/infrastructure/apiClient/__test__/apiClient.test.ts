@@ -59,7 +59,12 @@ describe('Axios Api Client', () => {
             };
 
             mockedAxios.create.mockReturnValue(mockAxiosInstance as unknown as AxiosInstance);
-            httpClient = apiClientFactory(BASE_URL, refreshEndpoint, mockGetToken, mockSetToken);
+            httpClient = apiClientFactory({
+                baseUrl: BASE_URL,
+                refreshEndpoint: refreshEndpoint,
+                getToken: mockGetToken,
+                setTokenAndUser: mockSetToken,
+            });
         });
 
         afterEach(() => {
@@ -79,13 +84,13 @@ describe('Axios Api Client', () => {
                 const customeHeader = {
                     'Content-Type': 'application/json',
                 };
-                apiClientFactory(
-                    BASE_URL,
-                    refreshEndpoint,
-                    mockGetToken,
-                    mockSetToken,
-                    customeHeader,
-                );
+                apiClientFactory({
+                    baseUrl: BASE_URL,
+                    refreshEndpoint: refreshEndpoint,
+                    getToken: mockGetToken,
+                    setTokenAndUser: mockSetToken,
+                    defaultHeaders: customeHeader,
+                });
 
                 expect(mockedAxios.create).toHaveBeenCalledWith({
                     baseURL: BASE_URL,
@@ -381,5 +386,10 @@ async function apiClientWithNewAxiosInstance(
             withCredentials: true,
         }),
     );
-    return apiClientFactory(BASE_URL, refreshEndpoint, mockGetToken, mockSetToken);
+    return apiClientFactory({
+        baseUrl: BASE_URL,
+        refreshEndpoint: refreshEndpoint,
+        getToken: mockGetToken,
+        setTokenAndUser: mockSetToken,
+    });
 }
