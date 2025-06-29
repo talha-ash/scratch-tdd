@@ -1,9 +1,9 @@
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
-import { useRegister } from '../useRegistration';
+import { useRegisteration } from '../useRegistration';
 
-export const RegisterForm = () => {
-    const { registerForm } = useRegister();
+export const RegisterationForm = () => {
+    const { registerationForm } = useRegisteration();
     return (
         <div className="w-full max-w-sm space-y-6">
             <div className="text-center lg:text-left space-y-2">
@@ -15,14 +15,14 @@ export const RegisterForm = () => {
             <form
                 onSubmit={(e) => {
                     e.preventDefault();
-                    registerForm.handleSubmit();
+                    registerationForm.handleSubmit();
                 }}
             >
                 <div className="space-y-6 mt-6 mb-4">
                     <div className="space-y-2">
                         <label className="block text-sm text-gray-500 font-nunito">Username</label>
                         <div className="relative">
-                            <registerForm.Field name="username">
+                            <registerationForm.Field name="username">
                                 {(field) => (
                                     <Input
                                         data-testid="username"
@@ -37,7 +37,7 @@ export const RegisterForm = () => {
                                         }
                                     />
                                 )}
-                            </registerForm.Field>
+                            </registerationForm.Field>
 
                             <div className="absolute bottom-0 left-0 right-0 h-px bg-gray-300"></div>
                         </div>
@@ -47,7 +47,7 @@ export const RegisterForm = () => {
                             Email address
                         </label>
                         <div className="relative">
-                            <registerForm.Field name="email">
+                            <registerationForm.Field name="email">
                                 {(field) => (
                                     <Input
                                         data-testid="email"
@@ -62,7 +62,7 @@ export const RegisterForm = () => {
                                         }
                                     />
                                 )}
-                            </registerForm.Field>
+                            </registerationForm.Field>
 
                             <div className="absolute bottom-0 left-0 right-0 h-px bg-gray-300"></div>
                         </div>
@@ -71,7 +71,7 @@ export const RegisterForm = () => {
                     <div className="space-y-2">
                         <label className="block text-sm text-gray-500 font-nunito">Password</label>
                         <div className="relative">
-                            <registerForm.Field name="password">
+                            <registerationForm.Field name="password">
                                 {(field) => {
                                     return (
                                         <Input
@@ -88,7 +88,7 @@ export const RegisterForm = () => {
                                         />
                                     );
                                 }}
-                            </registerForm.Field>
+                            </registerationForm.Field>
 
                             <div className="absolute bottom-0 left-0 right-0 h-px bg-gray-300"></div>
                         </div>
@@ -98,7 +98,7 @@ export const RegisterForm = () => {
                             Password Confirm
                         </label>
                         <div className="relative">
-                            <registerForm.Field name="passwordConfirm">
+                            <registerationForm.Field name="passwordConfirm">
                                 {(field) => {
                                     return (
                                         <Input
@@ -115,7 +115,7 @@ export const RegisterForm = () => {
                                         />
                                     );
                                 }}
-                            </registerForm.Field>
+                            </registerationForm.Field>
 
                             <div className="absolute bottom-0 left-0 right-0 h-px bg-gray-300"></div>
                         </div>

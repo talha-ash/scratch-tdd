@@ -22,15 +22,13 @@ function Index() {
     }, []);
 
     const fetchUser = async () => {
-        const users = await apiClient.get(`${BASE_URL}users`);
-        console.log(users);
+         await apiClient.get(`${BASE_URL}users`);
     };
 
     const temperToken = () => {
         state.setAccessToken((state.accessToken ?? 'sdsdsd') + 1212121212);
     };
 
-    console.log(user);
     return (
         <div className="p-2">
             <h3>Welcome Home! {user?.username}</h3>

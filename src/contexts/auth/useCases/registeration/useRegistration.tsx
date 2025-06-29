@@ -1,26 +1,22 @@
 import { useToastNotification } from '~/shared/infrastructure/toast/toastProvider';
-import { useRegisterMutation } from './useRegisterMutation';
-import {
-    registerFailedMessage,
-    registerSuccessMessage,
-    type RegisterPayload,
-} from './registerService';
-import { useRegisterFormHandler } from './useRegisterFormHandler';
+import { registerationFormSubmit, type RegisterationPayload } from './registerationService';
+import { useRegisterFormHandler } from './useRegisterationFormHandler';
+import { useRegisterationMutation } from './useRegisterationMutation';
+import type { IRegisterationPorts } from './registerationPorts';
 
-export const useRegister = () => {
-    const { successToast, errorToast } = useToastNotification();
-    const registerMutation = useRegisterMutation();
-    const { registerForm } = useRegisterFormHandler(registerFormSubmit);
+export const useRegisteration = () => {
+    const { successToast, errorToast }: IRegisterationPorts['toastService'] = useToastNotification();
+    const registerMutation = useRegisterationMutation();
+    const { registerationForm } = useRegisterFormHandler(formSubmitHandler);
 
-    function registerFormSubmit(payload: RegisterPayload) {
-        registerMutation.mutation.mutate(payload, {
-            onSuccess: () => {
-                registerSuccessMessage(successToast);
-            },
-            onError: (error) => {
-                registerFailedMessage(error, errorToast);
+    function formSubmitHandler(payload: RegisterationPayload) {
+        registerationFormSubmit({
+            data: payload,
+            deps: {
+                mutate: registerMutation.mutation.mutate,
+                toast: { successToast, errorToast },
             },
         });
     }
-    return { registerForm };
+    return { registerationForm };
 };

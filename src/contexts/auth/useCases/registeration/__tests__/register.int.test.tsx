@@ -5,15 +5,15 @@ import {
     REGISTER_SUCCESSFULLY,
     USERNAME_NOT_PROPER,
 } from '~/contexts/auth/constants/textConstant';
-import { mountComponentWithRouter } from '~/shared/lib/test/mountComponentWithRouter';
-import { RegisterForm } from '../components/registerForm';
+import { mountComponentWithRouter } from '~/shared/utils/test/mountComponentWithRouter';
+import { RegisterationForm } from '../components/registerationForm';
 import {
     interceptRegisterRequestSuccess,
     submitRegisterForm,
 } from '~cypress/support/actions/registerAction';
 
 beforeEach(() => {
-    mountComponentWithRouter(RegisterForm);
+    mountComponentWithRouter(RegisterationForm);
 });
 
 describe('Registration ', () => {
@@ -29,7 +29,6 @@ describe('Registration ', () => {
         submitRegisterForm({ email, password, username, passwordConfirm: password });
 
         cy.wait(`@${requestName}`).then((interception) => {
-            console.log(interception.request.body);
             expect(interception.request.body).to.deep.equal({
                 user: {
                     email,

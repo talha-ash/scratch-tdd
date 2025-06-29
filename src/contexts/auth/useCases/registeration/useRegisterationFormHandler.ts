@@ -1,18 +1,18 @@
 import { useForm } from '@tanstack/react-form';
-import { getRegisterSchema, type RegisterPayload } from './registerService';
+import { getRegisterationSchema, type RegisterationPayload } from './registerationService';
 import { useState } from 'react';
 
-export const useRegisterFormHandler = (registerFormSubmit: (value: RegisterPayload) => void) => {
+export const useRegisterFormHandler = (registerationFormSubmit: (value: RegisterationPayload) => void) => {
     const [isSubmissionPerformed, setIsSubmissionPerformed] = useState(false);
     const validators = isSubmissionPerformed
         ? {
-              onChange: getRegisterSchema(),
+              onChange: getRegisterationSchema(),
           }
         : {
-              onSubmit: getRegisterSchema(),
+              onSubmit: getRegisterationSchema(),
           };
 
-    const registerForm = useForm({
+    const registerationForm = useForm({
         defaultValues: {
             email: '',
             password: '',
@@ -21,12 +21,12 @@ export const useRegisterFormHandler = (registerFormSubmit: (value: RegisterPaylo
         },
         validators: validators,
         onSubmit: ({ value }) => {
-            registerFormSubmit(value);
+            registerationFormSubmit(value);
         },
         onSubmitInvalid: () => {
             setIsSubmissionPerformed(true);
         },
     });
 
-    return { registerForm };
+    return { registerationForm };
 };

@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
-import type { RegisterPayload } from './registerService';
-import { register } from './registerAdapter';
+import type { RegisterationPayload } from './registerationService';
+import { register } from './registerationApis';
 
-export interface IRegisterResponse {
+export interface IRegisterationResponse {
     user: {
         id: string;
         username: string;
@@ -12,9 +12,9 @@ export interface IRegisterResponse {
     token: string;
 }
 
-export const useRegisterMutation = () => {
+export const useRegisterationMutation = () => {
     const mutation = useMutation({
-        mutationFn: async (payload: RegisterPayload) => {
+        mutationFn: async (payload: RegisterationPayload) => {
             const result = await register(payload);
             if (result.isErr()) {
                 return Promise.reject(result.error);
@@ -25,3 +25,5 @@ export const useRegisterMutation = () => {
 
     return { mutation };
 };
+
+export type useRegisterationMutationType = ReturnType<typeof useRegisterationMutation>;
