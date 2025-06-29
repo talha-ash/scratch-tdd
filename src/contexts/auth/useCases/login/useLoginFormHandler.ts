@@ -1,7 +1,7 @@
 import { useForm } from '@tanstack/react-form';
-import { getLoginSchema, type LoginPayload } from './loginService';
+import { getLoginSchema, type LoginMutationPayload } from './loginService';
 
-export const useLoginFormHandler = (loginFormSubmit: (value: LoginPayload) => void) => {
+export const useLoginFormHandler = (loginFormSubmit: (value: LoginMutationPayload) => void) => {
     const loginForm = useForm({
         defaultValues: {
             email: '',

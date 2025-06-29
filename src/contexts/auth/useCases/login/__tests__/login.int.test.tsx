@@ -6,7 +6,7 @@ import {
 } from '~/contexts/auth/constants/textConstant';
 import * as loginAction from '~cypress/support/actions/loginAction';
 import { LoginForm } from '../components/loginForm';
-import { mountComponentWithRouter } from '~/shared/lib/test/mountComponentWithRouter';
+import { mountComponentWithRouter } from '~/shared/utils/test/mountComponentWithRouter';
 
 beforeEach(async () => {
     mountComponentWithRouter(LoginForm);
