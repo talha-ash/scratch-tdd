@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "name": "core",
+  "description": "Application Core",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {},
+  "packageManager": "pnpm@10.12.4"
+}
