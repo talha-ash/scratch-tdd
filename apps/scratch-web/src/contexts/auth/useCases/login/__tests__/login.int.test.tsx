@@ -1,13 +1,10 @@
-import {
-    EMAIL_IS_INVALID,
-    LOGIN_SUCCESSFULLY,
-    PASSWORD_IS_INCORRECT,
-    USER_NOT_FOUND,
-} from '~/contexts/auth/constants/textConstant';
 import * as loginAction from '~cypress/support/actions/loginAction';
 import { LoginForm } from '../components/loginForm';
 import { mountComponentWithRouter } from '~/shared/lib/test/mountComponentWithRouter';
+import { AuthContext } from 'core';
 
+const { EMAIL_IS_INVALID, LOGIN_SUCCESSFULLY, PASSWORD_IS_INCORRECT, USER_NOT_FOUND } =
+    AuthContext.AuthConstants;
 beforeEach(async () => {
     mountComponentWithRouter(LoginForm);
 });

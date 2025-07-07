@@ -1,7 +1,7 @@
 import { toastNotification, type IToastNotification } from '.';
-import { buildContext } from '~/shared/diContext';
+import {CoreShared} from "core"
 
-const { useToastNotification, createProvider } = buildContext<
+const { useToastNotification, createProvider } = CoreShared.buildContext<
     IToastNotification,
     'useToastNotification'
 >('useToastNotification');

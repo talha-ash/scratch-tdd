@@ -1,16 +1,18 @@
-import {
-    EMAIL_IS_INVALID,
-    PASSWORD_IS_NOT_PROPER,
-    PASSWORDS_DO_NOT_MATCH,
-    REGISTER_SUCCESSFULLY,
-    USERNAME_NOT_PROPER,
-} from '~/contexts/auth/constants/textConstant';
 import { mountComponentWithRouter } from '~/shared/lib/test/mountComponentWithRouter';
 import { RegisterForm } from '../components/registerForm';
 import {
     interceptRegisterRequestSuccess,
     submitRegisterForm,
 } from '~cypress/support/actions/registerAction';
+import { AuthContext } from 'core';
+
+const {
+    EMAIL_IS_INVALID,
+    PASSWORD_IS_NOT_PROPER,
+    PASSWORDS_DO_NOT_MATCH,
+    REGISTER_SUCCESSFULLY,
+    USERNAME_NOT_PROPER,
+} = AuthContext.AuthConstants;
 
 beforeEach(() => {
     mountComponentWithRouter(RegisterForm);

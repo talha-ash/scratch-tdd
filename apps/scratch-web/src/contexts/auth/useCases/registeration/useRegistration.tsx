@@ -1,24 +1,31 @@
 import { useToastNotification } from '~/shared/infrastructure/toast/toastProvider';
-import { useRegisterMutation } from './useRegisterMutation';
-import {
-    registerFailedMessage,
-    registerSuccessMessage,
-    type RegisterPayload,
-} from './registerService';
-import { useRegisterFormHandler } from './useRegisterFormHandler';
+
+import { AuthContext } from 'core';
+import type { AuthContextTypes } from 'core';
 
 export const useRegister = () => {
     const { successToast, errorToast } = useToastNotification();
-    const registerMutation = useRegisterMutation();
-    const { registerForm } = useRegisterFormHandler(registerFormSubmit);
+    const registerMutation =
+        AuthContext.AuthRegistrationUseCase.RegistrationHooks.useRegistrationMutation();
+    const { registerForm } =
+        AuthContext.AuthRegistrationUseCase.RegistrationHooks.useRegistrationFormHandler(
+            registerFormSubmit,
+        );
 
-    function registerFormSubmit(payload: RegisterPayload) {
+    function registerFormSubmit(
+        payload: AuthContextTypes.RegistrationUseCaseTypes.RegisterPayload,
+    ) {
         registerMutation.mutation.mutate(payload, {
             onSuccess: () => {
-                registerSuccessMessage(successToast);
+                AuthContext.AuthRegistrationUseCase.RegistrationService.registerSuccessMessage(
+                    successToast,
+                );
             },
             onError: (error) => {
-                registerFailedMessage(error, errorToast);
+                AuthContext.AuthRegistrationUseCase.RegistrationService.registerFailedMessage(
+                    error,
+                    errorToast,
+                );
             },
         });
     }

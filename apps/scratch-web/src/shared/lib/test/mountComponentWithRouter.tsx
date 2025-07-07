@@ -4,7 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import { createRootRouteFactory } from '~/routes/__root';
 import { ComposeProvider } from '~/shared/diContext';
 import { RouterContextInjector } from '~/shared/infrastructure';
-import { createQueryClientProvider } from '~/shared/infrastructure/tanqStackQueryClient';
+import { createQueryClientProvider } from '~/shared/infrastructure/tanStackQueryClient';
 import { createToastProvider } from '~/shared/infrastructure/toast/toastProvider';
 
 export async function mountComponentWithRouter(component: () => JSX.Element) {

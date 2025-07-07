@@ -3,19 +3,28 @@ import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 
 import { ScreenLoader } from './components/ui/ScreenLoader';
-import type { User } from './contexts/auth/domain/user';
-import { REFRESH_ENDPOINT } from './shared/constants';
-import { ComposeProvider } from './shared/diContext';
-import { apiClient, router, RouterContextInjector } from './shared/infrastructure';
-import type { AxiosErrorType } from './shared/infrastructure/apiClient/types';
-import { createQueryClientProvider } from './shared/infrastructure/tanqStackQueryClient';
+import { router, RouterContextInjector } from './shared/infrastructure';
+import {
+    createQueryClientProvider,
+    queryClient,
+} from './shared/infrastructure/tanStackQueryClient';
 import { createToastProvider } from './shared/infrastructure/toast/toastProvider';
 
-async function startApp(setTokenAndUserType: (token: string, user: User | null) => void) {
+import { CoreShared, AuthContext } from 'core';
+import type { CoreSharedTypes, AuthContextTypes } from 'core';
+import { QueryClientProvider } from '@tanstack/react-query';
+
+async function startApp(
+    setTokenAndUserType: (
+        token: string,
+        user: AuthContextTypes.AuthDomainTypes.User | null,
+    ) => void,
+) {
     renderScreenLoader();
-    const result = await apiClient.get<{ token: string; user: User }, AxiosErrorType>(
-        REFRESH_ENDPOINT,
-    );
+    const result = await CoreShared.apiClient.get<
+        { token: string; user: AuthContextTypes.AuthDomainTypes.User },
+        CoreSharedTypes.ApiClientTypes.AxiosErrorType
+    >(CoreShared.REFRESH_ENDPOINT);
 
     if (result.isOk()) {
         setTokenAndUserType(result.value.data.token, result.value.data.user);
@@ -29,17 +38,18 @@ async function startApp(setTokenAndUserType: (token: string, user: User | null) 
 function renderApp() {
     const rootElement = document.getElementById('root')!;
     if (!rootElement.innerHTML) {
+        console.log('I am Running');
         const root = ReactDOM.createRoot(rootElement);
         const providers = [createToastProvider(), createQueryClientProvider()];
         root.render(
             <StrictMode>
-                <ComposeProvider providers={providers}>
+                <CoreShared.ComposeProvider providers={providers}>                   
                     <RouterContextInjector>
                         {({ authToken }) => (
                             <RouterProvider router={router} context={{ authToken }} />
                         )}
                     </RouterContextInjector>
-                </ComposeProvider>
+                </CoreShared.ComposeProvider>
             </StrictMode>,
         );
     }
@@ -63,7 +73,7 @@ function renderScreenLoader() {
 }
 
 const appInit = {
-    startApp,    
+    startApp,
     renderApp,
     removeScreenLoader,
     renderScreenLoader,
