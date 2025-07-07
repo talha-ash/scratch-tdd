@@ -2,11 +2,8 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { useEffect } from 'react';
 import { Button } from '~/components/ui/button';
-import { authStore } from '~/contexts/auth/authStore';
-import { BASE_URL } from '~/shared/constants';
-import { apiClient } from '~/shared/infrastructure';
 import { useToastNotification } from '~/shared/infrastructure/toast/toastProvider';
-import { tokenStore } from '~/shared/infrastructure/tokenStore';
+import { AuthContext, CoreShared } from 'core';
 
 export const Route = createFileRoute('/_app/')({
     component: Index,
@@ -14,15 +11,17 @@ export const Route = createFileRoute('/_app/')({
 
 function Index() {
     const { successToast } = useToastNotification();
-    const state = tokenStore.useTokenStore((state) => state);
-    const user = authStore.useAuthStore(authStore.userSelector);
+    const state = CoreShared.tokenStore.useTokenStore((state) => state);
+    const user = AuthContext.AuthStore.authStore.useAuthStore(
+        AuthContext.AuthStore.authStore.userSelector,
+    );
 
     useEffect(() => {
         successToast('Welcome to the home page!');
     }, []);
 
     const fetchUser = async () => {
-        const users = await apiClient.get(`${BASE_URL}users`);
+        const users = await CoreShared.apiClient.get(`${CoreShared.BASE_URL}users`);
         console.log(users);
     };
 

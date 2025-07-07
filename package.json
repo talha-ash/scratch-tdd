@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "scratch-web-dev": "pnpm --filter scratch-web dev",
+    "scratch-web-dev": "pnpm --filter scratch-web dev && pnpm core:build:watch",
     "scratch-web-build": "pnpm --filter scratch-web build",
     "scratch-web-lint": "pnpm --filter scratch-web lint",
     "scratch-web-type-check": "pnpm --filter scratch-web type-check",
@@ -16,7 +16,9 @@
     "scratch-web-test:e2e:focus": "pnpm --filter scratch-web test:e2e:focus",
     "scratch-web-storybook": "pnpm --filter scratch-web storybook",
     "scratch-web-build-storybook": "pnpm --filter scratch-web build-storybook",
-    "core:build": "pnpm --filter core build"
+    "core:build": "pnpm --filter core build",
+    "core:build:watch": "pnpm --filter core build:watch",
+    "dev": "pnpm --recursive --parallel --stream run dev"
   },
   "keywords": [],
   "author": "",
