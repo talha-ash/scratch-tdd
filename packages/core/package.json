@@ -16,7 +16,7 @@
   },
   "scripts": {
     "build": "rm -rf dist && tsc && vite build",
-    "dev": "vite build --watch"
+    "dev": "rm -rf dist && tsc && vite build --watch"
   },
   "keywords": [],
   "author": "",

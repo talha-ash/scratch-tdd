@@ -2,11 +2,10 @@ import { createRoute, createRouter, RouterProvider } from '@tanstack/react-route
 import type { JSX } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { createRootRouteFactory } from '~/routes/__root';
-import { ComposeProvider } from '~/shared/diContext';
 import { RouterContextInjector } from '~/shared/infrastructure';
 import { createQueryClientProvider } from '~/shared/infrastructure/tanStackQueryClient';
 import { createToastProvider } from '~/shared/infrastructure/toast/toastProvider';
-
+import {CoreShared} from "core"
 export async function mountComponentWithRouter(component: () => JSX.Element) {
     const providers = [createToastProvider(), createQueryClientProvider()];
     const RootRoute = createRootRouteFactory();
@@ -27,7 +26,7 @@ export async function mountComponentWithRouter(component: () => JSX.Element) {
 
     cy.mount(
         <>
-            <ComposeProvider providers={providers}>
+            <CoreShared.ComposeProvider providers={providers}>
                 <div>
                     <RouterContextInjector>
                         {({ authToken }) => (
@@ -38,7 +37,7 @@ export async function mountComponentWithRouter(component: () => JSX.Element) {
                         )}
                     </RouterContextInjector>
                 </div>
-            </ComposeProvider>
+            </CoreShared.ComposeProvider>
             ,
         </>,
     );

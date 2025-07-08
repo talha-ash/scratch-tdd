@@ -7,4 +7,10 @@ catalog:
   '@vitest/coverage-v8': 3.1.4
 
 hoistPattern:
- - '^(?!@vitest/spy|vitest|@vitest/spy|@vitest/spy/.*)$'
+  - ^(?!@vitest/spy|vitest|@vitest/spy|@vitest/spy/.*)$
+
+onlyBuiltDependencies:
+  - '@tailwindcss/oxide'
+  - cypress
+  - esbuild
+  - msw
