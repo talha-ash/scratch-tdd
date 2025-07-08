@@ -1,4 +1,4 @@
-name: 'CI Pipline'
+name: 'CI Pipeline'
 
 on: [push, pull_request]
 
@@ -14,10 +14,10 @@ jobs:
               uses: ./.github/actions/setup-environment
 
             - name: Run Lint
-              run: pnpm lint
+              run: pnpm lint:all
 
             - name: Run Type Checks
-              run: pnpm type-check
+              run: pnpm ype:check:all
 
     unit_tests:
         runs-on: ubuntu-latest
@@ -31,7 +31,7 @@ jobs:
               uses: ./.github/actions/setup-environment
 
             - name: Run Unit Tests
-              run: pnpm test:unit
+              run: pnpm test:all
 
     integration_tests:
         runs-on: ubuntu-latest
@@ -44,12 +44,15 @@ jobs:
             - name: Setup Environment
               uses: ./.github/actions/setup-environment
 
+            - name: Go To App Folder
+              run: cd apps/scratch-web
+
             - name: Install Cypress 📥
               run: pnpm i cypress
 
             - name: Run Cypress Component Tests
               uses: cypress-io/github-action@v6
-              with:
+              with:                  
                   component: true
                   browser: chrome
                   headed: false

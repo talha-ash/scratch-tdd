@@ -1,4 +1,4 @@
-import axios, { type AxiosInstance, type AxiosStatic } from 'axios';
+import axios, { type AxiosInstance } from 'axios';
 import { setupServer } from 'msw/node';
 import { ResultAsync } from 'neverthrow';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';

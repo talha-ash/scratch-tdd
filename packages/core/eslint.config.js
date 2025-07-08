@@ -6,13 +6,14 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 import pluginReact from "eslint-plugin-react";
 // import css from "@eslint/css";
-import { defineConfig } from "eslint/config";
+import { defineConfig, globalIgnores } from "eslint/config";
 import eslint from '@eslint/js';
 
 
 export default defineConfig([
-  { files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"], plugins: { js }, extends: ["js/recommended"] },
-  { files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"], languageOptions: { globals: globals.browser } },
+  globalIgnores(["dist/*"]),
+  { files: ["/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"], plugins: { js }, extends: ["js/recommended"] },
+  { files: ["/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"], languageOptions: { globals: globals.browser } },
   eslint.configs.recommended,
   tseslint.configs.recommended,
   pluginReact.configs.flat.recommended,
@@ -21,5 +22,4 @@ export default defineConfig([
   ...storybook.configs["flat/recommended"],
   // eslintNeverThrow.configs.recommended,
   // { files: ["**/*.css"], plugins: { css }, language: "css/css", extends: ["css/recommended"] },
-
 ]);

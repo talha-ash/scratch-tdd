@@ -1,9 +1,8 @@
 import { apiClientFactory } from './apiClient';
 import { tokenStore } from './tokenStore';
 // import { REFRESH_ENDPOINT } from '../constants';
-import * as apiClientTypes from './apiClient/types';
-import * as constants from './apiClient/constants';
 import { REFRESH_ENDPOINT } from '~shared/constants';
+import * as constants from './apiClient/constants';
 
 const apiClient = apiClientFactory({
     baseUrl: 'http://localhost:4000/api/v1/',
@@ -12,11 +11,4 @@ const apiClient = apiClientFactory({
     setTokenAndUser: tokenStore.setTokenAndUserType,
 });
 
-export  {
-    apiClientFactory,
-    tokenStore,   
-    constants,
-    apiClient,
-};
-
-
+export { apiClient, apiClientFactory, constants, tokenStore };

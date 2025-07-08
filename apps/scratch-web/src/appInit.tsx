@@ -5,14 +5,12 @@ import ReactDOM from 'react-dom/client';
 import { ScreenLoader } from './components/ui/ScreenLoader';
 import { router, RouterContextInjector } from './shared/infrastructure';
 import {
-    createQueryClientProvider,
-    queryClient,
+    createQueryClientProvider
 } from './shared/infrastructure/tanStackQueryClient';
 import { createToastProvider } from './shared/infrastructure/toast/toastProvider';
 
-import { CoreShared, AuthContext } from 'core';
-import type { CoreSharedTypes, AuthContextTypes } from 'core';
-import { QueryClientProvider } from '@tanstack/react-query';
+import type { AuthContextTypes, CoreSharedTypes } from 'core';
+import { CoreShared } from 'core';
 
 async function startApp(
     setTokenAndUserType: (
