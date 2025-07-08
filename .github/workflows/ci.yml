@@ -42,10 +42,7 @@ jobs:
               uses: actions/checkout@v4
               
             - name: Setup Environment
-              uses: ./.github/actions/setup-environment
-
-            - name: Go To App Folder
-              run: cd apps/scratch-web
+              uses: ./.github/actions/setup-environment            
 
             - name: Install Cypress 📥
               run: pnpm i --filter scratch-web cypress
@@ -56,3 +53,4 @@ jobs:
                   component: true
                   browser: chrome
                   headed: false
+                  working-directory: /apps/scratch-web
