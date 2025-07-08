@@ -50,7 +50,7 @@ jobs:
       - name: Install dependencies
         uses: cypress-io/github-action@v6
         with:
-          working-directory: /apps/scratch-web
+          working-directory: .
           runTests: false
 
       - name: Run Cypress Component Tests
