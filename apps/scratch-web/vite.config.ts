@@ -16,13 +16,17 @@ export default defineConfig({
         include: ['src/**/*.test.ts'],
         exclude: ['**/*.int.test.ts'],
     },
-    // optimizeDeps: {
-    //     exclude: ['core'],
-    // },
+
+    //using optimize deps core cause error in cypress due to new instance of deps like react. So
+    // app have different instance and core have different cause issue
+    optimizeDeps: {
+        exclude: ['core'],
+    },
+
     // it forces Vite to hot reload whenever the build artifact changes.
     resolve: {
         alias: {
-            'core': path.resolve(__dirname, '../../packages/core/main.ts'),
+            core: path.resolve(__dirname, '../../packages/core/main.ts'),
         },
     },
 });
