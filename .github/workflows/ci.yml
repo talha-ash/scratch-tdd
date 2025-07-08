@@ -56,6 +56,7 @@ jobs:
       - name: Run Cypress Component Tests
         uses: cypress-io/github-action@v6
         with:
+          install: false
           component: true
           browser: chrome
           headed: false
