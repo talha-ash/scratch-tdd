@@ -44,9 +44,6 @@ jobs:
       - name: Setup Environment
         uses: ./.github/actions/setup-environment
 
-      - name: Install Cypress 📥
-        run: pnpm i --filter scratch-web cypress
-
       - name: Install dependencies
         uses: cypress-io/github-action@v6
         with:
@@ -60,4 +57,4 @@ jobs:
           component: true
           browser: chrome
           headed: false
-          working-directory: /apps/scratch-web
+          working-directory: ./apps/scratch-web
