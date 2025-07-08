@@ -23,7 +23,7 @@ import {
     AXIOS_ERROR_REQUEST,
     AXIOS_ERROR_UNKNOWN,
 } from './constants';
-import type { User } from '~contexts/auth/domain';
+import type { User } from 'src/contexts/auth/domain';
 
 type RefreshPromiseResolveType = Result<{ index: number }, { index: number }>;
 

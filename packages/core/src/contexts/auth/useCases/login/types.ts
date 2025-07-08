@@ -1,5 +1,5 @@
 import * as v from 'valibot';
-import type { User } from '~contexts/auth/domain';
+import type { User } from 'src/contexts/auth/domain';
 import type { getLoginSchema } from './loginService';
 
 export interface ILoginResponse {

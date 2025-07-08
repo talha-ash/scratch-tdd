@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "pnpm --recursive --parallel --stream run dev",
+    "test:all": "pnpm --recursive --parallel run test:unit",
     "scratch-web-dev": "pnpm --filter scratch-web dev && pnpm core:build:watch",
     "scratch-web-build": "pnpm --filter scratch-web build",
     "scratch-web-lint": "pnpm --filter scratch-web lint",

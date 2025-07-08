@@ -41,9 +41,8 @@ export default defineConfig({
     },
     resolve: {
         alias: {
-            '~contexts': resolve(__dirname, 'contexts'),
-            '~shared': resolve(__dirname, 'shared'),
-            '~src': resolve(__dirname, 'src'),
+            '~contexts': resolve(__dirname, 'src/contexts'),
+            '~shared': resolve(__dirname, 'src/shared'),           
         },
     },
     test: {
