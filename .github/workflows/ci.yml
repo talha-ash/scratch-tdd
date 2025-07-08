@@ -17,7 +17,7 @@ jobs:
               run: pnpm lint:all
 
             - name: Run Type Checks
-              run: pnpm ype:check:all
+              run: pnpm type:check:all
 
     unit_tests:
         runs-on: ubuntu-latest
