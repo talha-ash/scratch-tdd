@@ -16,9 +16,9 @@ export default defineConfig({
         include: ['src/**/*.test.ts'],
         exclude: ['**/*.int.test.ts'],
     },
-    optimizeDeps: {
-        exclude: ['core'],
-    },
+    // optimizeDeps: {
+    //     exclude: ['core'],
+    // },
     // it forces Vite to hot reload whenever the build artifact changes.
     resolve: {
         alias: {
