@@ -1,6 +1,7 @@
 import { authStore } from 'src/contexts/auth/authStore';
-import { createTokenStore, type TokenStoreActions, type TokenStoreState } from './createTokenStore';
+import { createTokenStore } from './createTokenStore';
 import type { User } from 'src/contexts/auth/domain';
+import type { TokenStoreActions, TokenStoreState } from './types';
 
 const useStore = createTokenStore();
 

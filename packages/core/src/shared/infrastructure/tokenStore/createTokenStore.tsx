@@ -1,18 +1,13 @@
 import { create } from 'zustand';
 import { mutative } from 'zustand-mutative';
+import type { TokenStoreActions, TokenStoreState } from './types';
 
-export type TokenStoreState = {
-    accessToken: string | null;
-};
 
-export type TokenStoreActions = {
-    setAccessToken: (token: string | null) => void;
-};
 
-export function createTokenStore(intialValue?: TokenStoreState) {
+export function createTokenStore(initialValue?: TokenStoreState) {
     return create<TokenStoreState & TokenStoreActions>()(
         mutative((set) => ({
-            accessToken: intialValue?.accessToken ?? null,
+            accessToken: initialValue?.accessToken ?? null,
             setAccessToken: (token) =>
                 set((state) => {
                     state.accessToken = token;
