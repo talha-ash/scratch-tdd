@@ -50,6 +50,10 @@ jobs:
           working-directory: .
           runTests: false
 
+      - name: Setup Core Workspace
+        shell: bash
+        run: pnpm core:build
+        
       - name: Run Cypress Component Tests
         uses: cypress-io/github-action@v6
         with:
