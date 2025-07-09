@@ -19,9 +19,9 @@ export default defineConfig({
 
     //using optimize deps core cause error in cypress due to new instance of deps like react. So
     // app have different instance and core have different cause issue
-    optimizeDeps: {
-        exclude: ['core'],
-    },
+    // optimizeDeps: {
+    //     exclude: ['core'],
+    // },
 
     // it forces Vite to hot reload whenever the build artifact changes.
     resolve: {
