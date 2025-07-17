@@ -17,11 +17,11 @@
     "build-storybook": "nx build-storybook"
   },
   "dependencies": {
+    "core": "workspace:*",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tooltip": "^1.2.7",
     "@tanstack/react-router": "^1.120.11",
     "@tanstack/react-router-devtools": "^1.120.11",
-    "core": "workspace:*",
     "lucide-react": "^0.511.0",
     "react-hot-toast": "^2.5.2"
   },
