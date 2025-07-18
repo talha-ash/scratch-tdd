@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "include": ["."],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "~contexts/*": ["src/contexts/*"],
+      "~shared/*": ["src/shared/*"]
+    },
+    // "allowSyntheticDefaultImports": true,
+    "noEmit": false,
+    "outDir": "./dist", // ← Add output directory
+    "declaration": true // ← Generate .d.ts files
+  },
+  "exclude": ["dist", "node_modules", "**/*.test.ts", "**/*.test.tsx"]
+}

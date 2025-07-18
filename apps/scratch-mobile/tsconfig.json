@@ -1,0 +1,13 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@/*": ["./*"]
+      // "react": [
+      //   "./node_modules/react" // Path for the type definitions (for TypeScript)
+      // ]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
+}

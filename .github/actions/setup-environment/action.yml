@@ -39,3 +39,7 @@ runs:
         - name: Install Dependencies
           shell: bash
           run: pnpm install
+
+        - name: Setup Core Workspace
+          shell: bash
+          run: pnpm core:build
