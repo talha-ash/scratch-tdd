@@ -9,6 +9,7 @@ import {
 } from '../../constants/textConstant';
 import * as v from 'valibot';
 import { AXIOS_ERROR_HTTP } from '~shared/infrastructure/apiClient/constants';
+import type { User } from '~contexts/auth/domain';
 
 export function registerFailedMessage(
     error: AxiosErrorType,
@@ -19,8 +20,24 @@ export function registerFailedMessage(
     }
 }
 
-export function registerSuccessMessage(successToast: (message: string) => void) {
-    successToast(REGISTER_SUCCESSFULLY);
+interface onRegisterSuccessfullyParams {
+    callbacks: {
+        successToast: (message: string) => void;
+        setAccessToken: (message: string) => void;
+        setUser: (user: User) => void;
+        navigate: () => void;
+    };
+    data: {
+        user: User;
+        token: string;
+    };
+}
+export function registerSuccessMessage(params: onRegisterSuccessfullyParams) {
+    const data = params.data;
+    params.callbacks.successToast(REGISTER_SUCCESSFULLY);
+    params.callbacks.setAccessToken(data.token);
+    params.callbacks.setUser(data.user);
+    params.callbacks.navigate();
 }
 
 export function getRegisterSchema() {
@@ -41,4 +58,3 @@ export function getRegisterSchema() {
         ),
     );
 }
-

@@ -1,13 +1,9 @@
 import * as v from 'valibot';
 import type { getRegisterSchema } from './registerService';
+import type { User } from '~contexts/auth/domain';
 
 export interface IRegisterResponse {
-    user: {
-        id: string;
-        username: string;
-        age: string;
-        email: string;
-    };
+    user: User;
     token: string;
 }
 

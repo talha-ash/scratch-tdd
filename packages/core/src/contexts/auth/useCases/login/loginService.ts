@@ -7,6 +7,7 @@ import {
     PASSWORD_IS_INCORRECT,
 } from '../../constants/textConstant';
 import { AXIOS_ERROR_HTTP } from '~shared/infrastructure/apiClient/constants';
+import type { User } from '~contexts/auth/domain';
 
 export function loginFailedMessage(
     error: AxiosErrorType,
@@ -17,8 +18,25 @@ export function loginFailedMessage(
     }
 }
 
-export function onLoginSuccessfully(successToast: (message: string) => void) {
-    successToast(LOGIN_SUCCESSFULLY);
+interface onLoginSuccessfullyParams {
+    callbacks: {
+        successToast: (message: string) => void;
+        setAccessToken: (message: string) => void;
+        setUser: (user: User) => void;
+        navigate: () => void;
+    };
+    data: {
+        user: User;
+        token: string;
+    };
+}
+
+export function onLoginSuccessfully(payload: onLoginSuccessfullyParams) {
+    const data = payload.data;
+    payload.callbacks.successToast(LOGIN_SUCCESSFULLY);
+    payload.callbacks.setAccessToken(data.token);
+    payload.callbacks.setUser(data.user);
+    payload.callbacks.navigate();
 }
 
 export function getLoginSchema() {
@@ -27,5 +45,3 @@ export function getLoginSchema() {
         password: v.message(v.pipe(v.string(), v.minLength(8)), PASSWORD_IS_INCORRECT),
     });
 }
-
-

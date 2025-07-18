@@ -19,10 +19,15 @@ export const useLogin = () => {
             { email, password },
             {
                 onSuccess: (data) => {
-                    setAccessToken(data.token);
-                    setUser(data.user);
-                    navigate({ to: '/' });
-                    AuthContext.AuthLoginUseCase.LoginService.onLoginSuccessfully(successToast);
+                    AuthContext.AuthLoginUseCase.LoginService.onLoginSuccessfully({
+                        callbacks: {
+                            setAccessToken,
+                            setUser,
+                            successToast,
+                            navigate: () => navigate({ to: '/' }),
+                        },
+                        data: data,
+                    });
                 },
                 onError: (error) => {
                     AuthContext.AuthLoginUseCase.LoginService.loginFailedMessage(error, errorToast);
