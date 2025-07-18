@@ -10,11 +10,10 @@ import { defineConfig } from 'eslint/config';
 import eslint from '@eslint/js';
 
 const tsConfigs = tseslint.config(
-
-
     ...tseslint.configs.recommended,
 
     {
+        files: ['/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
         languageOptions: {
             parserOptions: {
                 projectService: true,
@@ -22,7 +21,6 @@ const tsConfigs = tseslint.config(
             },
         },
     },
-
 );
 
 export default defineConfig([
@@ -36,7 +34,7 @@ export default defineConfig([
         languageOptions: { globals: globals.browser },
     },
     eslint.configs.recommended,
-    ...tsConfigs(),
+    ...tsConfigs,
     pluginReact.configs.flat.recommended,
     pluginReact.configs.flat['jsx-runtime'],
     ...pluginQuery.configs['flat/recommended'],

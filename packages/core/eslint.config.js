@@ -13,6 +13,7 @@ const tsConfigs = tseslint.config(
     ...tseslint.configs.recommended,
 
     {
+        files: ['/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
         languageOptions: {
             parserOptions: {
                 projectService: true,
@@ -34,7 +35,7 @@ export default defineConfig([
         languageOptions: { globals: globals.browser },
     },
     eslint.configs.recommended,
-    ...tsConfigs(),
+    ...tsConfigs,
     pluginReact.configs.flat.recommended,
     pluginReact.configs.flat['jsx-runtime'],
     ...pluginQuery.configs['flat/recommended'],
