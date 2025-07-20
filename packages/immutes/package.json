@@ -17,7 +17,6 @@
   "scripts": {
     "build": "rm -rf dist && tsc && vite build",
     "dev": "rm -rf dist && tsc && vite build --watch",
-    "test:unit": "vitest",
     "type-check": "tsc -b",
     "lint": "eslint ."
   },

@@ -41,8 +41,8 @@ export default defineConfig({
             '~hash': resolve(__dirname, 'src/hash'),
         },
     },
-    // test: {
-    //     include: ['src/**/*.test.ts'],
-    //     exclude: ['**/*.int.test.ts'],
-    // },
+    test: {
+        include: ['src/**/*.test.ts'],
+        exclude: ['**/*.int.test.ts'],
+    },
 });

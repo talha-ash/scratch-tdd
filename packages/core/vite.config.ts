@@ -45,8 +45,8 @@ export default defineConfig({
             '~shared': resolve(__dirname, 'src/shared'),
         },
     },
-    // test: {
-    //     include: ['src/**/*.test.ts'],
-    //     exclude: ['**/*.int.test.ts'],
-    // },
+    test: {
+        include: ['src/**/*.test.ts'],
+        exclude: ['**/*.int.test.ts'],
+    },
 });
