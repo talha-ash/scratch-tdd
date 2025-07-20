@@ -1,6 +1,13 @@
 name: "CI Pipeline"
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, reopened]
+    branches:
+      - main
 
 jobs:
   build:
@@ -53,7 +60,7 @@ jobs:
       - name: Setup Core Workspace
         shell: bash
         run: pnpm core:build
-        
+
       - name: Run Cypress Component Tests
         uses: cypress-io/github-action@v6
         with:
