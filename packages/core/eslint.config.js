@@ -8,7 +8,6 @@ import pluginReact from 'eslint-plugin-react';
 // import css from "@eslint/css";
 import { defineConfig, globalIgnores } from 'eslint/config';
 import eslint from '@eslint/js';
-import path from 'path';
 
 const tsConfigs = tseslint.config(
     ...tseslint.configs.recommended,
@@ -18,7 +17,7 @@ const tsConfigs = tseslint.config(
         languageOptions: {
             parserOptions: {
                 projectService: true,
-                tsconfigRootDir: path.dirname('.'),
+                tsconfigRootDir: "./tsconfig.json",
             },
         },
     },
