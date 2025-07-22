@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { List } from '.';
 
 describe('newList', () => {
@@ -28,14 +28,14 @@ describe('push', () => {
 });
 describe('pop', () => {
     it('remove the last elements from the  list', function () {
-        let [popValue, list] = List.pop(['x', 'y']);
+        const [popValue, list] = List.pop(['x', 'y']);
 
         expect(popValue).toEqual('y');
         expect(list).toEqual(['x']);
     });
 
     it('works on empty list', function () {
-        let [popValue, list] = List.pop([]);
+        const [popValue, list] = List.pop([]);
 
         expect(popValue).toEqual(undefined);
         expect(list).toEqual([]);
@@ -44,14 +44,14 @@ describe('pop', () => {
 
 describe('shift', () => {
     it('remove the start elements from the  list', function () {
-        let [shiftValue, list] = List.shift(['x', 'y']);
+        const [shiftValue, list] = List.shift(['x', 'y']);
 
         expect(shiftValue).toEqual('x');
         expect(list).toEqual(['y']);
     });
 
     it('works on empty list', function () {
-        let [shiftValue, list] = List.shift([]);
+        const [shiftValue, list] = List.shift([]);
 
         expect(shiftValue).toEqual(undefined);
         expect(list).toEqual([]);

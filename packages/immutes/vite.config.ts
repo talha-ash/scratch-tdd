@@ -8,7 +8,7 @@ export default defineConfig({
     plugins: [
         tsconfigPaths(),
         dts({
-            tsconfigPath: './tsconfig.json',
+            tsconfigPath: './tsconfig.build.json',
         }),
     ],
     build: {

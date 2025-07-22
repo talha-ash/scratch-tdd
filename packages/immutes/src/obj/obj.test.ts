@@ -17,7 +17,7 @@ describe('newObj', () => {
     });
 
     it('should be instance of given obj', () => {
-        let user = { id: 1, name: 'John' };
+        const user = { id: 1, name: 'John' };
         const obj = Obj.newObj(user);
         expect(obj == user).toBe(true);
     });
@@ -80,7 +80,7 @@ describe('merge', () => {
 describe('deleteKey', () => {
     it('delete key from obj', () => {
         const user = Obj.newObj({ id: 10, name: 'john' });
-        let aa = Obj.deleteKey(user, 'name');
+        const aa = Obj.deleteKey(user, 'name');
         expect(Obj.deleteKey(user, 'name')).toEqual({ id: 10 });
     });
     it('ignore delete invalid key from obj ', () => {

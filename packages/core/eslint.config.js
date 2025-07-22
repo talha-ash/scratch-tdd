@@ -18,14 +18,14 @@ const tsConfigs = tseslint.config(
         languageOptions: {
             parserOptions: {
                 projectService: true,
-                tsconfigRootDir: path.dirname(),
+                tsconfigRootDir: path.dirname('.'),
             },
         },
     },
 );
 
 export default defineConfig([
-    globalIgnores(['dist/*']),
+    globalIgnores(['dist/*', '**/*.test.ts', '**/*.test.tsx']),
     {
         files: ['/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
         plugins: { js },

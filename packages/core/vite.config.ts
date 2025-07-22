@@ -9,7 +9,7 @@ export default defineConfig({
         react(),
         tsconfigPaths(),
         dts({
-            tsconfigPath: './tsconfig.json',
+            tsconfigPath: './tsconfig.build.json',
         }),
     ],
     build: {

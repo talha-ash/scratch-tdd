@@ -3,6 +3,7 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import eslint from '@eslint/js';
+import path from 'path';
 
 const tsConfigs = tseslint.config(
     ...tseslint.configs.recommended,
@@ -12,14 +13,23 @@ const tsConfigs = tseslint.config(
         languageOptions: {
             parserOptions: {
                 projectService: true,
-                tsconfigRootDir: path.dirname(),
+                tsconfigRootDir: path.dirname('.'),
             },
+        },
+        rules: {
+            '@typescript-eslint/no-explicit-any': [
+                'error',
+                {
+                    ignoreRestArgs: true,
+                    fixToUnknown: false,
+                },
+            ],
         },
     },
 );
 
 export default defineConfig([
-    globalIgnores(['dist/*']),
+    globalIgnores(['dist/*', '**/*.test.ts', '**/*.test.tsx']),
     {
         files: ['/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
         plugins: { js },

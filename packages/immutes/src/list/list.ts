@@ -3,7 +3,7 @@ import { createInitialMutation, createMutation } from 'src/common';
 
 export function newList<T>(initial: T[]) {
     const state = createInitialMutation(initial, (draft) => {
-        draft = initial as Draft<T[]>;
+        return draft;
     });
     return state;
 }
@@ -16,13 +16,13 @@ export function push<T>(state: readonly Immutable<T>[], ...value: Draft<Immutabl
 
 export function pop<T>(state: readonly Immutable<T>[]) {
     const [draft, finalize] = createMutation(state);
-    let item = draft.pop();
+    const item = draft.pop();
     return [item, finalize()];
 }
 
 export function shift<T>(state: readonly Immutable<T>[]) {
     const [draft, finalize] = createMutation(state);
-    let item = draft.shift();
+    const item = draft.shift();
     return [item, finalize()];
 }
 
@@ -36,7 +36,7 @@ export function map<T>(
     state: readonly Immutable<T>[],
     fn: (item: Draft<Immutable<T>>) => Draft<Immutable<T>>,
 ) {
-    let [draft, finalize] = createMutation(state);
+    const [draft, finalize] = createMutation(state);
     draft.forEach((item, index) => {
         draft[index] = fn(item);
     });
@@ -45,9 +45,9 @@ export function map<T>(
 
 export function filter<T>(
     state: readonly Immutable<T>[],
-    fn: (item: Draft<Immutable<T>>) => Boolean,
+    fn: (item: Draft<Immutable<T>>) => boolean,
 ) {
-    let [draft, finalize] = createMutation(state);
+    const [draft, finalize] = createMutation(state);
 
     draft.forEach((item, index) => {
         const bool = fn(item);
@@ -97,7 +97,7 @@ export function reduce<T, R>(
             return initialValue;
         }
     } else {
-        let [draft, finalize] = createMutation(state);
+        const [draft, finalize] = createMutation(state);
         let firstItem = draft[0];
 
         state.slice(1).forEach((item, index) => {
@@ -112,7 +112,7 @@ export function reduce<T, R>(
 }
 
 export function concat<T, R extends Array<T>[]>(state: readonly Immutable<T>[], ...value: R) {
-    let [draft, finalize] = createMutation(state);
+    const [draft, finalize] = createMutation(state);
     value.forEach((list) => {
         list.forEach((item) => {
             draft.push(item as Draft<Immutable<T>>);
@@ -126,7 +126,7 @@ export function updateAtIndex<T>(
     index: number,
     value: Draft<Immutable<T>>,
 ) {
-    let [draft, finalize] = createMutation(state);
+    const [draft, finalize] = createMutation(state);
     draft[index] = value;
 
     return finalize();
@@ -137,14 +137,14 @@ export function insertAtIndex<T>(
     index: number,
     value: Draft<Immutable<T>>,
 ) {
-    let [draft, finalize] = createMutation(state);
+    const [draft, finalize] = createMutation(state);
     draft.splice(index, 0, value);
 
     return finalize();
 }
 
 export function removeByIndex<T>(state: readonly Immutable<T>[], index: number) {
-    let [draft, finalize] = createMutation(state);
+    const [draft, finalize] = createMutation(state);
     draft.splice(index, 1);
 
     return finalize();
@@ -156,7 +156,7 @@ export function updateByKey<T>(
     searchQuery: T[keyof T],
     value: Draft<Immutable<T>>,
 ) {
-    let [draft, finalize] = createMutation(state);
+    const [draft, finalize] = createMutation(state);
     const index = draft.findIndex((item) => item[key] === searchQuery);
     if (index !== -1) draft[index] = value;
 
@@ -168,7 +168,7 @@ export function deleteByKey<T>(
     key: keyof Draft<Immutable<T>>,
     searchQuery: T[keyof T],
 ) {
-    let [draft, finalize] = createMutation(state);
+    const [draft, finalize] = createMutation(state);
     const index = draft.findIndex((item) => item[key] === searchQuery);
     if (index !== -1) draft.splice(index, 1);
 

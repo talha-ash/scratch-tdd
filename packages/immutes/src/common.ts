@@ -1,4 +1,4 @@
-import { create, type Draft, type Immutable } from 'mutative';
+import { create, type Draft } from 'mutative';
 
 export function createMutation<T>(state: T) {
     return create(state, { enableAutoFreeze: true, strict: true });

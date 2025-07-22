@@ -3,12 +3,12 @@ import { createInitialMutation, createMutation } from 'src/common';
 
 export function newObj<T extends Record<string, unknown>>(initial: T) {
     const state = createInitialMutation(initial, (draft) => {
-        draft = initial as Draft<T>;
+        return draft;
     });
     return state;
 }
 
-export function set<T extends Record<string, any>>(
+export function set<T extends Record<string, unknown>>(
     state: Immutable<T>,
     key: keyof Draft<Immutable<T>>,
     value: Draft<Immutable<T>>[keyof Draft<Immutable<T>>],
@@ -26,7 +26,7 @@ export function setNew<T extends Record<string, unknown>, R, K extends string>(
     key: K extends keyof T ? never : K,
     value: R,
 ) {
-    let [draft, finalize] = createMutation(state);
+    const [draft, finalize] = createMutation(state);
 
     Object.assign(draft, { [key]: value });
 
@@ -37,7 +37,7 @@ export function merge<T extends Record<string, unknown>, R extends Record<string
     state: Immutable<T>,
     value: R,
 ) {
-    let [draft, finalize] = createMutation(state);
+    const [draft, finalize] = createMutation(state);
 
     Object.assign(draft, { ...value });
 
@@ -49,14 +49,14 @@ export function deleteKey<T extends Record<string, unknown>, K extends keyof Dra
     state: Immutable<T>,
     key: K,
 ) {
-    let [draft, finalize] = createMutation(state);
+    const [draft, finalize] = createMutation(state);
 
     delete draft[key];
 
     return finalize() as Immutable<Omit<T, K>>;
 }
 
-export function updateByPath<T extends Record<string, any>>(
+export function updateByPath<T extends Record<string, unknown>>(
     state: Immutable<T>,
     path: string[],
     value: string | number | boolean | undefined | null | Date,
@@ -66,7 +66,7 @@ export function updateByPath<T extends Record<string, any>>(
     }
 
     const [draft, finalize] = createMutation(state);
-    let current: any = draft;
+    let current = draft;
     for (let i = 0; i < path.length - 1; i++) {
         const key = path[i];
 
@@ -79,7 +79,7 @@ export function updateByPath<T extends Record<string, any>>(
                 `Path '${path.slice(0, i + 1).join('.')}' does not exist or is not an object`,
             );
         }
-        current = current[key];
+        current = current[key] as Draft<Immutable<T>>;
     }
     const finalKey = path[path.length - 1];
 
@@ -90,7 +90,7 @@ export function updateByPath<T extends Record<string, any>>(
     return finalize();
 }
 
-export function deleteKeyByPath<T extends Record<string, any>>(
+export function deleteKeyByPath<T extends Record<string, unknown>>(
     state: Immutable<T>,
     path: string[],
 ) {
@@ -99,7 +99,7 @@ export function deleteKeyByPath<T extends Record<string, any>>(
     }
 
     const [draft, finalize] = createMutation(state);
-    let current: any = draft;
+    let current = draft;
     for (let i = 0; i < path.length - 1; i++) {
         const key = path[i];
 
@@ -112,7 +112,7 @@ export function deleteKeyByPath<T extends Record<string, any>>(
                 `Path '${path.slice(0, i + 1).join('.')}' does not exist or is not an object`,
             );
         }
-        current = current[key];
+        current = current[key] as Draft<Immutable<T>>;
     }
     const finalKey = path[path.length - 1];
 
