@@ -138,9 +138,9 @@ describe('concat', () => {
     it('concat list with rest params lists', function () {
         expect(List.concat([1, 2, 3, 4, 5], [2, 4], [9, 0])).toEqual([1, 2, 3, 4, 5, 2, 4, 9, 0]);
     });
-    // it('concat list with rest params lists', function () {
-    //     expect(List.concat([1, 2, 3, 4, 5], null as any)).toThrow();
-    // });
+    it('concat list with rest params lists', function () {
+        expect(() => List.concat([1, 2, 3, 4, 5], null as any)).toThrow();
+    });
 });
 
 describe('updateAtIndex', () => {
