@@ -86,7 +86,8 @@ export function updateByPath<T extends Record<string, unknown>>(
     if (!Object.hasOwn(current, finalKey)) {
         throw new TypeError(`Key '${finalKey}' does not exist at path '${path.join('.')}'`);
     }
-    current[finalKey] = value;
+    
+    Object.assign(current, {[finalKey]: value})
     return finalize();
 }
 
