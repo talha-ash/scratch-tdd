@@ -4,10 +4,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "~contexts/*": ["src/contexts/*"],
-      "~shared/*": ["src/shared/*"]
+      "~list/*": ["src/list/*"],
+      "~obj/*": ["src/obj/*"]
     },
-    "jsx": "react-jsx",
     "allowJs": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -17,5 +16,6 @@
     "outDir": "./dist", // ← Add output directory
     "declaration": true // ← Generate .d.ts files
   },
-  "exclude": ["dist", "node_modules", "*.config.*"]
+  // "exclude": ["dist", "node_modules", "*.config.*"]
+  "exclude": ["dist", "node_modules", "**/*.test.ts", "**/*.test.tsx", "*.config.*"]
 }

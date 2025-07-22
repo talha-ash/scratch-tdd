@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "pnpm --recursive --parallel --stream run dev",
+    "dev": "pnpm  --parallel --stream run dev",
     "test:all": "pnpm --recursive --parallel run test:unit",
     "type:check:all": "pnpm --recursive --parallel run type-check",
     "lint:all": "pnpm --recursive --parallel run lint",
-    "scratch-web-dev": "pnpm --filter scratch-web dev && pnpm core:build:watch",
+    "scratch-web-dev": "pnpm --filter scratch-web dev",
     "scratch-web-build": "pnpm --filter scratch-web build",
     "scratch-web-lint": "pnpm --filter scratch-web lint",
     "scratch-web-type-check": "pnpm --filter scratch-web type-check",
@@ -26,7 +26,9 @@
     "scratch-mobile-ios": "pnpm --filter scratch-mobile ios",
     "scratch-mobile-web": "pnpm --filter scratch-mobile web",
     "core:build": "pnpm --filter core build",
-    "core:build:watch": "pnpm --filter core build:watch"
+    "core:build:watch": "pnpm --filter core build:watch",
+    "immutes:build": "pnpm --filter immutes build",
+    "immutes:build:watch": "pnpm --filter immutes build:watch"
   },
   "keywords": [],
   "author": "",

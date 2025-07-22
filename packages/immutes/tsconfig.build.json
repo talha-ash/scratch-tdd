@@ -4,8 +4,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "~contexts/*": ["src/contexts/*"],
-      "~shared/*": ["src/shared/*"]
+      "~list/*": ["src/list/*"],
+      "~obj/*": ["src/obj/*"]
     },
 
     "noEmit": false,

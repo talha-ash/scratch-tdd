@@ -1,12 +1,11 @@
 import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
-import react from '@vitejs/plugin-react';
+
 import { resolve } from 'node:path';
 import dts from 'vite-plugin-dts';
 
 export default defineConfig({
     plugins: [
-        react(),
         tsconfigPaths(),
         dts({
             tsconfigPath: './tsconfig.build.json',
@@ -22,15 +21,12 @@ export default defineConfig({
         rollupOptions: {
             // make sure to externalize deps that shouldn't be bundled
             // into your library
-            external: ['react', 'zustand', 'valibot', 'axios', '@tanstack/react-query'],
+            external: ['mutative'],
             output: {
                 // Provide global variables to use in the UMD build
                 // for externalized deps
                 globals: {
-                    react: 'React',
-                    zustand: 'Zustand',
-                    valibot: 'Valibot',
-                    axios: 'Axios',
+                    mutative: 'Mutative',
                 },
             },
         },
@@ -41,8 +37,8 @@ export default defineConfig({
     },
     resolve: {
         alias: {
-            '~contexts': resolve(__dirname, 'src/contexts'),
-            '~shared': resolve(__dirname, 'src/shared'),
+            '~list': resolve(__dirname, 'src/list'),
+            '~hash': resolve(__dirname, 'src/hash'),
         },
     },
     // test: {
