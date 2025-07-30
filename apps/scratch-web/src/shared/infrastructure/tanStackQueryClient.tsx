@@ -59,6 +59,5 @@ export const queryClient = new QueryClient({
 });
 
 export function createQueryClientProvider() {
-    console.log('createQueryClientProvider', queryClient);
     return { Component: QueryClientProvider, props: { client: queryClient } };
 }
