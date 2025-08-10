@@ -1,8 +1,8 @@
 import { createRouter } from '@tanstack/react-router';
 
+import { CoreShared } from 'core';
 import type { MyRouterContext } from '~/routes/__root';
 import { routeTree } from '~/routeTree.gen';
-import { CoreShared } from 'core';
 
 export const router = createRouter({ routeTree, context: { authToken: undefined } });
 

@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw';
-import { BASE_URL } from '~shared/constants';
+import { BASE_URL } from '~core/shared/constants';
 import { apiResponseFixtures } from './apiFixtures';
 
 export const handlers = [
@@ -21,7 +21,9 @@ export const handlers = [
                 { status: 200 },
             );
         }
-        return HttpResponse.json(apiResponseFixtures.auth.unauthorized, { status: 401 });
+        return HttpResponse.json(apiResponseFixtures.auth.unauthorized, {
+            status: 401,
+        });
     }),
 
     http.get(`${BASE_URL}refresh_token`, () => {
@@ -31,6 +33,8 @@ export const handlers = [
     }),
 
     http.get(`${BASE_URL}refresh_token_expired`, () => {
-        return HttpResponse.json(apiResponseFixtures.auth.refreshTokenExpire, { status: 401 });
+        return HttpResponse.json(apiResponseFixtures.auth.refreshTokenExpire, {
+            status: 401,
+        });
     }),
 ];

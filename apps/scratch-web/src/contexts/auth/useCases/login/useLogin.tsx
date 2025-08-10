@@ -1,9 +1,10 @@
 import { useNavigate } from '@tanstack/react-router';
-import { useToastNotification } from '~/shared/infrastructure/toast/toastProvider';
 
 import { AuthContext, CoreShared } from 'core';
 
 import type { AuthContextTypes } from 'core';
+import { useToastNotification } from '~/shared/infrastructure/toast/toastProvider';
+
 export const useLogin = () => {
     const { successToast, errorToast } = useToastNotification();
 

@@ -3,7 +3,9 @@ import { getRegisterSchema } from './registerService';
 import { useState } from 'react';
 import type { RegisterPayload } from './types';
 
-export const useRegistrationFormHandler = (registerFormSubmit: (value: RegisterPayload) => void) => {
+export const useRegistrationFormHandler = (
+    registerFormSubmit: (value: RegisterPayload) => void,
+) => {
     const [isSubmissionPerformed, setIsSubmissionPerformed] = useState(false);
     const validators = isSubmissionPerformed
         ? {

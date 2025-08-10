@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
-import { type VariantProps } from 'class-variance-authority';
-import { cn } from '~/components/lib/utils';
 import { Loader2Icon } from 'lucide-react';
 import { useMemo, useRef } from 'react';
 import { buttonVariants } from './button';
+import type { VariantProps } from 'class-variance-authority';
+import { cn } from '~/components/lib/utils';
 
 function LoaderButton({
     className,

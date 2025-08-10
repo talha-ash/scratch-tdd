@@ -1,21 +1,12 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["."],
+  "include": ["src/**/*"],
+
   "compilerOptions": {
+    "rootDir": "./src",
     "baseUrl": ".",
     "paths": {
-      "~list/*": ["src/list/*"],
-      "~obj/*": ["src/obj/*"]
-    },
-    "allowJs": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "moduleResolution": "bundler",
-    "module": "esnext",
-
-    "outDir": "./dist", // ← Add output directory
-    "declaration": true // ← Generate .d.ts files
-  },
-  // "exclude": ["dist", "node_modules", "*.config.*"]
-  "exclude": ["dist", "node_modules", "**/*.test.ts", "**/*.test.tsx", "*.config.*"]
+      "~immutes/*": ["./src/*"]
+    }
+  }
 }

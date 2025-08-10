@@ -6,12 +6,14 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/main.js",
-  "module": "./dist/main.js",
+  "main": "dist/main.js",
+  "module": "dist/main.mjs",
+  "types": "dist/main.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/main.js",
-      "require": "./dist/main.js"
+      "types": "./dist/main.d.ts",
+      "import": "./dist/main.mjs",
+      "require": "./dist/main.mjs"
     }
   },
   "scripts": {
@@ -19,14 +21,19 @@
     "dev": "rm -rf dist && tsc && vite build --watch",
     "test:unit": "vitest",
     "type-check": "tsc -b",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "format": "prettier . --write",
+    "check": "prettier --write . && eslint --fix"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "vite-plugin-dts": "^4.5.4",
-    "vitest": "3.1.4",
+  "dependencies": {
     "immutes": "workspace:*"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.7.0",
+    "vite-plugin-dts": "^4.5.4",
+    "vite-tsconfig-paths": "^5.1.4"
   }
 }

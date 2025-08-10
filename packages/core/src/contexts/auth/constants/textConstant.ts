@@ -1,8 +1,8 @@
-export const LOGIN_SUCCESSFULLY ="Login Successfully"
-export const EMAIL_IS_INVALID = "Email is Invalid"
-export const PASSWORD_IS_INCORRECT = "Password is incorrect"
-export const PASSWORD_IS_NOT_PROPER = "Password is not proper"
-export const USER_NOT_FOUND = "User Not Found"
-export const REGISTER_SUCCESSFULLY ="Register Successfully"
-export const PASSWORDS_DO_NOT_MATCH = "Passwords do not match."
-export const USERNAME_NOT_PROPER = "Use Proper username."
+export const LOGIN_SUCCESSFULLY = 'Login Successfully';
+export const EMAIL_IS_INVALID = 'Email is Invalid';
+export const PASSWORD_IS_INCORRECT = 'Password is incorrect';
+export const PASSWORD_IS_NOT_PROPER = 'Password is not proper';
+export const USER_NOT_FOUND = 'User Not Found';
+export const REGISTER_SUCCESSFULLY = 'Register Successfully';
+export const PASSWORDS_DO_NOT_MATCH = 'Passwords do not match.';
+export const USERNAME_NOT_PROPER = 'Use Proper username.';

@@ -2,15 +2,13 @@ import { RouterProvider } from '@tanstack/react-router';
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 
+import { CoreShared } from 'core';
 import { ScreenLoader } from './components/ui/ScreenLoader';
-import { router, RouterContextInjector } from './shared/infrastructure';
-import {
-    createQueryClientProvider
-} from './shared/infrastructure/tanStackQueryClient';
+import { RouterContextInjector, router } from './shared/infrastructure';
+import { createQueryClientProvider } from './shared/infrastructure/tanStackQueryClient';
 import { createToastProvider } from './shared/infrastructure/toast/toastProvider';
 
 import type { AuthContextTypes, CoreSharedTypes } from 'core';
-import { CoreShared } from 'core';
 
 async function startApp(
     setTokenAndUserType: (
@@ -41,7 +39,7 @@ function renderApp() {
         const providers = [createToastProvider(), createQueryClientProvider()];
         root.render(
             <StrictMode>
-                <CoreShared.ComposeProvider providers={providers}>                   
+                <CoreShared.ComposeProvider providers={providers}>
                     <RouterContextInjector>
                         {({ authToken }) => (
                             <RouterProvider router={router} context={{ authToken }} />

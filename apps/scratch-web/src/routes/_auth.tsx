@@ -1,12 +1,12 @@
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
-import { AuthBackgroundImage, LogoIconLight1, LogoIcon2 } from '~/assets/images';
+import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
+import { AuthBackgroundImage, LogoIcon2, LogoIconLight1 } from '~/assets/images';
 
 export const Route = createFileRoute('/_auth')({
     component: RouteComponent,
 
     beforeLoad: ({ context, location }) => {
         console.log(location);
-        if (context?.authToken?.accessToken) {
+        if (context.authToken?.accessToken) {
             throw redirect({
                 to: '/',
             });

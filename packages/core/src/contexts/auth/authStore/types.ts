@@ -1,4 +1,4 @@
-import type { User } from "../domain/user/types";
+import type { User } from '../domain/user/types';
 
 export type AuthStoreState = {
     data: { user: User | null };
