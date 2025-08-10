@@ -1,6 +1,6 @@
 import { AuthContext, CoreShared } from 'core';
 import { useNavigate } from '@tanstack/react-router';
-import type { AuthContextTypes } from 'core';
+import type { RegistrationUseCaseTypes } from 'core';
 import { useToastNotification } from '~/shared/infrastructure/toast/toastProvider';
 
 export const useRegister = () => {
@@ -16,7 +16,7 @@ export const useRegister = () => {
     const setAccessToken = CoreShared.tokenStore.useTokenStore((state) => state.setAccessToken);
 
     function registerFormSubmit(
-        payload: AuthContextTypes.RegistrationUseCaseTypes.RegisterPayload,
+        payload: RegistrationUseCaseTypes.RegisterPayload,
     ) {
         registerMutation.mutation.mutate(payload, {
             onSuccess: (data) => {

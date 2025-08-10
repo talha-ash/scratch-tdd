@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw';
-import { BASE_URL } from '~core/shared/constants';
+import { BASE_URL } from '../../../../constants';
 import { apiResponseFixtures } from './apiFixtures';
 
 export const handlers = [

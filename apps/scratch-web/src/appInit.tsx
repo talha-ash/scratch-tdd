@@ -8,18 +8,18 @@ import { RouterContextInjector, router } from './shared/infrastructure';
 import { createQueryClientProvider } from './shared/infrastructure/tanStackQueryClient';
 import { createToastProvider } from './shared/infrastructure/toast/toastProvider';
 
-import type { AuthContextTypes, CoreSharedTypes } from 'core';
+import type { ApiClientTypes, AuthDomainTypes,  } from 'core';
 
 async function startApp(
     setTokenAndUserType: (
         token: string,
-        user: AuthContextTypes.AuthDomainTypes.User | null,
+        user: AuthDomainTypes.User | null,
     ) => void,
 ) {
     renderScreenLoader();
     const result = await CoreShared.apiClient.get<
-        { token: string; user: AuthContextTypes.AuthDomainTypes.User },
-        CoreSharedTypes.ApiClientTypes.AxiosErrorType
+        { token: string; user: AuthDomainTypes.User },
+        ApiClientTypes.AxiosErrorType
     >(CoreShared.REFRESH_ENDPOINT);
 
     if (result.isOk()) {
