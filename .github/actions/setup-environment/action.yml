@@ -40,6 +40,6 @@ runs:
           shell: bash
           run: pnpm install
 
-        - name: Setup Core Workspace
+        - name: Build all Package and Apps
           shell: bash
-          run: pnpm core:build
+          run: pnpm build:all && pnpm install
