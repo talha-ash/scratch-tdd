@@ -1,4 +1,4 @@
-import type { AxiosErrorType } from '~shared/infrastructure/apiClient/types';
+import type { AxiosErrorType } from '~core/shared/infrastructure/apiClient/types';
 
 import {
     EMAIL_IS_INVALID,
@@ -8,8 +8,8 @@ import {
     USERNAME_NOT_PROPER,
 } from '../../constants/textConstant';
 import * as v from 'valibot';
-import { AXIOS_ERROR_HTTP } from '~shared/infrastructure/apiClient/constants';
-import type { User } from '~contexts/auth/domain';
+import { AXIOS_ERROR_HTTP } from '~core/shared/infrastructure/apiClient/constants';
+import type { User } from '~core/contexts/auth/domain';
 
 export function registerFailedMessage(
     error: AxiosErrorType,

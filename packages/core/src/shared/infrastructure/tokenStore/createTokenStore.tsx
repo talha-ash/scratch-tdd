@@ -2,8 +2,6 @@ import { create } from 'zustand';
 import { mutative } from 'zustand-mutative';
 import type { TokenStoreActions, TokenStoreState } from './types';
 
-
-
 export function createTokenStore(initialValue?: TokenStoreState) {
     return create<TokenStoreState & TokenStoreActions>()(
         mutative((set) => ({

@@ -1,8 +1,7 @@
-import { useToastNotification } from '~/shared/infrastructure/toast/toastProvider';
-
 import { AuthContext, CoreShared } from 'core';
-import type { AuthContextTypes } from 'core';
 import { useNavigate } from '@tanstack/react-router';
+import type { RegistrationUseCaseTypes } from 'core';
+import { useToastNotification } from '~/shared/infrastructure/toast/toastProvider';
 
 export const useRegister = () => {
     const { successToast, errorToast } = useToastNotification();
@@ -16,9 +15,7 @@ export const useRegister = () => {
     const setUser = AuthContext.AuthStore.authStore.useAuthStore((state) => state.setUser);
     const setAccessToken = CoreShared.tokenStore.useTokenStore((state) => state.setAccessToken);
 
-    function registerFormSubmit(
-        payload: AuthContextTypes.RegistrationUseCaseTypes.RegisterPayload,
-    ) {
+    function registerFormSubmit(payload: RegistrationUseCaseTypes.RegisterPayload) {
         registerMutation.mutation.mutate(payload, {
             onSuccess: (data) => {
                 AuthContext.AuthRegistrationUseCase.RegistrationService.registerSuccessMessage({

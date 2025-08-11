@@ -1,8 +1,8 @@
 export function submitRegisterForm(params: {
-    email: string,
-    password: string,
-    username: string,
-    passwordConfirm?: string,
+    email: string;
+    password: string;
+    username: string;
+    passwordConfirm?: string;
 }) {
     cy.get('[data-testid="email"]').clear().type(params.email);
     cy.get('[data-testid="username"]').clear().type(params.username);

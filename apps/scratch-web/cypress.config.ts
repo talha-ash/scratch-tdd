@@ -1,7 +1,7 @@
 import { defineConfig } from 'cypress';
 
 export default defineConfig({
-    chromeWebSecurity: false,    
+    chromeWebSecurity: false,
     retries: {
         runMode: 1,
         openMode: 0,
@@ -14,7 +14,6 @@ export default defineConfig({
         //         ...browserify.defaultOptions,
         //         typescript: require.resolve('typescript'),
         //     };
-
         //     on('file:preprocessor', cucumber.default(options));
         // },
         // specPattern: 'cypress/tests/**/*.{feature,features}',

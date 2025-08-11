@@ -71,7 +71,6 @@ export class AxiosHttpClient implements IHttpClient {
     private async performRefresh() {
         try {
             const { data } = await this.axiosInstance.get(this.refreshEndpoint);
-            console.log(data);
             this.setTokenAndUser(data.data.token, data.data.user);
             this.resetTokenRefreshState();
             this.resolveQueueWithOk();

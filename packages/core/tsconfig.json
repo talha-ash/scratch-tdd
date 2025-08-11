@@ -1,21 +1,13 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["."],
+  "include": ["src/**/*"],
+
   "compilerOptions": {
+    "types": ["vite/client"],
+    "rootDir": "./src",
     "baseUrl": ".",
     "paths": {
-      "~contexts/*": ["src/contexts/*"],
-      "~shared/*": ["src/shared/*"]
-    },
-    "jsx": "react-jsx",
-    "allowJs": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "moduleResolution": "bundler",
-    "module": "esnext",
-
-    "outDir": "./dist", // ← Add output directory
-    "declaration": true // ← Generate .d.ts files
-  },
-  "exclude": ["dist", "node_modules", "*.config.*"]
+      "~core/*": ["./src/*"]
+    }
+  }
 }

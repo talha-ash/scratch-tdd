@@ -2,19 +2,19 @@ import { toast } from 'react-hot-toast';
 
 export interface IToastNotification {
     successToast: (message: string) => void;
-    errorToast: (message: string | string[]) => void;
+    errorToast: (message: string | Array<string>) => void;
     warningToast: (message: string) => void;
 }
 
 export function toastNotification(): IToastNotification {
     return {
         successToast: (message: string) => toast.success(message),
-        errorToast: (message: string | string[]) => {
+        errorToast: (message: string | Array<string>) => {
             if (Array.isArray(message)) {
                 const Message = () => (
                     <div>
-                        {message.map((message, index) => {
-                            return <h1 key={index}>{message}</h1>;
+                        {message.map((mess, index) => {
+                            return <h1 key={index}>{mess}</h1>;
                         })}
                     </div>
                 );

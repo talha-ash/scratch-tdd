@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "moduleResolution": "Node",
+    "types": ["node", "cypress"]
+  },
+  "include": [
+    "**/*.config.ts",
+    "*.config.ts",
+    "./vite.config.ts",
+    "vite.config.ts",
+    "cypress/**/*.ts"
+  ],
+  "exclude": ["src"]
+}

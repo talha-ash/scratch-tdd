@@ -1,5 +1,5 @@
-import type { ComponentProps } from 'react';
 import { cn } from './lib/utils';
+import type { ComponentProps } from 'react';
 
 export const H1 = (props: ComponentProps<'h1'>) => (
     <h1 {...props} className={cn('text-h1', props.className)}>

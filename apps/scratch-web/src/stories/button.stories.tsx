@@ -1,7 +1,6 @@
-import { type ComponentProps } from 'react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
-
 import { Button } from '../components/ui/button';
+import type { ComponentProps } from 'react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 type StoryProps = ComponentProps<typeof Button>;
 
@@ -14,9 +13,9 @@ const meta: Meta<StoryProps> = {
             control: { type: 'select' },
         },
         asChild: {
-            control: false
-        }
-    }
+            control: false,
+        },
+    },
 };
 
 export default meta;
@@ -42,12 +41,10 @@ export const FullWidth: Story = {
         variant: 'default',
         size: 'default',
         width: 'full',
-    },    
+    },
     render: (args) => (
         <div className="border w-36">
             <Button {...args} />
         </div>
     ),
 };
-
-

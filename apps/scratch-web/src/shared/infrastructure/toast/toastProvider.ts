@@ -1,5 +1,6 @@
-import { toastNotification, type IToastNotification } from '.';
-import {CoreShared} from "core"
+import { CoreShared } from 'core';
+import { toastNotification } from '.';
+import type { IToastNotification } from '.';
 
 const { useToastNotification, createProvider } = CoreShared.buildContext<
     IToastNotification,

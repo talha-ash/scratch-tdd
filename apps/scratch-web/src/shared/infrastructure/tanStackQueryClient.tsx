@@ -1,12 +1,11 @@
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { router } from '.';
-
 import { CoreShared } from 'core';
+import { router } from '.';
 
 export const queryClient = new QueryClient({
     mutationCache: new MutationCache({
-        //Todo show suitable message to user
+        // Todo show suitable message to user
         onError: (error) => {
             if (error.message == 'refresh_token') {
                 CoreShared.tokenStore.setAccessToken(null);
@@ -59,6 +58,5 @@ export const queryClient = new QueryClient({
 });
 
 export function createQueryClientProvider() {
-    console.log('createQueryClientProvider', queryClient);
     return { Component: QueryClientProvider, props: { client: queryClient } };
 }

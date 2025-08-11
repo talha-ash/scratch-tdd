@@ -1,11 +1,12 @@
-import { createRoute, createRouter, RouterProvider } from '@tanstack/react-router';
-import type { JSX } from 'react';
+import { RouterProvider, createRoute, createRouter } from '@tanstack/react-router';
 import { Toaster } from 'react-hot-toast';
+import { CoreShared } from 'core';
+import type { JSX } from 'react';
 import { createRootRouteFactory } from '~/routes/__root';
 import { RouterContextInjector } from '~/shared/infrastructure';
 import { createQueryClientProvider } from '~/shared/infrastructure/tanStackQueryClient';
 import { createToastProvider } from '~/shared/infrastructure/toast/toastProvider';
-import {CoreShared} from "core"
+
 export async function mountComponentWithRouter(component: () => JSX.Element) {
     const providers = [createToastProvider(), createQueryClientProvider()];
     const RootRoute = createRootRouteFactory();
@@ -31,7 +32,10 @@ export async function mountComponentWithRouter(component: () => JSX.Element) {
                     <RouterContextInjector>
                         {({ authToken }) => (
                             <>
-                                <RouterProvider<typeof router> router={router} context={{ authToken }} />
+                                <RouterProvider<typeof router>
+                                    router={router}
+                                    context={{ authToken }}
+                                />
                                 <Toaster />
                             </>
                         )}

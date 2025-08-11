@@ -9,12 +9,13 @@ export default defineConfig({
         react(),
         tsconfigPaths(),
         dts({
-            tsconfigPath: './tsconfig.build.json',
+            tsconfigPath: './tsconfig.json',
+            exclude: ['**/*.test.*', '**/*.stories.*', '**/__test__/*'],
         }),
     ],
     build: {
         lib: {
-            entry: resolve(__dirname, 'main.ts'),
+            entry: resolve(__dirname, 'src/main.ts'),
             name: 'main',
             // the proper extensions will be added
             fileName: 'main',
@@ -31,6 +32,7 @@ export default defineConfig({
                     zustand: 'Zustand',
                     valibot: 'Valibot',
                     axios: 'Axios',
+                    '@tanstack/react-query': 'ReactQuery',
                 },
             },
         },
@@ -39,14 +41,10 @@ export default defineConfig({
         // Clean output directory
         emptyOutDir: true,
     },
-    resolve: {
-        alias: {
-            '~contexts': resolve(__dirname, 'src/contexts'),
-            '~shared': resolve(__dirname, 'src/shared'),
-        },
-    },
-    // test: {
-    //     include: ['src/**/*.test.ts'],
-    //     exclude: ['**/*.int.test.ts'],
+    // resolve: {
+    //     alias: {
+    //         '~contexts': resolve(__dirname, 'src/contexts'),
+    //         '~shared': resolve(__dirname, 'src/shared'),
+    //     },
     // },
 });

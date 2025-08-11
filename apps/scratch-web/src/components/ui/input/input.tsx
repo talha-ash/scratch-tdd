@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import { cn } from '~/components/lib/utils';
-import type { LucideIcon } from 'lucide-react';
 import { TextSubtle } from '../../typography';
 import { InputPasswordIcon } from './inputPasswordIcon';
+import type { LucideIcon } from 'lucide-react';
+import { cn } from '~/components/lib/utils';
 
 type LabelPosition = 'top' | 'left';
 
