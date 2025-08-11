@@ -10,7 +10,7 @@ packages:
 #   - ^(?!@vitest/spy|vitest|@vitest/spy|@vitest/spy/.*)$
 #   - "!@types/react"
 
-# nodeLinker: hoisted
+nodeLinker: hoisted
 
 onlyBuiltDependencies:
   - "@tailwindcss/oxide"
