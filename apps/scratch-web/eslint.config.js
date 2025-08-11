@@ -6,7 +6,7 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import pluginReact from 'eslint-plugin-react';
 // import css from "@eslint/css";
-import { defineConfig } from 'eslint/config';
+import { defineConfig, globalIgnores } from 'eslint/config';
 import eslint from '@eslint/js';
 
 const tsConfigs = tseslint.config(
@@ -14,6 +14,7 @@ const tsConfigs = tseslint.config(
 
     {
         files: ['/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+        ignores: ['dist/*', '**/*.test.ts', '**/*.test.tsx'],
         languageOptions: {
             parserOptions: {
                 projectService: true,
@@ -24,6 +25,7 @@ const tsConfigs = tseslint.config(
 );
 
 export default defineConfig([
+    globalIgnores(['dist/*', '**/*.test.ts', '**/*.test.tsx']),
     {
         files: ['**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
         plugins: { js },

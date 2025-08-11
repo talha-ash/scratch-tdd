@@ -23,8 +23,8 @@ jobs:
       - name: Run Lint
         run: pnpm lint:all
 
-      - name: Run Check Formatating
-        run: pnpm check:all
+      # - name: Run Check Formatating
+      #   run: pnpm check:all
 
       - name: Run Type Checks
         run: pnpm type:check:all

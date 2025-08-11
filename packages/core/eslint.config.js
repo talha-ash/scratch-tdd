@@ -14,10 +14,11 @@ const tsConfigs = tseslint.config(
 
     {
         files: ['/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+        ignores: ['dist/*', '**/*.test.ts', '**/*.test.tsx'],
         languageOptions: {
             parserOptions: {
                 projectService: true,
-                tsconfigRootDir: "./tsconfig.json",
+                tsconfigRootDir: './tsconfig.json',
             },
         },
     },

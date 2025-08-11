@@ -8,6 +8,7 @@
     "test:all": "pnpm --recursive --parallel run test:unit",
     "type:check:all": "pnpm --recursive --parallel run type-check",
     "lint:all": "pnpm --recursive --parallel run lint",
+    "build:all": "pnpm --recursive --stream run build",
     "scratch-web-dev": "pnpm --filter scratch-web dev",
     "scratch-web-build": "pnpm --filter scratch-web build",
     "scratch-web-lint": "pnpm --filter scratch-web lint",
