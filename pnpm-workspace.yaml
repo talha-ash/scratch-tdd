@@ -2,15 +2,15 @@ packages:
   - apps/*
   - packages/*
 
-catalog:
-  "@vitest/browser": 3.1.4
-  "@vitest/coverage-v8": 3.1.4
+# catalog:
+#   "@vitest/browser": 3.1.4
+#   "@vitest/coverage-v8": 3.1.4
 
-hoistPattern:
-  - ^(?!@vitest/spy|vitest|@vitest/spy|@vitest/spy/.*)$
-  - "!@types/react"
+# hoistPattern:
+#   - ^(?!@vitest/spy|vitest|@vitest/spy|@vitest/spy/.*)$
+#   - "!@types/react"
 
-nodeLinker: hoisted
+# nodeLinker: hoisted
 
 onlyBuiltDependencies:
   - "@tailwindcss/oxide"
