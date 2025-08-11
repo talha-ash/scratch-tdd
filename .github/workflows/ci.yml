@@ -1,71 +1,74 @@
-name: "CI Pipeline"
+name: 'CI Pipeline'
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    types: [opened, reopened, synchronize]
-    branches:
-      - main
+    push:
+        branches:
+            - main
+    pull_request:
+        types: [opened, reopened, synchronize]
+        branches:
+            - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+    build:
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4
 
-      - name: Setup Environment
-        uses: ./.github/actions/setup-environment
+            - name: Setup Environment
+              uses: ./.github/actions/setup-environment
 
-      - name: Run Lint
-        run: pnpm lint:all
+            - name: Run Lint
+              run: pnpm lint:all
 
-      - name: Run Type Checks
-        run: pnpm type:check:all
+            - name: Run Check Formatating
+              run: pnpm check:all
 
-  unit_tests:
-    runs-on: ubuntu-latest
-    needs: build
+            - name: Run Type Checks
+              run: pnpm type:check:all
 
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+    unit_tests:
+        runs-on: ubuntu-latest
+        needs: build
 
-      - name: Setup Environment
-        uses: ./.github/actions/setup-environment
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4
 
-      - name: Run Unit Tests
-        run: pnpm test:all
+            - name: Setup Environment
+              uses: ./.github/actions/setup-environment
 
-  integration_tests:
-    runs-on: ubuntu-latest
-    needs: unit_tests
+            - name: Run Unit Tests
+              run: pnpm test:all
 
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+    integration_tests:
+        runs-on: ubuntu-latest
+        needs: unit_tests
 
-      - name: Setup Environment
-        uses: ./.github/actions/setup-environment
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4
 
-      - name: Install dependencies
-        uses: cypress-io/github-action@v6
-        with:
-          working-directory: .
-          runTests: false
+            - name: Setup Environment
+              uses: ./.github/actions/setup-environment
 
-      - name: Setup Core Workspace
-        shell: bash
-        run: pnpm core:build
+            - name: Install dependencies
+              uses: cypress-io/github-action@v6
+              with:
+                  working-directory: .
+                  runTests: false
 
-      - name: Run Cypress Component Tests
-        uses: cypress-io/github-action@v6
-        with:
-          install: false
-          component: true
-          browser: chrome
-          headed: false
-          working-directory: ./apps/scratch-web
+            - name: Setup Core Workspace
+              shell: bash
+              run: pnpm core:build
+
+            - name: Run Cypress Component Tests
+              uses: cypress-io/github-action@v6
+              with:
+                  install: false
+                  component: true
+                  browser: chrome
+                  headed: false
+                  working-directory: ./apps/scratch-web

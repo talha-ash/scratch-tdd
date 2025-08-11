@@ -8,13 +8,10 @@ import { RouterContextInjector, router } from './shared/infrastructure';
 import { createQueryClientProvider } from './shared/infrastructure/tanStackQueryClient';
 import { createToastProvider } from './shared/infrastructure/toast/toastProvider';
 
-import type { ApiClientTypes, AuthDomainTypes,  } from 'core';
+import type { ApiClientTypes, AuthDomainTypes } from 'core';
 
 async function startApp(
-    setTokenAndUserType: (
-        token: string,
-        user: AuthDomainTypes.User | null,
-    ) => void,
+    setTokenAndUserType: (token: string, user: AuthDomainTypes.User | null) => void,
 ) {
     renderScreenLoader();
     const result = await CoreShared.apiClient.get<

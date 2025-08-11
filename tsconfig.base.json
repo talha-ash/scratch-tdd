@@ -31,6 +31,7 @@
     "build",
     "**/*.test.ts",
     "**/*.test.tsx",
-    "*.config.*"
+    "*.config.*",
+    "*.json"
   ]
 }

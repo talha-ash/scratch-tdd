@@ -15,9 +15,7 @@ export const useRegister = () => {
     const setUser = AuthContext.AuthStore.authStore.useAuthStore((state) => state.setUser);
     const setAccessToken = CoreShared.tokenStore.useTokenStore((state) => state.setAccessToken);
 
-    function registerFormSubmit(
-        payload: RegistrationUseCaseTypes.RegisterPayload,
-    ) {
+    function registerFormSubmit(payload: RegistrationUseCaseTypes.RegisterPayload) {
         registerMutation.mutation.mutate(payload, {
             onSuccess: (data) => {
                 AuthContext.AuthRegistrationUseCase.RegistrationService.registerSuccessMessage({

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { getLoginSchema } from '../loginService';
 import * as v from 'valibot';
-import { EMAIL_IS_INVALID, PASSWORD_IS_INCORRECT } from 'src/contexts/auth/constants/textConstant';
+import { EMAIL_IS_INVALID, PASSWORD_IS_INCORRECT } from '../../../constants/textConstant';
 
 describe('Login validation', () => {
     it('validate with valid value', () => {

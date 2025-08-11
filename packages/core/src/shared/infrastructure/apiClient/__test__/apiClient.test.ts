@@ -2,8 +2,8 @@ import axios, { type AxiosInstance } from 'axios';
 import { setupServer } from 'msw/node';
 import { ResultAsync } from 'neverthrow';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
-import { BASE_URL } from '../../../constants';
 import { apiClientFactory, type AxiosHttpClient, convertNestedErrorMessage } from '..';
+import { BASE_URL } from '../../../constants';
 import { apiResponseFixtures } from './mocks/apiFixtures';
 import { handlers } from './mocks/handlers';
 
