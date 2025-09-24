@@ -42,7 +42,7 @@ describe('Registration ', () => {
             });
         });
 
-        cy.get('#_rht_toaster').contains(REGISTER_SUCCESSFULLY);
+        cy.get('.toaster-container').contains(REGISTER_SUCCESSFULLY);
     });
     it('validate registration', () => {
         const email = 'john@gmail';

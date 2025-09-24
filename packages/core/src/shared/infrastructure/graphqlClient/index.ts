@@ -15,6 +15,7 @@ import type {
     RefreshPromiseResolveType,
     setTokenAndUserType,
 } from './types';
+import { fileUploadMiddleware } from './fileupload';
 
 export class GqlClient implements IGraphqlClient {
     private graphqlInstance: GraphQLClient;
@@ -55,7 +56,8 @@ export class GqlClient implements IGraphqlClient {
 
     private handleError(err: unknown): GqlErrorType {
         if (err instanceof ClientError) {
-            return { type: 'auth', message: err.response.message as string };
+            const error = err.response.errors![0]
+            return { type: 'auth', message: error.message as string };
         } else if (err instanceof TypeError) {
             if (err.cause instanceof AggregateError) {
                 return { type: 'network', message: 'server not reached' };
@@ -112,9 +114,12 @@ export class GqlClient implements IGraphqlClient {
 
     requestMiddleware(): RequestMiddleware {
         return async (request) => {
+            request = fileUploadMiddleware(request);
             const controller = new AbortController();
-            // @ts-expect-error lib request header are not iterable we use this fix
-            const oldHeaders = Object.fromEntries(request.headers?.entries());
+
+            // // @ts-expect-error lib request header are not iterable we use this fix
+            //const oldHeaders = Object.fromEntries(request.headers?.entries());
+            const oldHeaders = request.headers;
             if (this.refreshingToken) {
                 const result = await this.waitForRefresh();
 
