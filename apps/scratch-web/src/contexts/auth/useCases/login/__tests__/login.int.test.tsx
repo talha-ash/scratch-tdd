@@ -25,7 +25,7 @@ describe('Login ', () => {
             });
         });
 
-        cy.get('#_rht_toaster').contains(LOGIN_SUCCESSFULLY);
+        cy.get('.toaster-container').contains(LOGIN_SUCCESSFULLY);
     });
     it('Toast user not found', () => {
         const requestName = 'loginRequest';
@@ -43,7 +43,7 @@ describe('Login ', () => {
             });
         });
 
-        cy.get('#_rht_toaster').contains(USER_NOT_FOUND);
+        cy.get('.toaster-container').contains(USER_NOT_FOUND);
     });
     it('Incorrect email and password', () => {
         const email = 'john@gmail';
