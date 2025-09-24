@@ -1,7 +1,7 @@
 import { useForm } from '@tanstack/react-form';
 
 import {
-    IngredientSchema,
+    getIngredientSchema,
     type IngredientSchemaType,
 } from '~core/contexts/recipeCreation/domain/ingredient';
 
@@ -12,10 +12,10 @@ export const useCreateIngredientFormHandler = (
         defaultValues: {
             name: '',
             description: '',
-            image_file: '',
+            imageFile: null as unknown as File,
         },
         validators: {
-            onChange: IngredientSchema,
+            onChange: getIngredientSchema(),
         },
         onSubmit: ({ value }) => {
             createIngredientFormSubmit(value);
