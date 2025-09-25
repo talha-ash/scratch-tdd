@@ -1,7 +1,7 @@
-import * as loginAction from '~cypress/support/actions/loginAction';
-import { LoginForm } from '../components/loginForm';
-import { mountComponentWithRouter } from '~/shared/lib/test/mountComponentWithRouter';
 import { AuthContext } from 'core';
+import { LoginForm } from '../components/loginForm';
+import * as loginAction from '~cypress/support/actions/loginAction';
+import { mountComponentWithRouter } from '~/shared/lib/__test__/mountComponentWithRouter';
 
 const { EMAIL_IS_INVALID, LOGIN_SUCCESSFULLY, PASSWORD_IS_INCORRECT, USER_NOT_FOUND } =
     AuthContext.AuthConstants;
