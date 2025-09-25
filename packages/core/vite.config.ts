@@ -9,8 +9,8 @@ export default defineConfig({
         react(),
         tsconfigPaths(),
         dts({
-            tsconfigPath: './tsconfig.json',
-            exclude: ['**/*.test.*', '**/*.stories.*', '**/__test__/*'],
+            tsconfigPath: './tsconfig.build.json',
+            exclude: ['**/*.test.*', '**/*.stories.*', '**/__test__/**/*'],
         }),
     ],
     build: {
