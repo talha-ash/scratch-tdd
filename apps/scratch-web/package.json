@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "format": "prettier . --write",
     "check": "prettier --write . && eslint --fix",
-    "type-check": "tsc -b",
+    "type-check": "tsc --project tsconfig.build.json",
     "test:unit": "vitest",
     "test:unit:coverage": "vitest run --coverage",
     "test:integration": "cypress open --component --browser electron",

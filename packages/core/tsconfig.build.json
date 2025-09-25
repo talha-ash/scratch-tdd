@@ -1,0 +1,14 @@
+{
+ "extends": "../../tsconfig.base.json",
+  "include": ["src/**/*"],
+
+  "compilerOptions": {
+    "types": ["vite/client"],
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "paths": {
+      "~core/*": ["./src/*"]
+    }
+  },
+  "exclude": ["**/*.test.ts", "**/*.test.tsx", "**/__test__/*"]
+}
