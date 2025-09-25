@@ -5,6 +5,9 @@
   "compilerOptions": {
     "types": ["vite/client"],
     "rootDir": "./src",
+    "composite": true,
+    "noEmit": false,
+    "allowImportingTsExtensions": false,
     "baseUrl": ".",
     "paths": {
       "~core/*": ["./src/*"]

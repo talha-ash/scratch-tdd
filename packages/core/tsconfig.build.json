@@ -1,5 +1,5 @@
 {
- "extends": "../../tsconfig.base.json",
+  "extends": "../../tsconfig.base.json",
   "include": ["src/**/*"],
 
   "compilerOptions": {
@@ -10,5 +10,5 @@
       "~core/*": ["./src/*"]
     }
   },
-  "exclude": ["**/*.test.ts", "**/*.test.tsx", "**/__test__/*"]
+  "exclude": ["**/*.test.ts", "**/*.test.tsx", "**/__test__/**/*"]
 }

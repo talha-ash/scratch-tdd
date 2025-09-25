@@ -53,3 +53,4 @@ May be somethings are redundant.Todo need to clean up
 Assuming your include/exclude patterns are exclusive (every file in your project is either handled by tsconfig.test.json or tsconfig.app.json, not both) then VSCode should understand the appropriate options to apply depending on what file you have open. I'm not sure what would happen if they overlap.
 
 EDIT: You'd also want tsconfig.test.json to have a reference to ./tsconfig.app.json so that you can import your app code into your tests (rather than having those files included directly). See https://www.typescriptlang.org/docs/handbook/project-references.html for more info about project references.  
+Don't use -b in tsc because we use separate tsconfig for editor, build, test

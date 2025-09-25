@@ -25,6 +25,6 @@
     "sourceMap": true,
     "types": ["node", "cypress"]
   },
-  "include": ["**/*.test.ts", "**/*.test.tsx", "cypress"],
+  "include": ["**/*.test.ts", "**/*.test.tsx", "cypress", "**/__test__/**/*"],
   "exclude": ["dist", "node_modules", "build", "*.config.*", "*.json"]
 }

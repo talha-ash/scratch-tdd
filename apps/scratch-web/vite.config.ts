@@ -14,7 +14,7 @@ export default defineConfig(({ command }) => ({
         tsconfigPaths(),
         dts({
             tsconfigPath: './tsconfig.build.json',
-            exclude: ['**/*.test.*', '**/*.stories.*', '**/__test__/*'],
+            exclude: ['**/*.test.*', '**/*.stories.*', '**/__test__/**/*'],
         }),
     ],
     // test: {
