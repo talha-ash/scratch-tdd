@@ -1,10 +1,10 @@
-import { mountComponentWithRouter } from '~/shared/lib/test/mountComponentWithRouter';
+import { AuthContext } from 'core';
 import { RegisterForm } from '../components/registerForm';
+import { mountComponentWithRouter } from '~/shared/lib/__test__/mountComponentWithRouter';
 import {
     interceptRegisterRequestSuccess,
     submitRegisterForm,
 } from '~cypress/support/actions/registerAction';
-import { AuthContext } from 'core';
 
 const {
     EMAIL_IS_INVALID,

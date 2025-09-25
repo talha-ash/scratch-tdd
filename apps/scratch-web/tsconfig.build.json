@@ -4,17 +4,12 @@
   // need to tell the typescript compiler where to find the types for cypress
   "include": ["src/**/*"],
   "compilerOptions": {
-    "noEmit": false,
-    "allowImportingTsExtensions": false,
-    "composite": true,
-    "types": ["vite/client", "cypress"],
-
+    "types": ["vite/client"],
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"],
       "~cypress/*": ["./cypress/*"]
     }
   },
-  "exclude": ["**/*.test.ts", "**/*.test.tsx"],
-  "references": [{ "path": "./tsconfig.test.json" }]
+  "exclude": ["**/*.test.ts", "**/*.test.tsx", "**/__test__/*"]
 }

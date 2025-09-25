@@ -4,6 +4,7 @@ import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import react from '@vitejs/plugin-react';
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
+import dts from 'vite-plugin-dts';
 
 export default defineConfig(({ command }) => ({
     plugins: [
@@ -11,6 +12,10 @@ export default defineConfig(({ command }) => ({
         TanStackRouterVite({ target: 'react', autoCodeSplitting: true }),
         react(),
         tsconfigPaths(),
+        dts({
+            tsconfigPath: './tsconfig.build.json',
+            exclude: ['**/*.test.*', '**/*.stories.*', '**/__test__/*'],
+        }),
     ],
     // test: {
     //   globals: true,

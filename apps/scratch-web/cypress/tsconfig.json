@@ -3,7 +3,11 @@
     "target": "es5",
     "lib": ["es5", "dom"],
     "sourceMap": true,
-    "types": ["cypress", "node"]
+    "types": ["cypress", "node"],
+    "jsx": "react-jsx" // Essential for React components
   },
-  "include": ["**/*.ts"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx" // Include .tsx for React components
+  ]
 }
