@@ -9,5 +9,6 @@
     "paths": {
       "~core/*": ["./src/*"]
     }
-  }
+  },
+  "references": [{ "path": "./tsconfig.test.json" }]
 }

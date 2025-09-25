@@ -11,5 +11,6 @@
     "paths": {
       "~immutes/*": ["./src/*"]
     }
-  }
+  },
+  "references": [{ "path": "./tsconfig.test.json" }]
 }

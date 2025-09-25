@@ -5,7 +5,7 @@ import { mountComponentWithRouter } from '~/shared/lib/__test__/mountComponentWi
 
 const { EMAIL_IS_INVALID, LOGIN_SUCCESSFULLY, PASSWORD_IS_INCORRECT, USER_NOT_FOUND } =
     AuthContext.AuthConstants;
-beforeEach(async () => {
+beforeEach(() => {
     mountComponentWithRouter(LoginForm);
 });
 describe('Login ', () => {

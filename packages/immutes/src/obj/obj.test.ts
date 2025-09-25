@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { Obj } from '.';
+import { Obj } from './index';
 
 describe('newObj', () => {
     it('should be empty on empty obj given', () => {
@@ -80,7 +80,7 @@ describe('merge', () => {
 describe('deleteKey', () => {
     it('delete key from obj', () => {
         const user = Obj.newObj({ id: 10, name: 'john' });
-        const aa = Obj.deleteKey(user, 'name');
+        Obj.deleteKey(user, 'name');
         expect(Obj.deleteKey(user, 'name')).toEqual({ id: 10 });
     });
     it('ignore delete invalid key from obj ', () => {
