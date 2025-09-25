@@ -2,9 +2,11 @@
   "extends": "../../tsconfig.node.json",
   "include": ["*.config.ts", "cypress/**/*.ts"],
   "compilerOptions": {
+    "composite": true,
     "target": "ES2022",
     "lib": ["ES2022"],
     "moduleResolution": "Node",
     "types": ["node"]
-  }
+  },
+  "exclude": ["src/**/*"]
 }

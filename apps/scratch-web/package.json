@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc --project tsconfig.build.json && vite build",
     "lint": "eslint .",
     "format": "prettier . --write",
     "check": "prettier --write . && eslint --fix",

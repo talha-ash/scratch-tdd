@@ -4,6 +4,9 @@
 
   "compilerOptions": {
     "rootDir": "./src",
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "composite": false,
     "baseUrl": ".",
     "paths": {
       "~immutes/*": ["./src/*"]
