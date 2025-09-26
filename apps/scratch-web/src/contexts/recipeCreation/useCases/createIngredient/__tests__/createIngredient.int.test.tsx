@@ -1,12 +1,8 @@
-import * as createIngredientAction from '~cypress/support/actions/createIngredientAction.ts';
 import { CreateIngredientForm } from '../components/createIngredientForm';
-import { mountComponentWithRouter } from '~/shared/lib/test/mountComponentWithRouter';
-import { AuthContext } from 'core';
-import { parse } from 'graphql';
+import * as createIngredientAction from '~cypress/support/actions/createIngredientAction';
+import { mountComponentWithRouter } from '~/shared/lib/__test__/mountComponentWithRouter';
 
-const { EMAIL_IS_INVALID, LOGIN_SUCCESSFULLY, PASSWORD_IS_INCORRECT, USER_NOT_FOUND } =
-    AuthContext.AuthConstants;
-beforeEach(async () => {
+beforeEach(() => {
     mountComponentWithRouter(CreateIngredientForm);
 });
 describe('Create Ingredient ', () => {
@@ -32,6 +28,6 @@ describe('Create Ingredient ', () => {
         });
 
         // Todo make reuse function
-        cy.get('.toaster-container').contains("Create Ingredient Successfully");
+        cy.get('.toaster-container').contains('Create Ingredient Successfully');
     });
 });

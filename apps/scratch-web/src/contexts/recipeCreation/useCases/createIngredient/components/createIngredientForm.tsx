@@ -74,7 +74,7 @@ export const CreateIngredientForm = () => {
                                     <Input
                                         data-testid="imageFile"
                                         name="imageFile"
-                                        type="file"                                       
+                                        type="file"
                                         onChange={(e) => field.handleChange(e.target.files![0])}
                                         error={
                                             field.state.meta.isValid

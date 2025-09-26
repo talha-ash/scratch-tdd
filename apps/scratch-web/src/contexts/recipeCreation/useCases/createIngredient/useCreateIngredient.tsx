@@ -1,6 +1,6 @@
 import { useNavigate } from '@tanstack/react-router';
 import { CreateRecipeContext } from 'core';
-import type {RecipeCreationDomainTypes} from "core"
+import type { RecipeCreationDomainTypes } from 'core';
 import { useToastNotification } from '~/shared/infrastructure/toast/toastProvider';
 
 export const useCreateIngredient = () => {

@@ -3,7 +3,6 @@ import * as v from 'valibot';
 import { getIngredientSchema } from '../ingredient';
 import {
     CREATE_INGREDIENT_IMAGE_FORMAT,
-    CREATE_INGREDIENT_IMAGE_SIZE,
     CREATE_INGREDIENT_INVALID_DESCRIPTION,
     CREATE_INGREDIENT_INVALID_NAME,
     CREATE_INGREDIENT_REQUIRED_FILE,
@@ -52,7 +51,7 @@ describe('Create Ingredient Schema validation', () => {
         const result = v.safeParse(schema, {
             name: 'Potato',
             description: 'Potato is good',
-            imageFile: ''
+            imageFile: '',
         });
 
         if (result.issues?.length) {

@@ -9,6 +9,6 @@
       "~cypress/*": ["./cypress/*"]
     }
   },
-  "include": ["**/*.test.ts", "**/*.test.tsx", "cypress"]
-  //  "references": [{ "path": "./tsconfig.json" }]
+  "include": ["**/*.test.ts", "**/*.test.tsx", "cypress"],
+  "references": [{ "path": "./tsconfig.json" }]
 }

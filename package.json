@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm run build:all && pnpm --parallel --stream run dev",
+    "run:all": "pnpm lint:all && pnpm type:check:all && pnpm format:all && pnpm test:all && pnpm scratch-web-test:integration:headless && pnpm build:all",
     "build:all": "pnpm --recursive --stream run build",
     "test:all": "pnpm --recursive --parallel run test:unit",
     "type:check:all": "pnpm --recursive --parallel run type-check",

@@ -23,7 +23,7 @@ function Index() {
         tokenState.setAccessToken((tokenState.accessToken ?? 'sdsdsd') + 1212121212);
     };
 
-    const createIngredient = async () => {
+    const createIngredient = () => {
         navigate({ to: 'createIngredient' });
     };
 
