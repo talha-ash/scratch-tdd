@@ -19,7 +19,7 @@
     "build": "tsup src/main.ts --format cjs,esm --dts",
     "dev": "tsup src/main.ts --format cjs,esm --dts --watch",
     "test:unit": "vitest",
-    "type-check": "tsc -b",
+    "type-check": "tsc --project tsconfig.build.json",
     "lint": "eslint .",
     "format": "prettier . --write",
     "check": "prettier --write . && eslint --fix"

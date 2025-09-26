@@ -17,7 +17,7 @@ export function createRootRouteFactory() {
             return (
                 <>
                     <Outlet />
-                    <Toaster containerClassName='toaster-container'/>
+                    <Toaster containerClassName="toaster-container" />
                     <TanStackRouterDevtools />
                 </>
             );

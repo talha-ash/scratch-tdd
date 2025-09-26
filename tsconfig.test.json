@@ -17,22 +17,14 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": false,
     "verbatimModuleSyntax": true,
-    "allowImportingTsExtensions": true,
+    "allowImportingTsExtensions": false,
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "outDir": "./dist",
-    "composite": false
+    "types": ["node", "cypress"]
   },
-  "exclude": [
-    "dist",
-    "node_modules",
-    "build",
-    "**/*.test.ts",
-    "**/*.test.tsx",
-    "*.config.*",
-    "*.json"
-  ]
+  "include": ["**/*.test.ts", "**/*.test.tsx", "cypress", "**/__test__/**/*"],
+  "exclude": ["dist", "node_modules", "build", "*.config.*", "*.json"]
 }

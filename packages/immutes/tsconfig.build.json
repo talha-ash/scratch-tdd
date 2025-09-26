@@ -12,5 +12,5 @@
       "~immutes/*": ["./src/*"]
     }
   },
-  "references": [{ "path": "./tsconfig.test.json" }]
+  "exclude": ["**/*.test.ts", "**/*.test.tsx", "**/__test__/*"]
 }

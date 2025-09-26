@@ -5,13 +5,10 @@
   "compilerOptions": {
     "types": ["vite/client"],
     "rootDir": "./src",
-    "composite": true,
-    "noEmit": false,
-    "allowImportingTsExtensions": false,
     "baseUrl": ".",
     "paths": {
       "~core/*": ["./src/*"]
     }
   },
-  "references": [{ "path": "./tsconfig.test.json" }]
+  "exclude": ["**/*.test.ts", "**/*.test.tsx", "**/__test__/**/*"]
 }

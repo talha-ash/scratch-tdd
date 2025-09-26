@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.test.json",
+
+  "compilerOptions": {
+    "noEmit": false,
+    "allowImportingTsExtensions": false,
+    "composite": true,
+    "noImplicitAny": false,
+    "baseUrl": ".",
+    "paths": {
+      "~immutes/*": ["./src/*"]
+    }
+  },
+  "include": ["**/*.test.ts", "**/*.test.tsx", "cypress", "**/__test__/**/*"],
+  "references": [{ "path": "./tsconfig.json" }]
+}

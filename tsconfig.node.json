@@ -3,7 +3,7 @@
     "target": "ES2022",
     "lib": ["ES2022"],
     "moduleResolution": "Node",
-    "types": ["node", "cypress"]
+    "types": ["node"]
   },
   "include": [
     "**/*.config.ts",
@@ -13,5 +13,5 @@
     "cypress/**/*.ts",
    
   ],
-  "exclude": ["src"]
+  "exclude": ["src/**/*"]
 }

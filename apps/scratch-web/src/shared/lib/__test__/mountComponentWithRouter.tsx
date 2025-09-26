@@ -36,7 +36,7 @@ export async function mountComponentWithRouter(component: () => JSX.Element) {
                                     router={router}
                                     context={{ authToken }}
                                 />
-                                <Toaster containerClassName='toaster-container'/>
+                                <Toaster containerClassName="toaster-container" />
                             </>
                         )}
                     </RouterContextInjector>

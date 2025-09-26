@@ -14,8 +14,8 @@ export default tseslint.config(
         'pnpm-lock.yaml',
         'pnpm-workspace.yaml',
         'dist/*',
-        '**/*.test.ts',
-        '**/*.test.tsx',
+        // '**/*.test.ts',
+        // '**/*.test.tsx',
     ]),
 
     eslint.configs.recommended,
@@ -43,11 +43,28 @@ export default tseslint.config(
         },
     },
     {
+        files: ['**/*.test.ts',
+            '**/*.test.tsx',],
+        languageOptions: {
+            globals: {
+                ...globals.browser,
+            },
+            parserOptions: {
+                project: ['./tsconfig.test.json'],
+                projectService: true,
+                tsconfigRootDir: import.meta.dirname,
+            },
+        },
+    },
+    {
         files: ['src/**/*.{ts,tsx}'],
         languageOptions: {
             globals: {
                 ...globals.browser,
             },
+            parserOptions:{
+                projectService: true
+            }
         },
     },
     {

@@ -1,3 +1,5 @@
+import globals from 'globals';
+
 import { tanstackConfig } from '@tanstack/eslint-config';
 
 import tseslint from 'typescript-eslint';
@@ -16,6 +18,19 @@ export default tseslint.config([
         },
         rules: {
             '@typescript-eslint/no-unnecessary-condition': 'off',
+        },
+    },
+    {
+        files: ['**/*.test.ts', '**/*.test.tsx'],
+        languageOptions: {
+            globals: {
+                ...globals.browser,
+            },
+            parserOptions: {
+                project: ['./tsconfig.test.json'],
+                projectService: true,
+                tsconfigRootDir: import.meta.dirname,
+            },
         },
     },
 ]);

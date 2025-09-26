@@ -56,7 +56,7 @@ export class GqlClient implements IGraphqlClient {
 
     private handleError(err: unknown): GqlErrorType {
         if (err instanceof ClientError) {
-            const error = err.response.errors![0]
+            const error = err.response.errors![0];
             return { type: 'auth', message: error.message as string };
         } else if (err instanceof TypeError) {
             if (err.cause instanceof AggregateError) {

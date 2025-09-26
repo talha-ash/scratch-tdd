@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.test.json",
+
+  "compilerOptions": {
+    "types": ["node", "cypress"],
+    "composite": true,
+    "paths": {
+      "~/*": ["./src/*"],
+      "~cypress/*": ["./cypress/*"]
+    }
+  },
+  "include": ["**/*.test.ts", "**/*.test.tsx", "cypress"]
+  //  "references": [{ "path": "./tsconfig.json" }]
+}
