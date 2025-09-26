@@ -14,6 +14,7 @@ import { Route as AppRouteImport } from './routes/_app'
 import { Route as AppIndexRouteImport } from './routes/_app.index'
 import { Route as AuthRegisterRouteImport } from './routes/_auth.register'
 import { Route as AuthLoginRouteImport } from './routes/_auth.login'
+import { Route as AppCreateIngredientRouteImport } from './routes/_app.createIngredient'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
@@ -38,13 +39,20 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => AuthRoute,
 } as any)
+const AppCreateIngredientRoute = AppCreateIngredientRouteImport.update({
+  id: '/createIngredient',
+  path: '/createIngredient',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
+  '/createIngredient': typeof AppCreateIngredientRoute
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
   '/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
+  '/createIngredient': typeof AppCreateIngredientRoute
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
   '/': typeof AppIndexRoute
@@ -53,19 +61,21 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteWithChildren
   '/_auth': typeof AuthRouteWithChildren
+  '/_app/createIngredient': typeof AppCreateIngredientRoute
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/register': typeof AuthRegisterRoute
   '/_app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login' | '/register' | '/'
+  fullPaths: '/createIngredient' | '/login' | '/register' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/register' | '/'
+  to: '/createIngredient' | '/login' | '/register' | '/'
   id:
     | '__root__'
     | '/_app'
     | '/_auth'
+    | '/_app/createIngredient'
     | '/_auth/login'
     | '/_auth/register'
     | '/_app/'
@@ -113,14 +123,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_app/createIngredient': {
+      id: '/_app/createIngredient'
+      path: '/createIngredient'
+      fullPath: '/createIngredient'
+      preLoaderRoute: typeof AppCreateIngredientRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
+  AppCreateIngredientRoute: typeof AppCreateIngredientRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppCreateIngredientRoute: AppCreateIngredientRoute,
   AppIndexRoute: AppIndexRoute,
 }
 

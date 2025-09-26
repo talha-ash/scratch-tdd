@@ -8,7 +8,7 @@ export interface IToastNotification {
 
 export function toastNotification(): IToastNotification {
     return {
-        successToast: (message: string) => toast.success(message),
+        successToast: (message: string) => toast.success(message, { duration: 4000000 }),
         errorToast: (message: string | Array<string>) => {
             if (Array.isArray(message)) {
                 const Message = () => (
