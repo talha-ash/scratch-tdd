@@ -1,6 +1,6 @@
-# Scratch Recipe App
+# Scratch Web App
 
-A simple recipe app built with React, TypeScript, and Tailwind CSS. Following Tdd Approach.
+A simple app built with React, TypeScript, and Tailwind CSS. Practicing TDD, Integration Testing, CI With github action, Pnpm Workspace (handling & Resource Sharing).
 
 ## Folder Structure
 
